@@ -10,10 +10,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import com.example.ebot.actvities.LoginActivity
+import com.example.ebot.actvities.MainActivity
+import com.example.ebot.common.Utils
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
+class SplashScreen : AppCompatActivity() {
     private lateinit var ll_main: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,15 +31,22 @@ class MainActivity : AppCompatActivity() {
             isLogin()
         }
     }
-
-    private fun navigateToMenuScreen(id: String) {
-        val intent = Intent(this, HomeActivity::class.java)
+    private fun isLogin() {
+       val user_id=Utils.getData(this,"user_id","")as String
+        if (user_id.isNotEmpty()) {
+            navigateToMenuScreen()
+        } else {
+            navigateToLoginScreen()
+        }
+    }
+    private fun navigateToMenuScreen() {
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
     }
 
     private fun navigateToLoginScreen() {
-        val intent = Intent(this,Sign_in::class.java)
+        val intent = Intent(this,LoginActivity::class.java)
         startActivity(intent)
         finish()
     }

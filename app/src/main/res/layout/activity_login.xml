@@ -100,7 +100,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/primary_text"
             android:text="Email ID"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="6dp"
             android:layout_marginTop="@dimen/_20sdp"
             android:textSize="16sp"
             android:gravity="center|start"
@@ -114,6 +114,8 @@
             android:textColorHint="@color/stroke"
             android:textStyle="normal"
             android:textSize="16sp"
+            android:padding="11dp"
+            android:background="@drawable/edit_text_bg"
             android:layout_marginTop="5dp"/>
 
 

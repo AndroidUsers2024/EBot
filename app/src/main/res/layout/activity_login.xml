@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent"
+    tools:context=".actvities.LoginActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/ll_header"
+        android:layout_above="@+id/ll_bottom"
+        android:layout_alignParentTop="true"
+        android:padding="5dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp">
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:background="@drawable/login_banner"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="@dimen/_220sdp"
+                android:layout_height="@dimen/_200sdp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="@dimen/_35sdp"
+                android:scaleType="fitCenter"
+                android:id="@+id/image"
+                android:src="@drawable/login_ebot"
+                app:layout_constraintBottom_toBottomOf="@id/view2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/view2" />
+
+            <View
+                android:layout_width="@dimen/_250sdp"
+                android:layout_height="35dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:id="@+id/shadow"
+                android:background="@drawable/shadow"
+                app:layout_constraintBottom_toBottomOf="@id/image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                 />
+            <ImageView
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:src="@drawable/app_title"
+                android:scaleType="fitCenter"
+                app:layout_constraintTop_toBottomOf="@+id/shadow"
+                app:layout_constraintBottom_toBottomOf="@id/view2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:id="@+id/ll_bottom"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primary_text"
+            android:text="Log in to access your account"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textStyle="bold|normal"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primary_text"
+            android:text="Email ID"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:textSize="16sp"
+            android:gravity="center|start"
+            android:textStyle="normal"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Email ID"
+            android:layout_marginStart="5dp"
+            android:textColorHint="@color/stroke"
+            android:textStyle="normal"
+            android:textSize="16sp"
+            android:layout_marginTop="5dp"/>
+
+
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>

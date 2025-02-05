@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
+    <color name="black_lite">#97000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="primary">#5865F9</color>
+    <color name="primary_lite">#BA3A86F1</color>
+    <color name="primary_one">#1F659D</color>
+    <color name="secondry">#90CAF8</color>
+    <color name="secondry_lite">#D4ECFF</color>
+    <color name="secondry_l">#F2F9FF</color>
+    <color name="lite_red">#EC5E56</color>
+    <color name="red">#F90602</color>
+    <color name="orange">#fd6d32</color>
+    <color name="yellow">#FFB300</color>
+    <color name="yellow_lite">#F0FDD835</color>
+    <color name="gray">#919191</color>
+    <color name="gray_lite">#FCEAEAEA</color>
+    <color name="gray_low">#E4F3F3F3</color>
+    <color name="green">#099F14</color>
+    <color name="blue">#087AF6</color>
+    <color name="biscuit_lite">#F5EEC7</color>
+    <color name="biscuit_high">#92853D</color>
+    <color name="biscuit_dall">#FFFDF3</color>
+    <color name="purple">#9F39F9</color>
+    <color name="purple_lite">#E5CCFC</color>
+    <color name="purple_dall">#F9F1FF</color>
 </resources>

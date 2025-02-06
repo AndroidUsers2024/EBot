@@ -30,7 +30,7 @@
                 android:layout_marginTop="50dp"
                 android:gravity="center"
                 android:text="Verification Code"
-                android:textColor="@color/black_lite"
+                android:textColor="@color/primary_text"
                 android:textSize="17sp"
                 android:textStyle="bold|normal" />
 
@@ -41,7 +41,7 @@
                 android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:text="We have sent the verification code to\n you Email ID"
-                android:textColor="@color/black_lite"
+                android:textColor="@color/primary_text"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -163,7 +163,7 @@
                 android:gravity="center"
                 android:padding="5dp"
                 android:text="Didn't get OTP Code? "
-                android:textColor="@color/black_lite"
+                android:textColor="@color/primary_text"
                 android:textSize="13sp"
                 android:textStyle="normal" />
 

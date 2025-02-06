@@ -25,6 +25,7 @@ class ContactDetails : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.contactdetails_screen)
+        updateXML()
     }
     private fun updateXML(){
         try{

@@ -31,12 +31,12 @@ class PersonalDetails : AppCompatActivity() {
         try{
             et_firstName=findViewById(R.id.et_firstName)
             et_lastName=findViewById(R.id.et_lastName)
-            btn_Next=findViewById(R.id.btn_sendOTP)
+            btn_Next=findViewById(R.id.btn_Next)
             sp_gender=findViewById(R.id.sp_gender)
             tv_DOB=findViewById(R.id.tv_DOB)
 
             btn_Next.setOnClickListener(View.OnClickListener {
-                val intent= Intent(this,VerifyOTP::class.java)
+                val intent= Intent(this,ContactDetails::class.java)
                 startActivity(intent)
             })
 

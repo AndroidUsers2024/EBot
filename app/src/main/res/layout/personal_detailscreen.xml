@@ -27,6 +27,7 @@
                 android:layout_height="31dp"
                 android:text="Personal Details"
                 android:lineSpacingExtra="2sp"
+                android:textColor="@color/primary_text"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"
                 android:textSize="24sp"

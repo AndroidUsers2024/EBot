@@ -54,6 +54,7 @@ class UploadKYC : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.kyc_screen)
+        updateXML()
     }
     private fun updateXML() {
         try {

@@ -417,7 +417,7 @@
                                 android:background="@drawable/edit_text_bg"
                                 android:gravity="center"
                                 android:orientation="vertical"
-                                android:padding="3dp">
+                                android:padding="8dp">
 
                                 <ImageView
                                     android:id="@+id/img_AadharFront"
@@ -508,7 +508,7 @@
                                 android:background="@drawable/edit_text_bg"
                                 android:gravity="center"
                                 android:orientation="vertical"
-                                android:padding="3dp">
+                                android:padding="8dp">
 
                                 <ImageView
                                     android:id="@+id/img_AadharBack"
@@ -708,7 +708,7 @@
                                 android:background="@drawable/edit_text_bg"
                                 android:gravity="center"
                                 android:orientation="vertical"
-                                android:padding="3dp">
+                                android:padding="8dp">
 
                                 <ImageView
                                     android:id="@+id/img_PANFront"

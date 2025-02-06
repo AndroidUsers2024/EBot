@@ -40,8 +40,9 @@ class VerifyOTP : AppCompatActivity() {
 
             btn_OTPVerify.setOnClickListener(View.OnClickListener {
                 if (screen.equals("login")){
-                    val intent= Intent(this,VerifyOTP::class.java)
+                    val intent= Intent(this,MainActivity::class.java)
                     startActivity(intent)
+                    finish()
                 }else{
                     val intent= Intent(this,PersonalDetails::class.java)
                     intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP

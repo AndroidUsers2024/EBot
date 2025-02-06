@@ -45,4 +45,12 @@ class PersonalDetails : AppCompatActivity() {
             Log.e("PersonalDetails.updateXML: ",e.message.toString())
         }
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent= Intent(this,LoginActivity::class.java)
+        intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        startActivity(intent)
+        finish()
+    }
 }

@@ -3,6 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#FFE733</color>
+    <color name="primary_lite">#80FFD550</color>
     <color name="primary_text">#364257</color>
     <color name="secondary">#3FB761</color>
     <color name="gray">#8F9298</color>
@@ -10,5 +11,9 @@
     <color name="stroke_lite">#F5F6F7</color>
     <color name="icons">#7A8DA7</color>
     <color name="black_lite">#97000000</color>
+    <color name="lite_red">#EC5E56</color>
+    <color name="red">#F90602</color>
+
+
 
 </resources>

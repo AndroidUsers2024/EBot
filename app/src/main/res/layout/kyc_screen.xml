@@ -1,0 +1,815 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_submit"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_kycIntro"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <View
+                    android:id="@+id/view2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="280dp"
+                    android:background="@drawable/background_banner"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/skip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center"
+                    android:text="Skip"
+                    android:textColor="@color/secondary"
+                    android:textSize="16sp"
+                    android:textStyle="bold|normal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:layout_editor_absoluteX="114dp"
+                    tools:layout_editor_absoluteY="50dp" />
+
+                <View
+                    android:id="@+id/vw_image"
+                    android:layout_width="205dp"
+                    android:layout_height="155dp"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="45dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/kyc_img"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:layout_editor_absoluteX="114dp"
+                    tools:layout_editor_absoluteY="50dp" />
+
+                <View
+                    android:id="@+id/back"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="25dp"
+                    android:visibility="gone"
+                    android:background="@drawable/backarrow_ic"
+                    android:backgroundTint="@color/black"
+                    android:gravity="center"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:layout_editor_absoluteX="114dp"
+                    tools:layout_editor_absoluteY="50dp" />
+
+                <TextView
+                    android:id="@+id/tv_Day_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:text="KYC"
+                    android:textColor="@color/primary_text"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/vw_image"
+                    tools:layout_editor_absoluteX="114dp"
+                    tools:layout_editor_absoluteY="50dp" />
+
+
+                <TextView
+                    android:id="@+id/tv_Name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:maxLines="3"
+                    android:padding="10dp"
+                    android:paddingEnd="3dp"
+                    android:text="The following are information \n we want from you."
+                    android:textColor="@color/primary_text"
+                    android:textSize="16sp"
+                    android:textStyle="normal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_Day_title" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center|start"
+                            android:paddingStart="5dp"
+                            android:paddingEnd="5dp"
+                            android:text="Two Steps Requirement"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:textStyle="normal|bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:background="@drawable/edit_text_bg"
+                            android:orientation="horizontal"
+                            android:padding="10dp">
+
+                            <View
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:background="@drawable/ic_id_verification"
+                                android:gravity="center" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center|start"
+                                    android:paddingStart="5dp"
+                                    android:paddingEnd="5dp"
+                                    android:text="ID Card Verification"
+                                    android:textColor="@color/black"
+                                    android:textSize="15sp"
+                                    android:textStyle="normal|bold" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="10dp"
+                                    android:gravity="center|start"
+                                    android:paddingStart="5dp"
+                                    android:paddingEnd="5dp"
+                                    android:text="Provide us with a passport \n photograph and Valid ID card."
+                                    android:textColor="@color/black_lite"
+                                    android:textSize="16sp"
+                                    android:textStyle="normal" />
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:background="@drawable/edit_text_bg"
+                            android:orientation="horizontal"
+                            android:padding="10dp">
+
+                            <View
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:background="@drawable/ic_face"
+                                android:gravity="center" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center|start"
+                                    android:paddingStart="5dp"
+                                    android:paddingEnd="5dp"
+                                    android:text="Face Verification"
+                                    android:textColor="@color/black"
+                                    android:textSize="15sp"
+                                    android:textStyle="normal|bold" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="10dp"
+                                    android:gravity="center|start"
+                                    android:paddingStart="5dp"
+                                    android:paddingEnd="5dp"
+                                    android:text="Get a face short by following the \n instructions that will be provided"
+                                    android:textColor="@color/black_lite"
+                                    android:textSize="16sp"
+                                    android:textStyle="normal" />
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center|start"
+                            android:paddingStart="5dp"
+                            android:paddingEnd="5dp"
+                            android:text="By clicking on Accept and Proceed, you consent to provide us with the requested data."
+                            android:textColor="@color/black_lite"
+                            android:textSize="16sp"
+                            android:textStyle="normal" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_kycUpload"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <View
+                            android:id="@+id/back_kyc"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/backarrow_ic" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginEnd="5dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="KYC"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold|normal" />
+
+                        <TextView
+                            android:id="@+id/skip_kyc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginEnd="5dp"
+                            android:text="Skip"
+                            android:textColor="@color/secondary"
+                            android:textSize="18sp"
+                            android:textStyle="bold|normal" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_UploadAadhar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            android:layout_weight="1"
+                            android:gravity="center|start"
+                            android:text="Upload Aadhar Card"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:textStyle="normal|bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="3dp"
+                                android:layout_weight="2"
+                                android:background="@color/primary" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="3dp"
+                                android:layout_weight="1"
+                                android:background="@color/primary_lite" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Please enter your Aadhar number and upload your Aadhar card below for completing your first step of KYC."
+                                android:textColor="@color/black_lite"
+                                android:textSize="16sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:orientation="vertical"
+                                android:padding="5dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Aadhar Number"
+                                    android:textColor="@color/black_lite"
+                                    android:textSize="16sp" />
+
+                                <EditText
+                                    android:id="@+id/et_AadharNumber"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="45dp"
+                                    android:layout_margin="5dp"
+                                    android:background="@drawable/edit_text_bg"
+                                    android:hint="Enter Aadhar Card Number"
+                                    android:importantForAutofill="no"
+                                    android:inputType="number"
+                                    android:maxLength="14"
+                                    android:paddingStart="10dp"
+                                    android:paddingEnd="8dp"
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp" />
+
+
+                            </LinearLayout>
+
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:text="Front Side"
+                                android:textColor="@color/black"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_text_bg"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:padding="3dp">
+
+                                <ImageView
+                                    android:id="@+id/img_AadharFront"
+                                    android:layout_width="150dp"
+                                    android:layout_height="80dp"
+                                    android:layout_marginTop="5dp"
+                                    android:background="@drawable/edit_text_bg"
+                                    android:scaleType="centerCrop" />
+
+                                <Button
+                                    android:id="@+id/btn_takeAadharFront"
+                                    android:layout_width="250dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:background="@drawable/button_bg"
+                                    android:drawableStart="@drawable/ic_camera"
+                                    android:gravity="center|start"
+                                    android:padding="3dp"
+                                    android:paddingStart="50dp"
+                                    android:paddingEnd="10dp"
+                                    android:text=" Take a Photo"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold|normal" />
+
+                                <Button
+                                    android:id="@+id/btn_chooseAadharFront"
+                                    android:layout_width="250dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:background="@drawable/button_bg"
+                                    android:backgroundTint="@color/stroke_lite"
+                                    android:drawableStart="@drawable/ic_galary"
+                                    android:drawableTint="@color/stroke"
+                                    android:gravity="center|start"
+                                    android:padding="3dp"
+                                    android:paddingStart="50dp"
+                                    android:paddingEnd="10dp"
+                                    android:text=" Choose from Library"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/black_lite"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold|normal" />
+                                <Button
+                                    android:id="@+id/btn_UploadAadharFront"
+                                    android:layout_width="250dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:background="@drawable/ic_border"
+                                    android:drawableEnd="@drawable/ic_cancel"
+                                    android:drawableTint="@color/lite_red"
+                                    android:gravity="center"
+                                    android:padding="5dp"
+                                    android:paddingStart="40dp"
+                                    android:paddingEnd="30dp"
+                                    android:text="Uploaded"
+                                    android:backgroundTint="@color/red"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/lite_red"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold|normal" />
+
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:text="*Supported files Jpeg, png and Pdf only"
+                                android:textColor="@color/black_lite"
+                                android:textSize="13sp"
+                                android:textStyle="normal" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:text="Back Side"
+                                android:textColor="@color/black"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_text_bg"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:padding="3dp">
+
+                                <ImageView
+                                    android:id="@+id/img_AadharBack"
+                                    android:layout_width="150dp"
+                                    android:layout_height="80dp"
+                                    android:layout_marginTop="5dp"
+                                    android:background="@drawable/edit_text_bg"
+                                    android:scaleType="centerCrop" />
+
+                                <Button
+                                    android:id="@+id/btn_takeAadharBack"
+                                    android:layout_width="250dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:background="@drawable/button_bg"
+                                    android:drawableStart="@drawable/ic_camera"
+                                    android:drawableTint="@color/primary_text"
+                                    android:gravity="center|start"
+                                    android:padding="3dp"
+                                    android:paddingStart="50dp"
+                                    android:paddingEnd="10dp"
+                                    android:text=" Take a Photo"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold|normal" />
+
+                                <Button
+                                    android:id="@+id/btn_chooseAadharBack"
+                                    android:layout_width="250dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:background="@drawable/button_bg"
+                                    android:backgroundTint="@color/stroke_lite"
+                                    android:drawableStart="@drawable/ic_galary"
+                                    android:drawableTint="@color/stroke"
+                                    android:gravity="center|start"
+                                    android:padding="3dp"
+                                    android:paddingStart="50dp"
+                                    android:paddingEnd="10dp"
+                                    android:text=" Choose from Library"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/black_lite"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold|normal" />
+                                <Button
+                                    android:id="@+id/btn_UploadAadharBack"
+                                    android:layout_width="250dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:background="@drawable/ic_border"
+                                    android:drawableEnd="@drawable/ic_cancel"
+                                    android:drawableTint="@color/lite_red"
+                                    android:gravity="center"
+                                    android:padding="5dp"
+                                    android:paddingStart="40dp"
+                                    android:paddingEnd="30dp"
+                                    android:text="Uploaded"
+                                    android:backgroundTint="@color/red"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/lite_red"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold|normal" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:text="*Supported files Jpeg, png and Pdf only"
+                                android:textColor="@color/black_lite"
+                                android:textSize="13sp"
+                                android:textStyle="normal" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center|start"
+                            android:orientation="horizontal"
+                            android:padding="10dp">
+
+                            <CheckBox
+                                android:id="@+id/ck_agree_Aadhar"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="start"
+                                android:buttonTint="@color/black_lite" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginTop="2dp"
+                                android:text="I hereby agree that the above document belongs to me and voluntarily give my consent to Property Zone Pvt Ltd to utilize it as my address proof for KYC on purpose only"
+                                android:textColor="@color/black_lite"
+                                android:textSize="13sp"
+                                android:textStyle="normal" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_UploadPan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            android:layout_weight="1"
+                            android:gravity="center|start"
+                            android:text="Upload PAN Card"
+                            android:textColor="@color/black"
+                            android:textSize="17sp"
+                            android:textStyle="normal" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="3dp"
+                                android:layout_weight="1.5"
+                                android:background="@color/primary" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="3dp"
+                                android:layout_weight="1"
+                                android:background="@color/primary_lite" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Please enter your Pan Card Number and \nUpload Your Pan Card Photo below "
+                                android:textColor="@color/black_lite"
+                                android:textSize="16sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:orientation="vertical"
+                                android:padding="5dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="PAN Card Number"
+                                    android:textColor="@color/black_lite"
+                                    android:textSize="16sp" />
+
+                                <EditText
+                                    android:id="@+id/et_PANNumber"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="45dp"
+                                    android:layout_margin="5dp"
+                                    android:background="@drawable/edit_text_bg"
+                                    android:hint="Enter PAN Card Number"
+                                    android:paddingStart="10dp"
+                                    android:paddingEnd="8dp"
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp" />
+
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:text="Front Side"
+                                android:textColor="@color/black"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_text_bg"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:padding="3dp">
+
+                                <ImageView
+                                    android:id="@+id/img_PANFront"
+                                    android:layout_width="150dp"
+                                    android:layout_height="80dp"
+                                    android:layout_marginTop="5dp"
+                                    android:background="@drawable/edit_text_bg"
+                                    android:scaleType="centerCrop" />
+
+                                <Button
+                                    android:id="@+id/btn_takePANFront"
+                                    android:layout_width="250dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:background="@drawable/button_bg"
+                                    android:drawableStart="@drawable/ic_camera"
+                                    android:gravity="center|start"
+                                    android:padding="3dp"
+                                    android:paddingStart="50dp"
+                                    android:paddingEnd="10dp"
+                                    android:text=" Take a Photo"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold|normal" />
+
+                                <Button
+                                    android:id="@+id/btn_choosePANFront"
+                                    android:layout_width="250dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:background="@drawable/button_bg"
+                                    android:backgroundTint="@color/stroke_lite"
+                                    android:drawableStart="@drawable/ic_galary"
+                                    android:drawableTint="@color/stroke"
+                                    android:gravity="center|start"
+                                    android:padding="3dp"
+                                    android:paddingStart="50dp"
+                                    android:paddingEnd="10dp"
+                                    android:text=" Choose from Library"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/black_lite"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold|normal" />
+                                <Button
+                                    android:id="@+id/btn_UploadPANFront"
+                                    android:layout_width="250dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:background="@drawable/ic_border"
+                                    android:drawableEnd="@drawable/ic_cancel"
+                                    android:drawableTint="@color/lite_red"
+                                    android:gravity="center"
+                                    android:padding="5dp"
+                                    android:paddingStart="40dp"
+                                    android:paddingEnd="30dp"
+                                    android:text="Uploaded"
+                                    android:backgroundTint="@color/red"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/lite_red"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold|normal" />
+
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:text="*Supported files Jpeg, png and Pdf only"
+                                android:textColor="@color/black_lite"
+                                android:textSize="13sp"
+                                android:textStyle="normal" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_bg"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="Submit"
+        android:textAllCaps="false"
+        android:textColor="@color/primary_text"
+        android:textSize="16sp"
+        android:textStyle="normal|bold" />
+</RelativeLayout>

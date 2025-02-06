@@ -261,6 +261,20 @@
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="normal" />
+                <Button
+                    android:id="@+id/btn_Next"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@drawable/button_bg"
+                    android:layout_marginTop="@dimen/_25sdp"
+                    android:padding="10dp"
+                    android:text="Next"
+                    android:textAllCaps="false"
+                    android:gravity="center"
+                    android:textStyle="normal|bold"/>
             </LinearLayout>
             </androidx.core.widget.NestedScrollView>
     </LinearLayout>

@@ -9,4 +9,6 @@
     <color name="stroke">#D1D8DE</color>
     <color name="stroke_lite">#F5F6F7</color>
     <color name="icons">#7A8DA7</color>
+    <color name="black_lite">#97000000</color>
+
 </resources>

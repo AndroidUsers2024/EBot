@@ -13,13 +13,14 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.ebot.R
 
-class LoginActivity : AppCompatActivity() {
-    private lateinit var et_emailId:EditText
-    private lateinit var btn_sendOTP:Button
-    private lateinit var tv_signUp:TextView
+class SignupWithEmail : AppCompatActivity() {
+    private lateinit var et_emailId: EditText
+    private lateinit var btn_sendOTP: Button
+    private lateinit var tv_Login: TextView
+    private lateinit var back: View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.signup_with_email)
         updateXML()
 
     }
@@ -27,20 +28,26 @@ class LoginActivity : AppCompatActivity() {
         try{
             et_emailId=findViewById(R.id.et_emailId)
             btn_sendOTP=findViewById(R.id.btn_sendOTP)
-            tv_signUp=findViewById(R.id.tv_signUp)
+            tv_Login=findViewById(R.id.tv_Login)
+            back=findViewById(R.id.back)
 
             btn_sendOTP.setOnClickListener(View.OnClickListener {
-                val intent=Intent(this,VerifyOTP::class.java)
-                intent.putExtra("screen","login")
+                val intent= Intent(this,VerifyOTP::class.java)
+                intent.putExtra("screen","signup")
                 startActivity(intent)
             })
-            tv_signUp.setOnClickListener(View.OnClickListener {
-                val intent=Intent(this,SignupWithEmail::class.java)
+            tv_Login.setOnClickListener(View.OnClickListener {
+                val intent= Intent(this,LoginActivity::class.java)
+                intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                 startActivity(intent)
+                finish()
+            })
+            back.setOnClickListener(View.OnClickListener {
+                onBackPressed()
             })
 
         }catch (e:Exception){
-            Log.e("LoginActivity.updateXML: ",e.message.toString())
+            Log.e("SignupWithEmail.updateXML: ",e.message.toString())
         }
     }
 }

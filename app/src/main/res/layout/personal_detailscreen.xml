@@ -11,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/btn_Next"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,7 +41,6 @@
                 />
 
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -68,7 +69,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:padding="11dp"
+                    android:padding="13dp"
                     android:layout_marginTop="5dp"
                     android:gravity="center|start"
                     android:hint="Enter First Name"
@@ -93,7 +94,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:padding="11dp"
+                    android:padding="13dp"
                     android:layout_marginTop="5dp"
                     android:gravity="center|start"
                     android:hint="Enter Last Name"
@@ -116,9 +117,9 @@
                 <Spinner
                     android:id="@+id/sp_gender"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:padding="11dp"
+                    android:padding="13dp"
                     android:layout_marginTop="5dp"
                     android:gravity="center|start"
                     android:background="@drawable/spinner_bg"
@@ -140,11 +141,11 @@
                     android:textSize="16sp"
                     android:textStyle="normal" />
                 <TextView
-                    android:id="@+id/et_DOB"
+                    android:id="@+id/tv_DOB"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:padding="10dp"
+                    android:padding="13dp"
                     android:layout_marginTop="5dp"
                     android:gravity="center|start"
                     android:hint="Select Date"
@@ -162,8 +163,23 @@
             </LinearLayout>
 
         </LinearLayout>
-
-
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_Next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginBottom="@dimen/_30sdp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:background="@drawable/button_bg"
+        android:layout_marginTop="15dp"
+        android:padding="10dp"
+        android:text="Next"
+        android:textAllCaps="false"
+        android:gravity="center"
+        android:textStyle="normal|bold"/>
 
 </RelativeLayout>

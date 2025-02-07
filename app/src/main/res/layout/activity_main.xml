@@ -206,7 +206,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="profile"
+                android:text="Profile"
                 android:id="@+id/tv_profile"
                 android:textColor="@color/icons"
                 android:textSize="14sp" />

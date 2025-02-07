@@ -75,7 +75,7 @@
                 android:hint="Enter  withdraw amount"
                 android:padding="11dp"
                 android:inputType="number"
-                android:textColor="@color/blue"
+                android:textColor="@color/primary_text"
                 android:textSize="15sp"
                 android:textStyle="normal" />
 

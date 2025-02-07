@@ -13,6 +13,12 @@
         android:theme="@style/Theme.EBot"
         tools:targetApi="31">
         <activity
+            android:name=".actvities.TransactionsHistory"
+            android:exported="false" />
+        <activity
+            android:name=".actvities.EnquiryForm"
+            android:exported="false" />
+        <activity
             android:name=".actvities.BankAccountDetails"
             android:exported="false" />
         <activity

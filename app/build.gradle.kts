@@ -77,4 +77,5 @@ dependencies {
     annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
     implementation(files(fileTree("libs") { include("*.jar") }))
     implementation("com.intuit.sdp:sdp-android:1.0.6")
+    implementation ("androidx.cardview:cardview:1.0.0")
 }

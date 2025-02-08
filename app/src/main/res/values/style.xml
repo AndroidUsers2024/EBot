@@ -6,4 +6,10 @@
     <style name="ImageView" parent="">
         <item name="cornerSize">10%</item>
     </style>
+
+    <style name="ecr_road_pe">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#364257</item>
+    </style>
+
 </resources>

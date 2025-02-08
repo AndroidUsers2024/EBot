@@ -1,0 +1,18 @@
+<!-- Auto layout, variables, and unit scale are not yet supported -->
+<vector
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:aapt="http://schemas.android.com/aapt"
+android:width="361dp"
+android:height="200dp"
+android:viewportWidth="361"
+android:viewportHeight="200">
+<group>
+    <clip-path
+        android:pathData="M24 0H337C350.255 0 361 10.7452 361 24V176C361 189.255 350.255 200 337 200H24C10.7452 200 0 189.255 0 176V24C0 10.7452 10.7452 0 24 0Z"
+        />
+    <path
+        android:pathData="M0 0V200H361V0"
+        android:fillColor="#FFFFFF"
+        />
+</group>
+</vector>

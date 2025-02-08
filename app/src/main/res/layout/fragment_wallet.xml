@@ -1,18 +1,244 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.WalletFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/header_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="280dp"
+                android:background="@drawable/top_banner"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="25dp"
+                android:gravity="center"
+                android:text="My Wallet"
+                android:textColor="@color/primary_text"
+                android:textSize="20sp"
+                android:textStyle="bold|normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/ll_showAmount"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title">
+                <TextView
+                    android:id="@+id/tv_duration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:text="Your available balance"
+                    android:textColor="@color/primary_text"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+                <TextView
+                    android:id="@+id/tv_total_Balance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="25dp"
+                    android:paddingEnd="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text=" 15020"
+                    android:drawableStart="@drawable/ic_rupee"
+                    android:textColor="@color/primary_text"
+                    android:drawableTint="@color/primary_text"
+                    android:textSize="@dimen/_20sdp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/tv_Name"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:layout_marginTop="-5dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/wallet_img"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ll_showAmount"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:layout_marginTop="30dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_showAmount"
+                android:gravity="center"
+                android:weightSum="2">
+                <Button
+                    android:id="@+id/btn_AddMoney"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_bg"
+                    android:backgroundTint="@color/primary"
+                    android:gravity="start|center"
+                    android:drawableStart="@drawable/ic_add"
+                    android:layout_weight="1"
+                    android:paddingStart="@dimen/_25sdp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:drawablePadding="5dp"
+                    android:textAllCaps="false"
+                    android:textStyle="normal|bold"
+                    android:textColor="@color/black"
+                    android:text="Add Money"
+                    android:textSize="14sp" />
+                <Button
+                    android:id="@+id/btn_Withdraw"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_border"
+                    android:gravity="start|center"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="5dp"
+                    android:paddingStart="@dimen/_25sdp"
+                    android:paddingEnd="5dp"
+                    android:layout_marginStart="5dp"
+                    android:drawableStart="@drawable/withdraw_ic"
+                    android:textAllCaps="false"
+                    android:drawablePadding="10dp"
+                    android:backgroundTint="@color/primary_text"
+                    android:textStyle="normal|bold"
+                    android:textColor="@color/black"
+                    android:text=" Withdraw"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textColor="@color/secondary"
-        android:textStyle="bold"
-        android:text="Wallet" />
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/ll_empty_tran"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/empty_illustration_img" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:gravity="center"
+                android:layout_marginTop="2dp"
+                android:text="There’s no transactions till now!"
+                android:textColor="@color/gray"
+                android:textStyle="normal"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_last_trans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="visible"
+            android:orientation="vertical"
+            android:padding="@dimen/_10sdp"
+            android:layout_marginTop="-15dp">
+            <LinearLayout
+                android:id="@+id/ll_view_all"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
 
 
-</FrameLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|start"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center|start"
+                    android:text="Last Transactions"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    android:textStyle="bold|normal" />
+
+                <TextView
+                    android:id="@+id/viewAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="5dp"
+                    android:elevation="2dp"
+                    android:text="View All"
+                    android:textColor="@color/secondary"
+                    android:textSize="17sp"
+                    android:textStyle="bold|normal" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rc_lastTransactions"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -150,8 +150,6 @@
                     </LinearLayout>
 
 
-
-
                 </LinearLayout>
                 <RelativeLayout
                     android:id="@+id/rlSlider"

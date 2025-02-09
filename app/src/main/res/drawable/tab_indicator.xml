@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Selected tab underline -->
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/secondary"/>
+            <size android:height="3dp"/>  <!-- Adjust height if needed -->
+        </shape>
+    </item>
+
+    <!-- Unselected tab underline -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/gray"/>
+            <size android:height="3dp"/>  <!-- Keep same height as selected -->
+        </shape>
+    </item>
+</selector>

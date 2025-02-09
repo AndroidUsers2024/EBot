@@ -16,13 +16,39 @@
         android:gravity="center"
         android:orientation="vertical">
 
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/ll_back"
+            android:layout_width="72dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_gravity="center|left"
+            android:orientation="horizontal"
+            >
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/backarrow_ic"
+                app:tint="@color/primary_text" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|center_horizontal"
+                android:textColor="@color/primary_text"
+                android:textSize="16sp"
+                android:text="Back"/>
+
+        </LinearLayout>
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_25sdp"
             android:backgroundTint="@color/stroke"
-            app:cardCornerRadius="10dp">
+            app:cardCornerRadius="20dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,12 +67,121 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:padding="16dp" />
+                android:layout_marginBottom="@dimen/_10sdp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <TextView
+            android:id="@+id/jet_jitendr"
+            android:layout_width="361dp"
+            android:layout_height="24dp"
+            android:textStyle="bold"
+            android:text="Jet-Jitendra"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:textAppearance="@style/jet_jitendr"
+            android:gravity="center_vertical"
+            />
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="361dp"
+            android:layout_height="42dp"
+            android:layout_marginBottom="@dimen/_16sdp"
+            android:weightSum="3"
+
+            >
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                >
+                <TextView
+                    android:id="@+id/range"
+                    android:layout_width="match_parent"
+                    android:layout_height="19dp"
+                    android:text="Range"
+                    android:gravity="left|top"
+                    />
+                <TextView
+                    android:id="@+id/km"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="110 km"
+                    android:gravity="top"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary_text"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="19dp"
+                    android:text="Speed"
+                    android:gravity="left|top"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="25 km/h"
+                    android:gravity="top"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary_text"
+                    android:textSize="16sp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="19dp"
+                    android:text="Battery Type"
+                    android:gravity="left|top"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="110 km"
+                    android:gravity="top"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary_text"
+                    android:textSize="16sp"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/starting_at"
+            android:layout_width="361dp"
+            android:layout_height="29dp"
+            android:text="Starting at ₹99/hour"
+            android:textAppearance="@style/starting_at"
+            android:gravity="top"
+            />
 
     </LinearLayout>
+
+
+
+
+
+
 
 
 

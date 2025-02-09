@@ -9,7 +9,18 @@
 
     <style name="ecr_road_pe">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">#364257</item>
+        <item name="android:textColor">@color/primary_text</item>
+    </style>
+
+
+    <style name="jet_jitendr">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/primary_text</item>
+    </style>
+
+    <style name="starting_at">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/secondary</item>
     </style>
 
 </resources>

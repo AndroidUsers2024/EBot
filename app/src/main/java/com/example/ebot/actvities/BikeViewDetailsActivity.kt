@@ -23,7 +23,7 @@ class BikeViewDetailsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_bike_view_details)
          viewPager = findViewById(R.id.viewPager)
          dotsLayout = findViewById(R.id.dotsLayout)
-        val images = listOf(R.drawable.bike1, R.drawable.bike2, R.drawable.bike3)
+        val images = listOf(R.drawable.bike1, R.drawable.bike2, R.drawable.bike3, R.drawable.bike1)
         val adapter = CarouselAdapter(images)
         viewPager.adapter = adapter
         setupDots(images.size)

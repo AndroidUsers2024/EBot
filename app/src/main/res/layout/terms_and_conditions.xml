@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/_5sdp"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <View
+            android:id="@+id/wv_back"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="start"
+            android:layout_marginEnd="5dp"
+            android:backgroundTint="@color/blue"
+            android:background="@drawable/ic_close" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:gravity="center"
+            android:text="Terms &amp; Conditions"
+            android:textColor="@color/blue"
+            android:textSize="16sp"
+            android:textStyle="normal|bold" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/stroke"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:orientation="vertical">
+
+    <View
+        android:layout_width="220dp"
+        android:layout_height="130dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/terms_img"/>
+        <View
+        android:layout_width="190dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/app_title"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:text="Terms &amp; Conditions"
+            android:textColor="@color/black"
+            android:textSize="23sp"
+            android:textStyle="normal|bold" />
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            />
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:padding="5dp"
+            android:layout_marginTop="15dp"
+            android:gravity="center|start"
+            android:textColor="@color/black_lite"
+            android:textSize="16sp"
+            android:textStyle="normal" />
+
+    </LinearLayout>
+    </ScrollView>
+
+
+
+</LinearLayout>

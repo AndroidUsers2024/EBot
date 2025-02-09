@@ -16,6 +16,27 @@
             android:name=".actvities.BikeViewDetailsActivity"
             android:exported="false" />
         <activity
+            android:name=".actvities.PrivacyPolicy"
+            android:exported="false" />
+        <activity
+            android:name=".actvities.TermsAndConditions"
+            android:exported="false" />
+        <activity
+            android:name=".actvities.AboutUS"
+            android:exported="false" />
+        <activity
+            android:name=".actvities.ContactUS"
+            android:exported="false" />
+        <activity
+            android:name=".actvities.FAQ"
+            android:exported="false" />
+        <activity
+            android:name=".actvities.ViewBankDetails"
+            android:exported="false" />
+        <activity
+            android:name=".actvities.PersonalInformation"
+            android:exported="false" />
+        <activity
             android:name=".actvities.TransactionDetails"
             android:exported="false" />
         <activity

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:padding="5dp"
+    android:orientation="vertical">
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/close"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:src="@drawable/ic_close"
+        android:scaleType="fitXY"
+        android:background="@color/black"
+        app:tint="@color/white"
+        app:shapeAppearanceOverlay="@style/CircularView"
+        android:gravity="center" />
+    <LinearLayout
+        android:id="@+id/header_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bottom_menu_bg"
+        android:backgroundTint="@color/white"
+        android:elevation="10dp"
+        android:padding="8dp"
+        android:gravity="center"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+
+
+
+
+            <Button
+                android:id="@+id/btn_openCamara"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/button_bg"
+                android:drawableStart="@drawable/ic_camera"
+                android:gravity="center|start"
+                android:padding="3dp"
+                android:paddingStart="50dp"
+                android:paddingEnd="10dp"
+                android:text=" Take a Photo"
+                android:textAllCaps="false"
+                android:textColor="@color/primary_text"
+                android:textSize="15sp"
+                android:textStyle="bold|normal" />
+
+            <Button
+                android:id="@+id/btn_chooseLibrary"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/button_bg"
+                android:backgroundTint="@color/stroke_lite"
+                android:drawableStart="@drawable/ic_galary"
+                android:drawableTint="@color/icons"
+                android:gravity="center|start"
+                android:padding="3dp"
+                android:paddingStart="50dp"
+                android:paddingEnd="10dp"
+                android:text=" Choose from Library"
+                android:textAllCaps="false"
+                android:textColor="@color/black_lite"
+                android:textSize="15sp"
+                android:textStyle="bold|normal" />
+
+
+
+    </LinearLayout>
+</LinearLayout>

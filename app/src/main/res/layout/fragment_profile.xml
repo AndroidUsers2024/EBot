@@ -1,18 +1,413 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.ProfileFragment">
+    android:layout_margin="5dp"
+    android:padding="5dp"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
 
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textColor="@color/secondary"
-        android:textStyle="bold"
-        android:text="Profile" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/profile_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="My Profile"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@color/primary_text"
+                    android:layout_marginBottom="5dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/img_profile"
+                        android:layout_width="85dp"
+                        android:layout_height="85dp"
+                        android:layout_gravity="center"
+                        android:background="@color/primary_low"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_person"
+                        app:shapeAppearanceOverlay="@style/CircularView" />
+
+                    <ImageButton
+                        android:id="@+id/wv_camera"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="-35dp"
+                        android:layout_marginTop="33dp"
+                        android:background="@drawable/select_item"
+                        android:gravity="center"
+                        android:layout_marginBottom="@dimen/_5sdp"
+
+                        android:padding="5dp"
+                        android:elevation="@dimen/_5sdp"
+                        android:src="@drawable/ic_camera"
+                        app:tint="@color/primary_text" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/account_settings_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:id="@+id/account_settings_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Account"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary_text"
+                    android:layout_marginBottom="8dp" />
+
+                <Button
+                    android:id="@+id/btn_personal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Personal Information"
+                    android:background="@drawable/roundedcorners"
+                    android:drawableStart="@drawable/ic_person"
+                    android:drawableTint="@color/icons"
+                    android:drawableEnd="@drawable/right"
+                    android:textAllCaps="false"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="16sp"/>
+
+                <Button
+                    android:id="@+id/btn_kyc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="KYC Details"
+                    android:visibility="gone"
+                    android:layout_marginTop="5dp"
+                    android:drawableTint="@color/black_lite"
+                    android:background="@drawable/roundedcorners"
+                    android:drawableStart="@drawable/kyc_verified_ic"
+                    android:drawableEnd="@drawable/right"
+                    android:textAllCaps="false"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:layout_marginBottom="5dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_margin="2dp"
+                    android:gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/ll_KYCDetail"
+                    android:elevation="3dp"
+                    android:background="@drawable/roundedcorners"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
+                    <View
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginStart="5dp"
+                        android:backgroundTint="@color/icons"
+                        android:background="@drawable/kyc_verified_ic"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        android:gravity="center|start"
+                        android:text="KYC Details"
+                        android:backgroundTint="#F4F4F6"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textAllCaps="false"
+                        android:fontFamily="sans-serif-medium"
+                        android:textStyle="normal" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        android:id="@+id/tv_kyc_status"
+                        android:paddingEnd="5dp"
+                        android:gravity="center|end"
+                        android:text="Completed KYC"
+                        android:fontFamily="sans-serif-medium"
+                        android:textColor="@color/secondary"
+                        android:textSize="15sp"
+                        android:textStyle="normal" />
+
+                    <View
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginEnd="10dp"
+                        android:backgroundTint="@color/icons"
+                        android:background="@drawable/right"
+                        />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:gravity="center"
+                    android:elevation="4dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/ll_BankAcounts"
+                    android:background="@drawable/roundedcorners"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
+                    <View
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginStart="5dp"
+                        android:backgroundTint="@color/icons"
+                        android:background="@drawable/ic_bank"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        android:gravity="center|start"
+                        android:text="Bank Accounts"
+                        android:fontFamily="sans-serif-medium"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="normal" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        android:paddingEnd="10dp"
+                        android:id="@+id/tv_bank_status"
+                        android:gravity="center|end"
+                        android:text="Added"
+                        android:fontFamily="sans-serif-medium"
+                        android:textColor="@color/secondary"
+                        android:textSize="15sp"
+                        android:textStyle="normal" />
+
+                    <View
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginEnd="10dp"
+                        android:backgroundTint="@color/icons"
+                        android:background="@drawable/right"
+                        />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_bank"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Bank Accounts"
+                    android:visibility="gone"
+                    android:background="@drawable/roundedcorners"
+                    android:drawableStart="@drawable/ic_bank"
+                    android:drawableEnd="@drawable/right"
+                    android:drawableTint="@color/black_lite"
+                    android:textAllCaps="false"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:layout_marginBottom="5dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/general_settings_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:id="@+id/general_settings_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="General"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="8dp" />
 
 
-</FrameLayout>
+                <Button
+                    android:id="@+id/btn_AboutUs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="About US"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/roundedcorners"
+                    android:drawableStart="@drawable/ic_info"
+                    android:drawableTint="@color/icons"
+                    android:drawableEnd="@drawable/right"
+                    android:textAllCaps="false"
+
+                    android:gravity="center_vertical"
+                    android:drawablePadding="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:layout_marginBottom="2dp"
+                    android:textSize="16sp"/>
+
+                <Button
+                    android:id="@+id/btn_PrivacyPolicy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Privacy Policy"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/roundedcorners"
+                    android:drawableStart="@drawable/ic_privacy"
+                    android:drawableEnd="@drawable/right"
+                    android:drawableTint="@color/icons"
+                    android:textAllCaps="false"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:layout_marginBottom="2dp"
+                    android:textSize="16sp"/>
+
+                <Button
+                    android:id="@+id/btn_terms"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Terms &amp; Conditions"
+                    android:background="@drawable/roundedcorners"
+                    android:drawableStart="@drawable/ic_terms"
+                    android:drawableEnd="@drawable/right"
+                    android:drawableTint="@color/icons"
+                    android:textAllCaps="false"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="2dp"
+                    android:textSize="16sp"/>
+
+                <Button
+                    android:id="@+id/btn_enquiry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@drawable/roundedcorners"
+                    android:drawableStart="@drawable/ic_mail"
+                    android:drawableEnd="@drawable/right"
+                    android:drawablePadding="8dp"
+                    android:drawableTint="@color/icons"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="Enquiry Form"
+                    android:textAllCaps="false"
+                    android:textSize="16sp"/>
+
+                <Button
+                    android:id="@+id/btn_contact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Contact US"
+                    android:background="@drawable/roundedcorners"
+                    android:drawableStart="@drawable/phone"
+                    android:drawableTint="@color/icons"
+                    android:drawableEnd="@drawable/right"
+                    android:textAllCaps="false"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="2dp"
+                    android:textSize="16sp"/>
+                <Button
+                    android:id="@+id/btn_faq"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="FAQ"
+                    android:background="@drawable/roundedcorners"
+                    android:drawableStart="@drawable/ic_help"
+                    android:drawableEnd="@drawable/right"
+                    android:drawableTint="@color/icons"
+                    android:textAllCaps="false"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="2dp"
+                    android:textSize="16sp"/>
+                <Button
+                    android:id="@+id/btn_logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Logout"
+                    android:background="@drawable/roundedcorners"
+                    android:drawableStart="@drawable/ic_logout"
+                    android:drawableEnd="@drawable/right"
+                    android:drawableTint="@color/icons"
+                    android:textAllCaps="false"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="16sp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</LinearLayout>

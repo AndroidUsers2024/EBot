@@ -5,15 +5,10 @@ import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.example.ebot.R
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 
 class BikeViewDetailsActivity : AppCompatActivity() {
     private lateinit var dotsLayout: LinearLayout
@@ -23,6 +18,7 @@ class BikeViewDetailsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_bike_view_details)
          viewPager = findViewById(R.id.viewPager)
          dotsLayout = findViewById(R.id.dotsLayout)
+
         val images = listOf(R.drawable.bike1, R.drawable.bike2, R.drawable.bike3, R.drawable.bike1)
         val adapter = CarouselAdapter(images)
         viewPager.adapter = adapter
@@ -48,13 +44,13 @@ class BikeViewDetailsActivity : AppCompatActivity() {
         }
 
         for (i in dots.indices) {
-            dots[i].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.dot_inactive))
+            dots[i].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.bar_inactive))
             dots[i].layoutParams = layoutParams
             dotsLayout.addView(dots[i])
         }
         // Highlight the first dot
         if (dots.isNotEmpty()) {
-            dots[0].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.dot_active))
+            dots[0].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.bar_active))
         }
     }
     private fun updateDots(position: Int) {
@@ -63,7 +59,7 @@ class BikeViewDetailsActivity : AppCompatActivity() {
             dot.setImageDrawable(
                 ContextCompat.getDrawable(
                     this,
-                    if (i == position) R.drawable.dot_active else R.drawable.dot_inactive
+                    if (i == position) R.drawable.bar_active else R.drawable.bar_inactive
                 )
             )
         }

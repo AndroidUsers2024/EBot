@@ -17,7 +17,6 @@
         android:orientation="vertical">
 
         <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/ll_back"
             android:layout_width="72dp"
             android:layout_height="24dp"
@@ -169,11 +168,15 @@
         <TextView
             android:id="@+id/starting_at"
             android:layout_width="361dp"
-            android:layout_height="29dp"
+            android:layout_height="wrap_content"
             android:text="Starting at ₹99/hour"
+            android:textSize="@dimen/_10sdp"
             android:textAppearance="@style/starting_at"
-            android:gravity="top"
+            android:gravity="center|start"
             />
+
+
+
 
     </LinearLayout>
 

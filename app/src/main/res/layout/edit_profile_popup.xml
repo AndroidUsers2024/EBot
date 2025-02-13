@@ -34,7 +34,7 @@
             android:backgroundTint="@color/white"
             android:elevation="10dp"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="3dp">
 
             <LinearLayout
                 android:id="@+id/ll_editProfile"
@@ -171,7 +171,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="1dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -219,9 +219,7 @@
                         android:layout_marginEnd="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/button_gray_bg"
-                        android:backgroundTint="@color/stroke"
-                        android:drawableStart="@drawable/ic_shop"
-                        android:drawableTint="@color/icons"
+                        android:drawableStart="@drawable/store"
                         android:drawablePadding="@dimen/_5sdp"
                         android:gravity="center|start"
                         android:paddingStart="@dimen/_10sdp"
@@ -239,9 +237,7 @@
                         android:layout_marginEnd="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/button_gray_bg"
-                        android:backgroundTint="@color/stroke"
-                        android:drawableStart="@drawable/ic_location"
-                        android:drawableTint="@color/icons"
+                        android:drawableStart="@drawable/map_pin"
                         android:drawablePadding="@dimen/_5sdp"
                         android:gravity="center|start"
                         android:paddingStart="@dimen/_10sdp"
@@ -486,7 +482,7 @@
                             android:background="@drawable/edit_text_bg"
                             android:gravity="center|start"
                             android:hint="Enter zip code"
-                            android:inputType="text"
+                            android:inputType="number"
                             android:padding="13dp"
                             android:textColor="@color/black"
                             android:textSize="15sp"

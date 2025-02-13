@@ -66,4 +66,6 @@ class TransactionDetails : AppCompatActivity() {
 
         }
     }
+
+
 }

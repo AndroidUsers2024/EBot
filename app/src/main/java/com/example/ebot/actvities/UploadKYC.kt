@@ -1,8 +1,16 @@
 package com.example.ebot.actvities
 
+import android.Manifest
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
@@ -10,11 +18,17 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.ebot.R
+import com.example.ebot.common.Utils
+import java.io.File
 
 class UploadKYC : AppCompatActivity() {
     private lateinit var ll_kycIntro: LinearLayout
@@ -50,6 +64,9 @@ class UploadKYC : AppCompatActivity() {
     private var img_PANFront_Path: String? = ""
     private var tempFileName: String? = ""
     private lateinit var openDialog: ProgressDialog
+
+    private var ImageFile: File? = null
+    private val PERMISSION_REQUEST_CODE: Int = 201
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,7 +111,13 @@ class UploadKYC : AppCompatActivity() {
             setScreens(screenNo!!)
 
             btn_submit.setOnClickListener(View.OnClickListener {
-                if (btn_submit.text.toString() == "Submit" && screenNo == 2) {
+                if (btn_submit.text.toString() == "Submit" && screenNo == 2) { val intent = Intent()
+                    intent.setClass(this, BankAccountDetails::class.java)
+                    // intent.setClass(this, MainActivity::class.java)
+                    intent.putExtra("screen", "KYC")
+                    startActivity(intent)
+                    finish()
+
                    /* val msg=isEmptyOrNot(screenNo!!)
                     if (msg.isEmpty()){
                         addKYCData()
@@ -125,16 +148,16 @@ class UploadKYC : AppCompatActivity() {
             })
             skip.setOnClickListener(View.OnClickListener {
                 val intent = Intent()
-                //intent.setClass(this@MemberKYC_Details, BankAccountDetails::class.java)
-                intent.setClass(this, MainActivity::class.java)
+                intent.setClass(this, BankAccountDetails::class.java)
+               // intent.setClass(this, MainActivity::class.java)
                 intent.putExtra("screen", "KYC")
                 startActivity(intent)
                 finish()
             })
             skip_kyc.setOnClickListener(View.OnClickListener {
                 val intent = Intent()
-                //intent.setClass(this@MemberKYC_Details, BankAccountDetails::class.java)
-                intent.setClass(this, MainActivity::class.java)
+                intent.setClass(this, BankAccountDetails::class.java)
+               // intent.setClass(this, MainActivity::class.java)
                 intent.putExtra("screen", "KYC")
                 startActivity(intent)
                 finish()
@@ -147,34 +170,34 @@ class UploadKYC : AppCompatActivity() {
 
             })
             btn_takeAadharFront.setOnClickListener(View.OnClickListener {
-               // openCamera("IMG_Aadhaar_Front")
+               openCamera("IMG_Aadhaar_Front")
             })
             btn_takeAadharBack.setOnClickListener(View.OnClickListener {
-             //   openCamera("IMG_Aadhaar_Back")
+               openCamera("IMG_Aadhaar_Back")
             })
             btn_takePANFront.setOnClickListener(View.OnClickListener {
-                //openCamera("IMG_PAN_Card")
+                openCamera("IMG_PAN_Card")
             })
             btn_chooseAadharFront.setOnClickListener(View.OnClickListener {
-               // openGallery("IMG_Aadhaar_Front")
+                openGallery("IMG_Aadhaar_Front")
             })
             btn_chooseAadharBack.setOnClickListener(View.OnClickListener {
-             //   openGallery("IMG_Aadhaar_Back")
+                openGallery("IMG_Aadhaar_Back")
             })
             btn_choosePANFront.setOnClickListener(View.OnClickListener {
-             //   openGallery("IMG_PAN_Card")
+               openGallery("IMG_PAN_Card")
             })
 
             btn_UploadPANFront.setOnClickListener(View.OnClickListener {
-               // upLoadImageCancel("PAN_Card")
+                upLoadImageCancel("PAN_Card")
             })
 
             btn_UploadAadharFront.setOnClickListener(View.OnClickListener {
-                //upLoadImageCancel("Aadhaar_Front")
+                upLoadImageCancel("Aadhaar_Front")
             })
 
             btn_UploadAadharBack.setOnClickListener(View.OnClickListener {
-                //upLoadImageCancel("Aadhaar_Back")
+                upLoadImageCancel("Aadhaar_Back")
             })
 
 
@@ -207,6 +230,237 @@ class UploadKYC : AppCompatActivity() {
             back_kyc.visibility = View.VISIBLE
 
         }
+    }
+    private fun openCamera(name: String) {
+        tempFileName = name
+
+        if (checkStoragePermissions()) {
+            ImageFile = Utils.createImageFile(name, this)
+            val photoUri =
+                FileProvider.getUriForFile(this, "${packageName}.fileprovider", ImageFile!!)
+            val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+            startActivityForResult(cameraIntent, Utils.REQUEST_CODE_CAMERA)
+        }
+    }
+
+    private fun openGallery(name: String) {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        tempFileName = name
+        startActivityForResult(intent, Utils.REQUEST_CODE_GALLERY)
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                Utils.REQUEST_CODE_CAMERA -> {
+                    val bitmap =
+                        MediaStore.Images.Media.getBitmap(
+                            contentResolver,
+                            Uri.fromFile(ImageFile)
+                        ) as Bitmap
+                    val path = Utils.saveImage(
+                        tempFileName.toString(),
+                        bitmap,
+                        false,
+                        this
+                    ).toString()
+                    setupImage(path, bitmap)
+                    if (ImageFile !=null && ImageFile!!.exists()) {
+                        ImageFile!!.delete()
+                    }
+                }
+
+                Utils.REQUEST_CODE_GALLERY -> {
+                    val selectedImageUri: Uri? = data?.data
+                    val bitmap =
+                        MediaStore.Images.Media.getBitmap(contentResolver, selectedImageUri)
+                    val path = Utils.saveImage(
+                        tempFileName.toString(),
+                        bitmap,
+                        false,
+                        this
+                    ).toString()
+                    setupImage(path, bitmap)
+                    if (ImageFile!=null && ImageFile!!.exists()) {
+                        ImageFile!!.delete()
+                    }
+
+                }
+            }
+
+        }
+
+    }
+    private fun upLoadImageCancel(name: String) {
+        try {
+            var file: File?=null
+
+            if (name.contains("Aadhaar_Front")) {
+                img_AadharFront.setImageBitmap(null)
+                file = img_AadharFront_Path?.let { File(it) }
+                if (file!=null &&file.exists()){
+                    file.delete()
+                }
+                img_AadharFront_Path=""
+                btn_UploadAadharFront.visibility=View.GONE
+                btn_takeAadharFront.visibility=View.VISIBLE
+                btn_chooseAadharFront.visibility=View.VISIBLE
+            } else if (name.contains("Aadhaar_Back")) {
+                img_AadharBack.setImageBitmap(null)
+                file = img_AadharBack_Path?.let { File(it) }
+                if (file!=null && file.exists()){
+                    file.delete()
+                }
+                img_AadharBack_Path=""
+                btn_UploadAadharBack.visibility=View.GONE
+                btn_takeAadharBack.visibility=View.VISIBLE
+                btn_chooseAadharBack.visibility=View.VISIBLE
+            } else if (name.contains("PAN_Card")) {
+                img_PANFront.setImageBitmap(null)
+                file = img_PANFront_Path?.let { File(it) }
+                if (file!=null && file.exists()){
+                    file.delete()
+                }
+                img_PANFront_Path=""
+                btn_UploadPANFront.visibility=View.GONE
+                btn_takePANFront.visibility=View.VISIBLE
+                btn_choosePANFront.visibility=View.VISIBLE
+            }
+            tempFileName = ""
+        } catch (e: Exception) {
+            Log.e("UploadKYC.setupImage() ", e.message.toString())
+        }
+    }
+
+    private fun setupImage(path: String, bitmap: Bitmap) {
+        try {
+
+            if (path.contains("IMG_Aadhaar_Front")) {
+                img_AadharFront.setImageBitmap(bitmap)
+                img_AadharFront_Path = path
+                btn_UploadAadharFront.visibility=View.VISIBLE
+                btn_takeAadharFront.visibility=View.GONE
+                btn_chooseAadharFront.visibility=View.GONE
+            } else if (path.contains("IMG_Aadhaar_Back")) {
+                img_AadharBack.setImageBitmap(bitmap)
+                img_AadharBack_Path = path
+                btn_UploadAadharBack.visibility=View.VISIBLE
+                btn_takeAadharBack.visibility=View.GONE
+                btn_chooseAadharBack.visibility=View.GONE
+            } else if (path.contains("IMG_PAN_Card")) {
+                img_PANFront.setImageBitmap(bitmap)
+                img_PANFront_Path = path
+                btn_UploadPANFront.visibility=View.VISIBLE
+                btn_takePANFront.visibility=View.GONE
+                btn_choosePANFront.visibility=View.GONE
+
+            }
+            tempFileName = ""
+        } catch (e: Exception) {
+            Log.e("UploadKYC.setupImage() ", e.message.toString())
+        }
+    }
+
+    fun checkStoragePermissions(): Boolean {
+        val writePermission =
+            ContextCompat.checkSelfPermission(
+                this@UploadKYC,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+        val readPermission =
+            ContextCompat.checkSelfPermission(
+                this@UploadKYC,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        val cameraPermission =
+            ContextCompat.checkSelfPermission(
+                this@UploadKYC,
+                android.Manifest.permission.CAMERA
+            )
+
+        val listPermissionsNeeded = mutableListOf<String>()
+
+        /* if (writePermission != PackageManager.PERMISSION_GRANTED) {
+             listPermissionsNeeded.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+         }
+
+         if (readPermission != PackageManager.PERMISSION_GRANTED) {
+             listPermissionsNeeded.add(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+         }
+         if (readPermission != PackageManager.PERMISSION_GRANTED) {
+             listPermissionsNeeded.add(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+         }*/
+        if (cameraPermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(android.Manifest.permission.CAMERA)
+        }
+
+        if (listPermissionsNeeded.isNotEmpty()) {
+            ActivityCompat.requestPermissions(
+                this@UploadKYC,
+                listPermissionsNeeded.toTypedArray(),
+                PERMISSION_REQUEST_CODE
+            )
+            return false
+        }
+
+        return true
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            var allPermissionsGranted = true
+
+            // Check if all permissions were granted
+            for (result in grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    allPermissionsGranted = false
+                    break
+                }
+            }
+
+            if (allPermissionsGranted) {
+                Toast.makeText(this, "Permissions Granted", Toast.LENGTH_SHORT).show()
+                // selectImageSource()
+                openCamera(tempFileName.toString())
+            } else {
+                Toast.makeText(this, "Permissions Denied", Toast.LENGTH_SHORT).show()
+
+                if (/*ActivityCompat.shouldShowRequestPermissionRationale(
+                        this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    ) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale(
+                        this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    ) ||*/
+                    ActivityCompat.shouldShowRequestPermissionRationale(
+                        this,
+                        Manifest.permission.CAMERA
+                    )
+                ) {
+                    Toast.makeText(this, "Please grant permissions to proceed", Toast.LENGTH_SHORT)
+                        .show()
+                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                    val uri = Uri.fromParts("package", packageName, null)
+                    intent.data = uri
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Permissions denied. Go to Settings to enable them.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+
+
     }
 
     override fun onBackPressed() {

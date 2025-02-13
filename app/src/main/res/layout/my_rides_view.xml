@@ -26,7 +26,7 @@
             android:outlineSpotShadowColor="@color/stroke_lite"
             app:cardCornerRadius="10dp">
             <ImageView
-                android:id="@+id/profileImage"
+                android:id="@+id/bikeImage"
                 android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_50sdp"
                 android:layout_gravity="center"

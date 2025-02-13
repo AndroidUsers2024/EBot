@@ -42,7 +42,7 @@ import retrofit2.Response
 import java.io.File
 
 class KYCDetailsView : AppCompatActivity() {
-    private lateinit var back: View
+    private lateinit var wv_back: View
     private lateinit var vw_shownAadhar: View
     private lateinit var vw_showPAN: View
     private lateinit var tv_imgeinfo: TextView
@@ -100,7 +100,7 @@ class KYCDetailsView : AppCompatActivity() {
 
     private fun updateXML() {
         try {
-            back = findViewById(R.id.back)
+            wv_back = findViewById(R.id.wv_back)
             vw_shownAadhar = findViewById(R.id.vw_shownAadhar)
             vw_showPAN = findViewById(R.id.vw_showPAN)
             tv_imgeinfo = findViewById(R.id.tv_imgeinfo)
@@ -138,7 +138,7 @@ class KYCDetailsView : AppCompatActivity() {
             ll_AadharCardDetail.visibility = View.GONE
             btn_UpdateKYC.visibility = View.GONE
 
-            vw_shownAadhar.setBackgroundResource(R.drawable.ic_arrow_up)
+            vw_shownAadhar.setBackgroundResource(R.drawable.down_arrow)
             isAadharOpen = false
             vw_showPAN.setBackgroundResource(R.drawable.down_arrow)
             isPANOpen = false
@@ -173,7 +173,7 @@ class KYCDetailsView : AppCompatActivity() {
 
 
             })
-            back.setOnClickListener(View.OnClickListener {
+            wv_back.setOnClickListener(View.OnClickListener {
                 onBackPressed()
             })
             tv_UpdateAadhar.setOnClickListener(View.OnClickListener {

@@ -1,255 +1,474 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".actvities.BikeViewDetailsActivity"
-    android:orientation="vertical">
-
+    android:orientation="vertical"
+    tools:context=".actvities.BikeViewDetailsActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:padding="@dimen/_10sdp">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
-            android:id="@+id/ll_back"
-            android:layout_width="72dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:layout_gravity="center|left"
-            android:orientation="horizontal"
-            >
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_2sdp"
+            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="24dp"
+            <LinearLayout
+                android:id="@+id/ll_back"
+                android:layout_width="72dp"
                 android:layout_height="24dp"
-                android:src="@drawable/backarrow_ic"
-                app:tint="@color/primary_text" />
+                android:layout_gravity="center|start"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/backarrow_ic"
+                    app:tint="@color/primary_text" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|center_horizontal"
+                    android:text="Back"
+                    android:textColor="@color/primary_text"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:backgroundTint="@color/stroke"
+                app:cardCornerRadius="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/viewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_margin="@dimen/_5sdp" />
+
+                    <LinearLayout
+                        android:id="@+id/dotsLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:orientation="horizontal" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/jet_jitendr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:gravity="center_vertical"
+                android:text="Jet-Jitendra"
+                android:textAppearance="@style/jet_jitendr"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_6sdp"
+                android:padding="@dimen/_10sdp"
+                android:weightSum="3"
+
+                >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="42dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/range"
+                        android:layout_width="match_parent"
+                        android:layout_height="19dp"
+                        android:gravity="start|top"
+                        android:text="Range" />
+
+                    <TextView
+                        android:id="@+id/km"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top"
+                        android:text="110 km"
+                        android:textColor="@color/primary_text"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="0dp"
+                    android:layout_height="42dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="19dp"
+                        android:gravity="left|top"
+                        android:text="Speed" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top"
+                        android:text="25 km/h"
+                        android:textColor="@color/primary_text"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="0dp"
+                    android:layout_height="42dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="19dp"
+                        android:gravity="left|top"
+                        android:text="Battery Type" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top"
+                        android:text="110 km"
+                        android:textColor="@color/primary_text"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/starting_at"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center|start"
+                android:padding="@dimen/_5sdp"
+                android:text="Starting at ₹99/hour"
+                android:textAppearance="@style/starting_at"
+                android:textSize="24sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@color/stroke_lite" />
+
+            <TextView
+                android:id="@+id/tv_Note"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Note: Helmet is not Provided"
+                android:textColor="@color/red"
+                android:textSize="16sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center|center_horizontal"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Free Roadside Assistance"
                 android:textColor="@color/primary_text"
-                android:textSize="16sp"
-                android:text="Back"/>
-
-        </LinearLayout>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_25sdp"
-            android:backgroundTint="@color/stroke"
-            app:cardCornerRadius="20dp">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="vertical">
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewPager"
-                android:layout_margin="@dimen/_5sdp"
-                android:layout_width="match_parent"
-                android:layout_height="180dp" />
-
-            <LinearLayout
-                android:id="@+id/dotsLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:layout_marginBottom="@dimen/_10sdp"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:id="@+id/jet_jitendr"
-            android:layout_width="361dp"
-            android:layout_height="24dp"
-            android:textStyle="bold"
-            android:text="Jet-Jitendra"
-            android:layout_marginBottom="@dimen/_15sdp"
-            android:textAppearance="@style/jet_jitendr"
-            android:gravity="center_vertical"
-            />
-
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="361dp"
-            android:layout_height="42dp"
-            android:layout_marginBottom="@dimen/_16sdp"
-            android:weightSum="3"
-
-            >
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="0dp"
-                android:layout_height="42dp"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                >
-                <TextView
-                    android:id="@+id/range"
-                    android:layout_width="match_parent"
-                    android:layout_height="19dp"
-                    android:text="Range"
-                    android:gravity="left|top"
-                    />
-                <TextView
-                    android:id="@+id/km"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="110 km"
-                    android:gravity="top"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/primary_text"
-                    />
-            </LinearLayout>
-
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="0dp"
-                android:layout_height="42dp"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                >
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="19dp"
-                    android:text="Speed"
-                    android:gravity="left|top"
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="25 km/h"
-                    android:gravity="top"
-                    android:textStyle="bold"
-                    android:textColor="@color/primary_text"
-                    android:textSize="16sp"
-                    />
-            </LinearLayout>
-
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="0dp"
-                android:layout_height="42dp"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                >
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="19dp"
-                    android:text="Battery Type"
-                    android:gravity="left|top"
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="110 km"
-                    android:gravity="top"
-                    android:textStyle="bold"
-                    android:textColor="@color/primary_text"
-                    android:textSize="16sp"
-                    />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/starting_at"
-            android:layout_width="361dp"
-            android:layout_height="wrap_content"
-            android:text="Starting at ₹99/hour"
-            android:textSize="@dimen/_10sdp"
-            android:textAppearance="@style/starting_at"
-            android:gravity="center|start"
-            />
-
-
-
-
-
-        <LinearLayout
-            android:id="@+id/ll_view_details"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="15dp"
-            android:padding="@dimen/_5sdp"
-            android:background="@drawable/button_bg"
-            android:gravity="center_vertical">
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:gravity="center"
-                android:background="@drawable/swipe_icon_bg">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="-8dp"
-                    android:src="@drawable/right_arrow_2"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="-10dp"
-                    android:src="@drawable/right_arrow_1"/>
-
-
-            </LinearLayout>
-            <TextView
-                android:id="@+id/btn_buyNow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/wallet_bg"
-                android:gravity="center"
-                android:layout_marginEnd="10dp"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:text="View Details"
                 android:textSize="18sp" />
-            <ImageView
+
+            <TextView
+                android:id="@+id/tv_date_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/right_arrow_3"/>
-            <ImageView
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:fontFamily="sans-serif"
+                android:text="Free RSA between 10:30 AM to 06:30PM and 7 Days a week"
+                android:textColor="@color/secondary_text"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_3sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:background="@color/stroke_lite" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="-8dp"
-                android:src="@drawable/right_arrow_2"/>
-            <ImageView
-                android:layout_width="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Other Features"
+                android:textColor="@color/primary_text"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="-10dp"
-                android:src="@drawable/right_arrow_1"/>
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start|center"
+                    android:text="Battery Type:"
+                    android:textColor="@color/icons"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_Battery_Type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center|start"
+                    android:text="Single"
+                    android:textColor="@color/primary_text"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start|center"
+                    android:text="No.of Chargers:"
+                    android:textColor="@color/icons"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_charger_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center|start"
+                    android:text="1"
+                    android:textColor="@color/primary_text"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start|center"
+                    android:text="Speed:"
+                    android:textColor="@color/icons"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_speed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center|start"
+                    android:text="Up to 25 kph"
+                    android:textColor="@color/primary_text"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start|center"
+                    android:text="Milage:"
+                    android:textColor="@color/icons"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_Milage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center|start"
+                    android:text="Up to 110 km ( full Charge )"
+                    android:textColor="@color/primary_text"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+ <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start|center"
+                    android:text="Drivers License:"
+                    android:textColor="@color/icons"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_driver_license"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center|start"
+                    android:text="Not Required"
+                    android:textColor="@color/primary_text"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout><LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start|center"
+                    android:text="Load Capacity:"
+                    android:textColor="@color/icons"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_Capacity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center|start"
+                    android:text="Up to 160 kgs\n( Including the rider )"
+                    android:textColor="@color/primary_text"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_3sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@color/stroke_lite" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Description"
+                android:textColor="@color/primary_text"
+                android:textSize="18sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:fontFamily="sans-serif"
+                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text"
+                android:textColor="@color/primary_text"
+                android:textSize="16sp" />
         </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bottom_menu_bg"
+        android:gravity="center"
+        android:layout_margin="2dp"
+        android:backgroundTint="@color/white"
+        android:elevation="@dimen/_10sdp"
+        android:orientation="vertical"
+        android:padding="10dp">
 
-
-
-
-
-
-
-
-
-</LinearLayout>
+        <Button
+            android:id="@+id/btn_continue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/button_bg"
+            android:layout_marginTop="15dp"
+            android:padding="10dp"
+            android:text="Swipe to Continue"
+            android:textAllCaps="false"
+            android:gravity="center"
+            android:textStyle="normal|bold"/>
+    </LinearLayout>
+</RelativeLayout>
 
 
 

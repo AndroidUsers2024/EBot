@@ -1,22 +1,35 @@
 package com.example.ebot.fragments
 
+import android.Manifest
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.ColorStateList
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.provider.Settings
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.example.ebot.R
 import com.example.ebot.actvities.AboutUS
 import com.example.ebot.actvities.ContactUS
 import com.example.ebot.actvities.EnquiryForm
 import com.example.ebot.actvities.FAQ
+import com.example.ebot.actvities.KYCDetailsView
 import com.example.ebot.actvities.LoginActivity
 import com.example.ebot.actvities.MainActivity
 import com.example.ebot.actvities.PersonalInformation
@@ -24,6 +37,9 @@ import com.example.ebot.actvities.PrivacyPolicy
 import com.example.ebot.actvities.TermsAndConditions
 import com.example.ebot.actvities.ViewBankDetails
 import com.example.ebot.common.Utils
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.imageview.ShapeableImageView
+import java.io.File
 
 
 class ProfileFragment : Fragment(),View.OnClickListener {
@@ -41,6 +57,12 @@ class ProfileFragment : Fragment(),View.OnClickListener {
     private lateinit var ll_KYCDetail: LinearLayout
     private var isNotificationNo = false
     private lateinit var openDialog: ProgressDialog
+    private lateinit var img_profile: ShapeableImageView
+    private lateinit var wv_camera: ImageButton
+    private lateinit var cameraBottomSheet: BottomSheetDialog
+    private val PERMISSION_REQUEST_CODE: Int = 201
+    private var profilePicPath: String? = ""
+    private  var tempPhotoPath: String?=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +94,10 @@ class ProfileFragment : Fragment(),View.OnClickListener {
             ll_BankAcounts = view.findViewById(R.id.ll_BankAcounts)
             ll_KYCDetail = view.findViewById(R.id.ll_KYCDetail)
             btn_logout = view.findViewById(R.id.btn_logout)
+            img_profile =view. findViewById(R.id.img_profile)
+            wv_camera = view.findViewById(R.id.wv_camera)
 
+            wv_camera.setOnClickListener(this)
             btn_personal.setOnClickListener(this)
             btn_kyc.setOnClickListener(this)
             btn_bank.setOnClickListener(this)
@@ -96,6 +121,10 @@ class ProfileFragment : Fragment(),View.OnClickListener {
     override fun onClick(v: View?) {
         when (v!!.id) {
 
+            R.id.wv_camera -> {
+               showImageSource()
+
+            }
             R.id.btn_personal -> {
                 val intent = Intent(requireContext(), PersonalInformation::class.java)
                 startActivity(intent)
@@ -103,8 +132,8 @@ class ProfileFragment : Fragment(),View.OnClickListener {
             }
 
             R.id.btn_kyc -> {
-                /*val intent = Intent(requireContext(), KYCDetailsView::class.java)
-                startActivity(intent)*/
+                val intent = Intent(requireContext(), KYCDetailsView::class.java)
+                startActivity(intent)
             }
 
             R.id.btn_bank -> {
@@ -157,8 +186,8 @@ class ProfileFragment : Fragment(),View.OnClickListener {
             }
 
             R.id.ll_KYCDetail -> {
-               /* val intent = Intent(requireContext(), KYCDetailsView::class.java)
-                startActivity(intent)*/
+                val intent = Intent(requireContext(), KYCDetailsView::class.java)
+                startActivity(intent)
 
             }
 
@@ -174,6 +203,30 @@ class ProfileFragment : Fragment(),View.OnClickListener {
 
         }
     }
+    private fun showImageSource(){
+        try{
+            cameraBottomSheet = BottomSheetDialog(requireContext(),R.style.BottomSheetTheme)
+            val view:View= LayoutInflater.from(requireContext()).inflate(R.layout.choose_profile_popup,null,false )
+            val close: ShapeableImageView =view.findViewById(R.id.close)
+            val btn_openCamara: Button =view.findViewById(R.id.btn_openCamara)
+            val btn_chooseLibrary:Button=view.findViewById(R.id.btn_chooseLibrary)
+            close.setOnClickListener(View.OnClickListener {
+                cameraBottomSheet.dismiss()
+            })
+            btn_chooseLibrary.setOnClickListener(View.OnClickListener {
+                openGallery()
+            })
+            btn_openCamara.setOnClickListener(View.OnClickListener {
+                openCamera()
+            })
+            cameraBottomSheet.setContentView(view)
+            cameraBottomSheet.show()
+            cameraBottomSheet.setCancelable(false)
+        }catch (e:Exception){
+            Log.e("profile.showImageSource()",e.message.toString())
+        }
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -192,5 +245,171 @@ class ProfileFragment : Fragment(),View.OnClickListener {
                     }
                 }
             })
+    }
+
+    private fun openCamera() {
+        if (checkStoragePermissions()){
+            val photoFile = Utils.createImageFile("Profile", requireContext())
+            val photoUri =
+                FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.fileprovider", photoFile)
+            tempPhotoPath = photoFile.absolutePath
+            val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+            startActivityForResult(cameraIntent, Utils.REQUEST_CODE_CAMERA)
+        }
+    }
+
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, Utils.REQUEST_CODE_GALLERY)
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (cameraBottomSheet.isShowing){
+            cameraBottomSheet.dismiss()
+
+        }
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                Utils.REQUEST_CODE_CAMERA -> {
+                    val file = File(tempPhotoPath)
+                    val bitmap =
+                        Utils.getBitmapFromUri(requireContext().contentResolver, Uri.fromFile(file))
+                    profilePicPath = Utils.saveImage(
+                        "IMG_Profile",
+                        bitmap!!,
+                        false,
+                        requireContext()
+                    )
+                    val temp= tempPhotoPath?.let { File(it) }
+                    if(temp!=null&&temp.exists()){
+                        temp.delete()
+                    }
+                    img_profile.setImageBitmap(bitmap)
+                }
+
+                Utils.REQUEST_CODE_GALLERY -> {
+                    val selectedImageUri: Uri? = data?.data
+                    val bitmap =Utils. getBitmapFromUri(requireContext().contentResolver, selectedImageUri!!) as Bitmap
+                    profilePicPath = Utils.saveImage(
+                        "IMG_Profile",
+                        bitmap!!,
+                        false,
+                        requireContext()
+                    ) // Save in external storage
+                    val temp= tempPhotoPath?.let { File(it) }
+                    if(temp!=null&&temp.exists()){
+                        temp.delete()
+                    }
+                    img_profile.setImageBitmap(bitmap)
+
+                }
+            }
+
+
+        }
+
+
+    }
+
+    fun checkStoragePermissions(): Boolean {
+        /* val writePermission =
+             ContextCompat.checkSelfPermission(
+                 requireContext(),
+                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+             )
+         val readPermission =
+             ContextCompat.checkSelfPermission(
+                 requireContext(),
+                 android.Manifest.permission.READ_EXTERNAL_STORAGE
+             )*/
+        val cameraPermission =
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                android.Manifest.permission.CAMERA
+            )
+
+        val listPermissionsNeeded = mutableListOf<String>()
+
+        /*if (writePermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        }
+
+        if (readPermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
+        if (readPermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+        }*/
+        if (cameraPermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(android.Manifest.permission.CAMERA)
+        }
+
+        if (listPermissionsNeeded.isNotEmpty()) {
+            ActivityCompat.requestPermissions(
+                requireContext() as Activity,
+                listPermissionsNeeded.toTypedArray(),
+                PERMISSION_REQUEST_CODE
+            )
+            return false
+        }
+
+        return true
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            var allPermissionsGranted = true
+
+            // Check if all permissions were granted
+            for (result in grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    allPermissionsGranted = false
+                    break
+                }
+            }
+
+            if (allPermissionsGranted) {
+                Toast.makeText(requireContext(), "Permissions Granted", Toast.LENGTH_SHORT).show()
+                //  selectImageSource()
+                openCamera()
+            } else {
+                Toast.makeText(requireContext(), "Permissions Denied", Toast.LENGTH_SHORT).show()
+
+                if (/*ActivityCompat.shouldShowRequestPermissionRationale(
+                        requireContext(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    ) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale(
+                        requireContext(),
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    ) ||*/
+                    ActivityCompat.shouldShowRequestPermissionRationale(
+                        requireContext() as Activity,
+                        Manifest.permission.CAMERA
+                    )
+                ) {
+                    Toast.makeText(requireContext(), "Please grant permissions to proceed", Toast.LENGTH_SHORT)
+                        .show()
+                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                    val uri = Uri.fromParts("package", requireContext().packageName, null)
+                    intent.data = uri
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Permissions denied. Go to Settings to enable them.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
     }
 }

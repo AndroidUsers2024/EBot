@@ -1,55 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="5dp"
-    android:radius="10dp"
-    android:elevation="4dp"
     android:id="@+id/cardview"
-    app:cardCornerRadius="15dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:layout_height="wrap_content">
+    android:layout_marginTop="5dp"
+    android:elevation="4dp"
+    android:radius="10dp"
+    app:cardCornerRadius="15dp">
+
     <LinearLayout
+        android:id="@+id/ll_mainLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/ll_mainLayout"
-        android:background="@drawable/cardview_bg">
+        android:background="@color/stroke_lite"
+        android:orientation="vertical">
+
         <LinearLayout
+            android:id="@+id/ll_headLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="5dp"
             android:layout_margin="@dimen/_10sdp"
             android:gravity="center|start"
-            android:id="@+id/ll_headLayout">
+            android:orientation="vertical"
+            android:padding="5dp">
+
             <TextView
+                android:id="@+id/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="18sp"
                 android:layout_marginTop="3dp"
+                android:fontFamily="@font/inter_font"
                 android:paddingStart="6dp"
                 android:paddingEnd="5dp"
-                android:textColor="@color/primary_text"
                 android:text="Jet-Jitendra"
-                android:fontFamily="@font/inter_font"
-                android:id="@+id/tv_title"/>
+                android:textColor="@color/primary_text"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
             <TextView
+                android:id="@+id/tv_subTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="14sp"
                 android:layout_marginTop="3dp"
+                android:fontFamily="@font/inter_font"
                 android:paddingStart="6dp"
                 android:paddingEnd="5dp"
-                android:textColor="@color/secondary"
                 android:text="Starting at ₹120/hour "
-                android:fontFamily="@font/inter_font"
-                android:id="@+id/tv_subTitle"/>
+                android:textColor="@color/secondary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
         </LinearLayout>
-
-
 
 
         <ImageView
@@ -58,94 +60,87 @@
             android:layout_height="133dp"
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:background="@drawable/bike1"
-            />
+            android:background="@drawable/bike1" />
 
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="297dp"
             android:layout_height="42dp"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="48dp"
             android:layout_alignParentTop="true"
+            android:layout_marginLeft="48dp"
             android:weightSum="3"
 
             >
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="0dp"
                 android:layout_height="42dp"
-                android:orientation="vertical"
                 android:layout_weight="1"
-                >
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/range"
                     android:layout_width="match_parent"
                     android:layout_height="19dp"
-                    android:text="Range"
-                    android:gravity="left|top"
                     android:fontFamily="@font/inter_font"
-                    />
+                    android:gravity="left|top"
+                    android:text="Range" />
+
                 <TextView
                     android:id="@+id/km"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="110 km"
-                    android:gravity="top"
-                    android:textSize="16sp"
-                    android:textColor="@color/primary_text"
                     android:fontFamily="@font/inter_font"
-                    />
+                    android:gravity="top"
+                    android:text="110 km"
+                    android:textColor="@color/primary_text"
+                    android:textSize="16sp" />
             </LinearLayout>
 
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="0dp"
                 android:layout_height="42dp"
-                android:orientation="vertical"
                 android:layout_weight="1"
-                >
+                android:orientation="vertical">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="19dp"
-                    android:text="Speed"
-                    android:gravity="left|top"
                     android:fontFamily="@font/inter_font"
-                    />
+                    android:gravity="left|top"
+                    android:text="Speed" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_font"
+                    android:gravity="top"
                     android:text="25 km/h"
-                    android:gravity="top"
                     android:textColor="@color/primary_text"
-                    android:fontFamily="@font/inter_font"
-                    android:textSize="16sp"
-                    />
+                    android:textSize="16sp" />
             </LinearLayout>
 
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="0dp"
                 android:layout_height="42dp"
-                android:orientation="vertical"
                 android:layout_weight="1"
-                >
+                android:orientation="vertical">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="19dp"
-                    android:text="Battery Type"
-                    android:gravity="left|top"
                     android:fontFamily="@font/inter_font"
-                    />
+                    android:gravity="left|top"
+                    android:text="Battery Type" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="110 km"
-                    android:gravity="top"
-                    android:textColor="@color/primary_text"
                     android:fontFamily="@font/inter_font"
-                    android:textSize="16sp"
-                    />
+                    android:gravity="top"
+                    android:text="110 km"
+                    android:textColor="@color/primary_text"
+                    android:textSize="16sp" />
             </LinearLayout>
 
 
@@ -155,38 +150,42 @@
             android:id="@+id/ll_view_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
             android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="15dp"
             android:background="@drawable/button_bg"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/btn_buyNow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
                 android:background="@drawable/wallet_bg"
                 android:gravity="center"
-                android:layout_marginEnd="10dp"
+                android:text="View Details"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
-                android:text="View Details"
                 android:textSize="18sp" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/right_arrow_3"/>
+                android:src="@drawable/right_arrow_3" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="-8dp"
-                android:src="@drawable/right_arrow_2"/>
+                android:src="@drawable/right_arrow_2" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="-10dp"
-                android:src="@drawable/right_arrow_1"/>
+                android:src="@drawable/right_arrow_1" />
 
 
         </LinearLayout>

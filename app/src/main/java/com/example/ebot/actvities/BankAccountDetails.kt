@@ -1,6 +1,7 @@
 package com.example.ebot.actvities
 
 import android.app.ProgressDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -78,6 +79,12 @@ class BankAccountDetails : AppCompatActivity() {
 
             btn_submit.setOnClickListener(View.OnClickListener {
                 val alerts = isEmpty()
+                val intent = Intent()
+                intent.setClass(this, KYCVerificationScreen::class.java)
+                // intent.setClass(this, MainActivity::class.java)
+                intent.putExtra("screen", "KYC")
+                startActivity(intent)
+                finish()
                /* if (alerts.isEmpty()) {
                     //set userId here
 

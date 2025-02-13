@@ -22,6 +22,9 @@
             android:name=".actvities.KYCDetailsView"
             android:exported="false" />
         <activity
+            android:name=".SeekBarTestActivity"
+            android:exported="false" />
+        <activity
             android:name=".actvities.BikeViewDetailsActivity"
             android:exported="false" />
         <activity

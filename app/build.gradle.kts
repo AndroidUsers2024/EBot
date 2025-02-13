@@ -48,6 +48,7 @@ android {
 }
 
 dependencies {
+//    implementation(libs.androidx.activity)
     //implementation(libs.androidx.activity)
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
@@ -80,7 +81,7 @@ dependencies {
     implementation("com.intuit.sdp:sdp-android:1.0.6")
     implementation ("androidx.cardview:cardview:1.0.0")
     implementation ("androidx.viewpager2:viewpager2:1.0.0")
-    implementation (libs.datepickertimeline)
+//    implementation (libs.datepickertimeline)
 
 
 

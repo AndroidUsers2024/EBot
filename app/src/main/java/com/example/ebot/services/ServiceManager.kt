@@ -1,0 +1,237 @@
+package com.example.ebot.services
+
+import com.example.ebot.models.*
+import com.google.gson.GsonBuilder
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.RequestBody
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Callback
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
+
+class ServiceManager {
+    val ROOT_URL = "http://ritps.com/ebot/"
+
+    companion object {
+        private var dataManager: ServiceManager? = null
+        const val  ROOT_URL_SUB = "api/"
+        const val SUB_ROOT_URL = ""
+        @JvmStatic
+        fun getDataManager(): ServiceManager {
+            if (dataManager == null) {
+                dataManager = ServiceManager()
+            }
+            return dataManager as ServiceManager
+        }
+    }
+
+    private val retrofit: Retrofit
+
+    init {
+        val logging = HttpLoggingInterceptor()
+        logging.level = HttpLoggingInterceptor.Level.BODY
+
+        val httpClient = OkHttpClient.Builder()
+        httpClient.callTimeout(5, TimeUnit.MINUTES)
+        httpClient.readTimeout(5, TimeUnit.MINUTES)
+        httpClient.addInterceptor(logging)
+        val gson = GsonBuilder()
+            .setLenient()
+            .create()
+
+        retrofit = Retrofit.Builder().baseUrl(ROOT_URL)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .client(httpClient.build())
+            .build()
+    }
+
+    fun getAbout(cb: Callback<MainResponse>){
+        val apiService = retrofit.create(APIInterface::class.java)
+        val call = apiService.about()
+        call.enqueue(cb)
+    }
+
+    fun getPrivacy(cb: Callback<MainResponse>) {
+
+        val apiService = retrofit.create(APIInterface::class.java)
+        val call = apiService.privacy()
+        call.enqueue(cb)
+    }
+    fun getTerms(cb: Callback<MainResponse>) {
+
+        val apiService = retrofit.create(APIInterface::class.java)
+        val call = apiService.terms()
+        call.enqueue(cb)
+    }
+
+
+    fun getContact(cb: Callback<MainResponse>) {
+
+        val apiService = retrofit.create(APIInterface::class.java)
+        val call = apiService.contact()
+        call.enqueue(cb)
+    }
+
+    fun getPackages(cb: Callback<MainResponse>) {
+        val apiService = retrofit.create(APIInterface::class.java)
+        val call = apiService.packages()
+        call.enqueue(cb)
+    }
+    fun faqs(cb: Callback<FAQsMainResponse>,id: Int) {
+
+        val apiService = retrofit.create(APIInterface::class.java)
+        val call = apiService.faqs(id)
+        call.enqueue(cb)
+    }
+
+    fun submitEnquiryForm(cb: Callback<MainResponse>,data:SubmitEnquiry){
+        val apiService = retrofit.create(APIInterface::class.java)
+        val call = apiService.submitEnquiry(data)
+        call.enqueue(cb)
+    }
+    fun verifyOTP(cb: Callback<MainResponse>,otp:String,userId:String){
+        val apiService = retrofit.create(APIInterface::class.java)
+        val call = apiService.verifyOTP(otp,userId)
+        call.enqueue(cb)
+    }
+
+    fun loginUser(cb: Callback<LoginResponse>,loginRequest:String){
+        val apiService = retrofit.create(APIInterface::class.java)
+        val call = apiService.loginUser(loginRequest)
+        call.enqueue(cb)
+    }
+    fun registerUser(cb: Callback<RegisterResponse>,loginRequest:String){
+        val apiService = retrofit.create(APIInterface::class.java)
+        val call = apiService.registerUser(loginRequest)
+        call.enqueue(cb)
+    }
+    fun submitUpateProfile(cb: Callback<MainResponse>,data: UpdateProfile){
+        val apiService = retrofit.create(APIInterface::class.java)
+        val call = apiService.submitUpdateProfile(data)
+        call.enqueue(cb)
+    }
+    fun submitUpateProfileRefer(cb: Callback<MainResponse>,data: UpdateProfile){
+        val apiService = retrofit.create(APIInterface::class.java)
+        val call = apiService.submitUpdateProfileRefer(data)
+        call.enqueue(cb)
+    }
+
+    fun fetchProfile(cb: Callback<MainResponse>, data: UserIdFeildJson) {
+        val apiService = retrofit.create(APIInterface::class.java)
+        val call = apiService.fetchProfile(data)
+        call.enqueue(cb)
+    }
+    fun getMyTeam(cb: Callback<MainResponse>,refer_code:String){
+        val userId=UserIdFeildJson(refer_code = refer_code)
+
+        val apiService = retrofit.create(APIInterface::class.java)
+        val call = apiService.getMyTeam(userId)
+        call.enqueue(cb)
+    }
+    fun fetchBankDetails(cb: Callback<MainResponse>, userId: String){
+        val api=retrofit.create(APIInterface::class.java)
+        val call=api.getBankDetails(userId)
+        call.enqueue(cb)
+    }
+
+    fun updateBankDetails(cb: Callback<MainResponse>, bankDetails: BankDetails){
+        val apiService=retrofit.create(APIInterface::class.java)
+        val call =apiService.updateBankDetails(bankDetails)
+        call.enqueue(cb)
+    }
+    fun saveBankDetails(cb: Callback<SaveBankDetailsResponse>, bankDetails: SaveBankDetails){
+        val apiService=retrofit.create(APIInterface::class.java)
+        val call =apiService.saveBankDetails(bankDetails.user_id.toString(),bankDetails.account_number.toString(),bankDetails.bank_name.toString(),bankDetails.ifsc_code,bankDetails.account_type.toString())
+        call.enqueue(cb)
+    }
+    fun removeBankDetails(cb: Callback<MainResponse>, id: Int){
+        val apiService=retrofit.create(APIInterface::class.java)
+        val call =apiService.removeBankDetails(id)
+        call.enqueue(cb)
+    }
+    fun saveNEFT(cb: Callback<MainResponse>, userId: RequestBody, amount:RequestBody, transaction_utr:RequestBody, imageFile: MultipartBody.Part){
+        val apiService=retrofit.create(APIInterface::class.java)
+        val call =apiService.saveNEFT(userId,amount,transaction_utr,imageFile)
+        call.enqueue(cb)
+    }
+
+    fun withdraw(cb: Callback<MainResponse>, withdraw: Withdraw){
+        val apiService=retrofit.create(APIInterface::class.java)
+        val call =apiService.withdraw(withdraw)
+        call.enqueue(cb)
+    }
+
+    fun addKYC(
+        cb: Callback<MainResponse>, user_id: RequestBody, aadhar_number: RequestBody, pan_number: RequestBody,
+        aadhar_front: MultipartBody.Part?,
+        aadhar_back: MultipartBody.Part?,
+        pan_image: MultipartBody.Part?
+    ) {
+        val apiService = retrofit.create(APIInterface::class.java)
+        val call = apiService.addKYC(user_id, aadhar_number, pan_number, aadhar_front,aadhar_back,pan_image)
+        call.enqueue(cb)
+    }
+
+    fun updateProfileImage(cb:Callback<MainResponse>,user_id: RequestBody,profile_image: MultipartBody.Part){
+        val apiService=retrofit.create(APIInterface::class.java)
+        val call=apiService.updateProfileImage(user_id,profile_image)
+        call.enqueue(cb)
+    }
+
+    fun packageBuyNow(cb:Callback<MainResponse>,requestBody: PackageBuyNow){
+        val apiService=retrofit.create(APIInterface::class.java)
+        val call=apiService.packageBuyNow(requestBody)
+        call.enqueue(cb)
+    }
+    fun getWalletAmount(cb:Callback<MainResponse>,user_id:String){
+        val userId=UserIdFeildJson(user_id)
+        val apiService=retrofit.create(APIInterface::class.java)
+        val call=apiService.getWalletAmount(userId)
+        call.enqueue(cb)
+    }
+
+    fun getProfileList(cb:Callback<MainResponse>,user_id:String){
+        val userId=UserIdFeildJson(user_id)
+        val apiService=retrofit.create(APIInterface::class.java)
+        val call=apiService.getProfileList(userId)
+        call.enqueue(cb)
+    }
+    fun getKYCDetails(cb:Callback<FetchedKYCResponse>, user_id:String){
+        val userId=UserIdFeildJson(user_id)
+        val apiService=retrofit.create(APIInterface::class.java)
+        val call=apiService.getKYCDetails(userId)
+        call.enqueue(cb)
+    }
+
+    fun getWalletWithdrawList(cb:Callback<MainResponse>,user_id:String){
+        val userId=UserIdFeildJson(user_id)
+        val apiService=retrofit.create(APIInterface::class.java)
+        val call=apiService.getWalletWithdrawList(userId)
+        call.enqueue(cb)
+    }
+    fun getWalletNEFTList(cb:Callback<MainResponse>,user_id:String){
+        val userId=UserIdFeildJson(user_id)
+        val apiService=retrofit.create(APIInterface::class.java)
+        val call=apiService.getWalletNEFTList(userId)
+        call.enqueue(cb)
+    }
+
+    fun getPurchaseHistory(cb:Callback<MainResponse>,user_id:String){
+        val userId=UserIdFeildJson(user_id)
+        val apiService=retrofit.create(APIInterface::class.java)
+        val call=apiService.getPurchaseHistory(userId)
+        call.enqueue(cb)
+    }
+
+    fun getTransactionHistory(cb:Callback<MainResponse>,user_id:String){
+        val userId=UserIdFeildJson(user_id)
+        val apiService=retrofit.create(APIInterface::class.java)
+        val call=apiService.getTransactionHistory(userId)
+        call.enqueue(cb)
+    }
+
+
+
+}

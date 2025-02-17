@@ -27,23 +27,25 @@ class SeekBarTestActivity : AppCompatActivity() {
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 // Show the progress as a Toast
-                Toast.makeText(applicationContext, "Seekbar progress: $progress", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(applicationContext, "Seekbar progress: $progress", Toast.LENGTH_SHORT).show()
 
                 // If progress reaches the total value, hide the SeekBar and show the circle
                 if (progress == YOUR_TOTAL_PROGRESS) {
                     seekBar?.visibility = View.GONE
-//                    circle.visibility = View.VISIBLE
+                    
+                    //code for next process
+                    
                 }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
                 // Toast when the user starts touching the SeekBar
-                Toast.makeText(applicationContext, "Seekbar touch started!", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(applicationContext, "Seekbar touch started!", Toast.LENGTH_SHORT).show()
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
                 // Toast when the user stops touching the SeekBar
-                Toast.makeText(applicationContext, "Seekbar touch stopped!", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(applicationContext, "Seekbar touch stopped!", Toast.LENGTH_SHORT).show()
 
                 // If the SeekBar's progress is less than the total, reset it to 0
                 if (seekBar?.progress ?: 0 < YOUR_TOTAL_PROGRESS) {

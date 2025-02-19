@@ -80,7 +80,7 @@
                         />
 
                     <TextView
-                        android:id="@+id/ecr_road_pe"
+                        android:id="@+id/tv_home_address"
                         android:layout_width="267dp"
                         android:layout_height="21dp"
                         android:layout_weight="1"
@@ -136,9 +136,9 @@
                             android:layout_height="wrap_content"
                             android:text="Your available balance"
                             android:textColor="@color/white"
-                            android:textSize="14sp"
-                            />
+                            android:textSize="14sp" />
                         <TextView
+                            android:id="@+id/tv_available_bal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="₹ 200.00"
@@ -186,7 +186,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/tv_package_view"
+                            android:id="@+id/tv_vehicles_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
@@ -213,7 +213,7 @@
                     android:visibility="gone" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rc_packages"
+                    android:id="@+id/rc_vehicles"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"

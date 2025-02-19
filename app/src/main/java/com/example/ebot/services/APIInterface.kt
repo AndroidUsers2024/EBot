@@ -19,22 +19,22 @@ import retrofit2.http.Query
 interface APIInterface {
 
 
-    @GET(ROOT_URL_SUB+"v1/about")/*{"mobile":""}*/
-    fun about(): Call<MainResponse>
+    @GET(ROOT_URL_SUB+"aboutus")/*{"mobile":""}*/
+    fun about(): Call<CMS>
 
-    @GET(ROOT_URL_SUB+"v1/privacy")/*{"mobile":""}*/
-    fun privacy(): Call<MainResponse>
+    @GET(ROOT_URL_SUB+"privacy_policy")/*{"mobile":""}*/
+    fun privacy(): Call<CMS>
 
-    @GET(ROOT_URL_SUB+"v1/terms")/*{"mobile":""}*/
-    fun terms(): Call<MainResponse>
+    @GET(ROOT_URL_SUB+"terms_conditions")/*{"mobile":""}*/
+    fun terms(): Call<CMS>
 
-    @GET(ROOT_URL_SUB+"ApiContactController/contact")/*{"mobile":""}*/
-    fun contact(): Call<MainResponse>
+    @GET(ROOT_URL_SUB+"contactus")/*{"mobile":""}*/
+    fun contact(): Call<Contact>
 
-    @GET(ROOT_URL_SUB+"v1/faq/list")/*{"mobile":""}*/
-    fun faqs(@Query("id") id:Int): Call<FAQsMainResponse>
+    @GET(ROOT_URL_SUB+"faq")/*{"mobile":""}*/
+    fun faqs(): Call<List<Faqs>>
 
-    @POST(ROOT_URL_SUB+"ApiEnquiryController/submit_enquiry")
+    @POST(ROOT_URL_SUB+"enquiry")
     fun submitEnquiry(@Body request: SubmitEnquiry): Call<MainResponse>
 
     @FormUrlEncoded
@@ -52,8 +52,8 @@ interface APIInterface {
     fun getMyTeam(@Body request: UserIdFeildJson): Call<MainResponse>
 
 
-    @POST(ROOT_URL_SUB+"ApiPackagesController/packages_list")/*{"mobile":""}*/
-    fun packages(): Call<MainResponse>
+    @POST(ROOT_URL_SUB+"vehicle")/*{"mobile":""}*/
+    fun getVehicles(): Call<List<Vehicle>>
 
     @POST(ROOT_URL_SUB+"v1/profile/update")
     fun submitUpdateProfile(@Body request: UpdateProfile): Call<MainResponse>

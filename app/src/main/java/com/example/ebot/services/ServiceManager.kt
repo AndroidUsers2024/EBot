@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 class ServiceManager {
-    val ROOT_URL = "http://ritps.com/ebot/"
+    val ROOT_URL = "https://ritps.com/ebot/"
 
     companion object {
         private var dataManager: ServiceManager? = null
@@ -47,19 +47,19 @@ class ServiceManager {
             .build()
     }
 
-    fun getAbout(cb: Callback<MainResponse>){
+    fun getAbout(cb: Callback<CMS>){
         val apiService = retrofit.create(APIInterface::class.java)
         val call = apiService.about()
         call.enqueue(cb)
     }
 
-    fun getPrivacy(cb: Callback<MainResponse>) {
+    fun getPrivacy(cb: Callback<CMS>) {
 
         val apiService = retrofit.create(APIInterface::class.java)
         val call = apiService.privacy()
         call.enqueue(cb)
     }
-    fun getTerms(cb: Callback<MainResponse>) {
+    fun getTerms(cb: Callback<CMS>) {
 
         val apiService = retrofit.create(APIInterface::class.java)
         val call = apiService.terms()
@@ -67,22 +67,22 @@ class ServiceManager {
     }
 
 
-    fun getContact(cb: Callback<MainResponse>) {
+    fun getContact(cb: Callback<Contact>) {
 
         val apiService = retrofit.create(APIInterface::class.java)
         val call = apiService.contact()
         call.enqueue(cb)
     }
 
-    fun getPackages(cb: Callback<MainResponse>) {
+    fun getVehicles(cb: Callback<List<Vehicle>>) {
         val apiService = retrofit.create(APIInterface::class.java)
-        val call = apiService.packages()
+        val call = apiService.getVehicles()
         call.enqueue(cb)
     }
-    fun faqs(cb: Callback<FAQsMainResponse>,id: Int) {
+    fun faqs(cb: Callback<List<Faqs>>) {
 
         val apiService = retrofit.create(APIInterface::class.java)
-        val call = apiService.faqs(id)
+        val call = apiService.faqs()
         call.enqueue(cb)
     }
 

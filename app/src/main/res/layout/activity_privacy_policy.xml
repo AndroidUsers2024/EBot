@@ -51,12 +51,12 @@
         android:layout_marginTop="@dimen/_5sdp"
         android:orientation="vertical">
 
-        <View
+        <ImageView
+            android:id="@+id/iv_privacy"
             android:layout_width="180dp"
             android:layout_height="180dp"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/privacy_policy_img"/>
+            android:layout_marginTop="10dp"/>
         <View
             android:layout_width="190dp"
             android:layout_height="50dp"

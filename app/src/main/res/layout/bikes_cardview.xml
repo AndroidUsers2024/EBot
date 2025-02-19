@@ -55,7 +55,7 @@
 
 
         <ImageView
-            android:id="@+id/b4b894y_1"
+            android:id="@+id/iv_vehicle"
             android:layout_width="140dp"
             android:layout_height="133dp"
             android:layout_gravity="center"
@@ -87,7 +87,7 @@
                     android:text="Range" />
 
                 <TextView
-                    android:id="@+id/km"
+                    android:id="@+id/tv_km"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_font"
@@ -111,6 +111,7 @@
                     android:text="Speed" />
 
                 <TextView
+                    android:id="@+id/tv_speed"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_font"
@@ -134,11 +135,12 @@
                     android:text="Battery Type" />
 
                 <TextView
+                    android:id="@+id/tv_battery_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_font"
                     android:gravity="top"
-                    android:text="110 km"
+                    android:text="Single"
                     android:textColor="@color/primary_text"
                     android:textSize="16sp" />
             </LinearLayout>

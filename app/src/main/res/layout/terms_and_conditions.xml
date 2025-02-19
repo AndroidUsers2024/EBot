@@ -49,12 +49,12 @@
         android:layout_marginTop="@dimen/_5sdp"
         android:orientation="vertical">
 
-    <View
+    <ImageView
+        android:id="@+id/iv_terms"
         android:layout_width="220dp"
         android:layout_height="130dp"
         android:layout_gravity="center"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/terms_img"/>
+        android:layout_marginTop="5dp" />
         <View
         android:layout_width="190dp"
         android:layout_height="40dp"

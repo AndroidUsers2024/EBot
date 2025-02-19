@@ -5,17 +5,16 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 data class MainResponse (
-    @SerializedName("status"  ) var status  : Boolean?    = null,
+    @SerializedName("status"  ) var status  : String?    = "",
     @SerializedName("message" ) var message : String? = null,
-    @SerializedName("data"    ) var data    : Data   = Data(),
-    @SerializedName("profile_image" ) var profile_image :String?  = ""
-
+//    @SerializedName("data"    ) var data    : Data   = Data(),
+//    @SerializedName("profile_image" ) var profile_image :String?  = ""
     )
 data class Data (
 
    // @SerializedName("customer_data" ) var customerData : UserLogin ?=null,
-    @SerializedName("about" ) var about :ArrayList<About> = arrayListOf(),
-    @SerializedName("privacy" ) var privacy : ArrayList<Privacy> = arrayListOf(),
+    @SerializedName("about" ) var about :CMS = CMS(),
+    @SerializedName("privacy" ) var privacy : CMS = CMS(),
     @SerializedName("terms" ) var terms : ArrayList<Terms> = arrayListOf(),
     @SerializedName("contact" ) var contact : ArrayList<Contact> = arrayListOf(),
     @SerializedName("packages" ) var packages : ArrayList<Packages> = arrayListOf(),
@@ -37,9 +36,12 @@ data class Data (
     @SerializedName("total_amount") var total_amount:String?=""
 
 )
-data class  About(
-    @SerializedName("id" ) var id: String? = "",
-    @SerializedName("about" ) var about: String? = ""
+data class  CMS(
+    @SerializedName("information_title" ) var information_title: String? = "",
+    @SerializedName("description" ) var description: String? = "",
+    @SerializedName("image" ) var image: String? = "",
+    @SerializedName("created_date" ) var created_date: String? = "",
+    @SerializedName("created_time" ) var created_time: String? = "",
 )
 data class  Privacy(
     @SerializedName("id" ) var id: String? = "",
@@ -50,12 +52,15 @@ data class  Terms(
     @SerializedName("terms" ) var terms: String? = ""
 )
 data class Contact (
-    @SerializedName("id" ) var id: String? = "",
+
     @SerializedName("email"  ) var email  : String? = "",
-    @SerializedName("landline" ) var landline : String? = "",
-    @SerializedName("mobile1" ) var mobile1 : String? = "",
-    @SerializedName("mobile2" ) var mobile2 : String? = "",
-    @SerializedName("address" ) var address : String? = ""
+    @SerializedName("landline_no" ) var landline_no : String? = "",
+    @SerializedName("phone" ) var phone : String? = "",
+    @SerializedName("phone_2" ) var phone_2 : String? = "",
+    @SerializedName("address" ) var address : String? = "",
+    @SerializedName("logo" ) var logo : String? = "",
+    @SerializedName("created_date" ) var created_date : String? = "",
+    @SerializedName("created_time" ) var created_time : String? = ""
 
 )
 
@@ -77,9 +82,12 @@ data class FAQsDataMainResponse (
 
 data class Faqs (
 
-    @SerializedName("id") var id       : String? = null,
-    @SerializedName("question" ) var question : String? = null,
-    @SerializedName("answer"   ) var answer   : String? = null,
+    @SerializedName("title") var title       : String? = null,
+    @SerializedName("description" ) var description : String? = null,
+    @SerializedName("created_by"   ) var created_by   : String? = null,
+    @SerializedName("status"   ) var status   : String? = null,
+    @SerializedName("created_date"   ) var created_date   : String? = null,
+    @SerializedName("created_time"   ) var created_time   : String? = null,
     var isExpand:Boolean=false
 
 )
@@ -336,3 +344,25 @@ data class PurchaseHistory(
     @SerializedName("total_amount") var total_amount: String?="",
     @SerializedName("added_amount") var added_amount: String?=""
 ): Parcelable
+
+@Parcelize
+data class Vehicle(
+    @SerializedName("id") var id:String?="",
+    @SerializedName("bike_name") var bike_name:String?="",
+    @SerializedName("bike_price") var bike_price:String?="",
+    @SerializedName("bike_image") var bike_image:String?="",
+    @SerializedName("range") var range:String?="",
+    @SerializedName("speed") var speed:String?="",
+    @SerializedName("battery_type") var battery_type:String?="",
+    @SerializedName("charges") var charges:String?="",
+    @SerializedName("milage") var milage:String?="",
+    @SerializedName("drivers_license") var drivers_license:String?="",
+    @SerializedName("load_capacity") var load_capacity:String?="",
+    @SerializedName("assistance") var assistance:String?="",
+    @SerializedName("description") var description:String?="",
+    @SerializedName("created_by") var created_by:String?="",
+    @SerializedName("status") var status:String?="",
+    @SerializedName("created_date") var created_date:String?="",
+    @SerializedName("created_time") var created_time:String?=""
+):Parcelable
+

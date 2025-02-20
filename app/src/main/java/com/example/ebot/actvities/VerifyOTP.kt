@@ -3,6 +3,8 @@ package com.example.ebot.actvities
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -72,6 +74,76 @@ class VerifyOTP : AppCompatActivity() {
             tv_resendOTP.setOnClickListener(View.OnClickListener {
 
 
+            })
+
+            et_enter_OTP_bx1.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {
+                    // Handle backspace (no special handling needed here)
+                }
+
+                override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+                    // Move to the next EditText when a digit is entered
+                    if (charSequence?.length == 1) {
+                        et_enter_OTP_bx2.requestFocus()
+                    }
+                }
+
+                override fun afterTextChanged(editable: Editable?) {}
+            })
+
+            // Add TextWatcher for the second EditText
+            et_enter_OTP_bx2.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {
+                    // Handle backspace (no special handling needed here)
+                }
+
+                override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+                    if (charSequence?.length == 1) {
+                        et_enter_OTP_bx3.requestFocus()
+                    }
+                }
+
+                override fun afterTextChanged(editable: Editable?) {
+                    if (editable.isNullOrEmpty()) {
+                        et_enter_OTP_bx1.requestFocus() // Move focus back if deleted
+                    }
+                }
+            })
+
+            // Add TextWatcher for the third EditText
+            et_enter_OTP_bx3.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {
+                    // Handle backspace (no special handling needed here)
+                }
+
+                override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+                    if (charSequence?.length == 1) {
+                        et_enter_OTP_bx4.requestFocus()
+                    }
+                }
+
+                override fun afterTextChanged(editable: Editable?) {
+                    if (editable.isNullOrEmpty()) {
+                        et_enter_OTP_bx2.requestFocus() // Move focus back if deleted
+                    }
+                }
+            })
+
+            // Add TextWatcher for the fourth EditText
+            et_enter_OTP_bx4.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {
+                    // Handle backspace (no special handling needed here)
+                }
+
+                override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+                    // You can handle OTP submission here if all boxes are filled
+                }
+
+                override fun afterTextChanged(editable: Editable?) {
+                    if (editable.isNullOrEmpty()) {
+                        et_enter_OTP_bx3.requestFocus() // Move focus back if deleted
+                    }
+                }
             })
 
         }catch (e:Exception){

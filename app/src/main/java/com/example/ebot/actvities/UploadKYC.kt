@@ -112,24 +112,27 @@ class UploadKYC : AppCompatActivity() {
 
             btn_submit.setOnClickListener(View.OnClickListener {
                 if (btn_submit.text.toString() == "Submit" && screenNo == 2) { val intent = Intent()
-                    intent.setClass(this, BankAccountDetails::class.java)
-                    // intent.setClass(this, MainActivity::class.java)
-                    intent.putExtra("screen", "KYC")
-                    startActivity(intent)
-                    finish()
 
-                   /* val msg=isEmptyOrNot(screenNo!!)
+
+                    val msg=isEmptyOrNot(screenNo!!)
                     if (msg.isEmpty()){
-                        addKYCData()
+                        intent.setClass(this, BankAccountDetails::class.java)
+                        intent.putExtra("screen", "KYC")
+                        intent.putExtra("aadharNumber", aadharNumber)
+                        intent.putExtra("PANNumber", PANNumber)
+                        intent.putExtra("aadhaarFront", img_AadharFront_Path)
+                        intent.putExtra("aadhaarBack", img_AadharBack_Path)
+                        intent.putExtra("PANFront", img_PANFront_Path)
+                        startActivity(intent)
                     }else{
                         Utils.showAlertDialog(this,"Alert",msg)
-                    }*/
+                    }
 
 
                 } else {
-                    screenNo = screenNo!! + 1
-                    setScreens(screenNo!!)
-                    /*if (screenNo==0){
+                    /*screenNo = screenNo!! + 1
+                    setScreens(screenNo!!)*/
+                    if (screenNo==0){
                         screenNo = screenNo!! + 1
                         setScreens(screenNo!!)
                     } else {
@@ -141,26 +144,21 @@ class UploadKYC : AppCompatActivity() {
                         }else{
                             Utils.showAlertDialog(this,"Alert",msg)
                         }
-                    }*/
+                    }
 
                 }
 
             })
             skip.setOnClickListener(View.OnClickListener {
                 val intent = Intent()
-                intent.setClass(this, BankAccountDetails::class.java)
-               // intent.setClass(this, MainActivity::class.java)
+               // intent.setClass(this, BankAccountDetails::class.java)
+                intent.setClass(this, MainActivity::class.java)
                 intent.putExtra("screen", "KYC")
                 startActivity(intent)
                 finish()
             })
             skip_kyc.setOnClickListener(View.OnClickListener {
-                val intent = Intent()
-                intent.setClass(this, BankAccountDetails::class.java)
-               // intent.setClass(this, MainActivity::class.java)
-                intent.putExtra("screen", "KYC")
-                startActivity(intent)
-                finish()
+
             })
             back.setOnClickListener(View.OnClickListener {
                 onBackPressed()
@@ -205,6 +203,46 @@ class UploadKYC : AppCompatActivity() {
             e.printStackTrace()
         }
     }
+    private fun isEmptyOrNot(screenNo: Int): String {
+        var msg = ""
+        if (screenNo == 1) {
+            aadharNumber = et_AadharNumber.text.toString().trim()
+            if (aadharNumber.isNullOrEmpty()) {
+                msg += "Please enter your aadhaar Number\n"
+
+            } else if (aadharNumber.toString().length != 12) {
+                msg += "Please enter your 12 digits aadhaar Number\n"
+            }
+            if (img_AadharFront_Path.isNullOrEmpty()) {
+                msg += "Please capture  Aadhaar Front Image\n"
+
+            }
+            if (img_AadharBack_Path.isNullOrEmpty()) {
+                msg += "Please capture  Aadhaar Back Image\n"
+
+            }
+            if (!ck_agree_Aadhar.isChecked()) {
+                msg += "Please confirm  agree KYC purpose\n"
+
+            }
+
+        } else if (screenNo == 2) {
+            PANNumber = et_PANNumber.text.toString()
+            if (PANNumber.isNullOrEmpty()) {
+                msg += "Please enter your PAN Card Number\n"
+
+            } else if (PANNumber.toString().isNotEmpty()) {
+                msg += Utils.validatePAN(PANNumber.toString())
+            }
+            if (img_PANFront_Path.isNullOrEmpty()) {
+                msg += "Please capture  PAN Front Image\n"
+
+            }
+
+        }
+        return msg
+    }
+
 
     private fun setScreens(screenNo: Int) {
         if (screenNo == 0) {

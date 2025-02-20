@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.ebot.R
+import com.example.ebot.common.Utils
 
 class SignupWithEmail : AppCompatActivity() {
     private lateinit var et_emailId: EditText
@@ -32,9 +33,19 @@ class SignupWithEmail : AppCompatActivity() {
             back=findViewById(R.id.back)
 
             btn_sendOTP.setOnClickListener(View.OnClickListener {
-                val intent= Intent(this,VerifyOTP::class.java)
-                intent.putExtra("screen","signup")
-                startActivity(intent)
+                val email =et_emailId.text.toString().trim()
+                val isValid= Utils.isValidEmail(email)
+                if (email.isEmpty()){
+                    Utils.showToast(this,"Please enter your email")
+                }else if(isValid.isNotEmpty()){
+                    Utils.showToast(this,isValid)
+                }else{
+                    val intent= Intent(this,VerifyOTP::class.java)
+                    intent.putExtra("screen","signup")
+                    intent.putExtra("email",email)
+                    startActivity(intent)
+                }
+
             })
             tv_Login.setOnClickListener(View.OnClickListener {
                 val intent= Intent(this,LoginActivity::class.java)

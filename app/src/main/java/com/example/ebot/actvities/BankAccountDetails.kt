@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.ebot.R
+import com.example.ebot.common.Utils
+import com.example.ebot.models.SaveBankDetails
 
 class BankAccountDetails : AppCompatActivity() {
     private lateinit var ll_kYCBankDetails: LinearLayout
@@ -32,6 +34,11 @@ class BankAccountDetails : AppCompatActivity() {
     private var bankName: String? = ""
     private var IFSCCode: String? = ""
     private var accountType: String? = ""
+    private var aadharNumber: String? = ""
+    private var PANNumber: String? = ""
+    private var aadhaarFront: String? = ""
+    private var aadhaarBack: String? = ""
+    private var PANFront: String? = ""
     private lateinit var dialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +67,12 @@ class BankAccountDetails : AppCompatActivity() {
                 ll_kYCBankDetails.visibility = View.VISIBLE
                 ll_Add_bankDetails.visibility = View.GONE
                 btn_submit.text = "Submit"
+
+                aadharNumber=intent.getStringExtra("aadharNumber")
+                PANNumber=intent.getStringExtra("PANNumber")
+                aadhaarFront=intent.getStringExtra("aadhaarFront")
+                aadhaarBack=intent.getStringExtra("aadhaarBack")
+                PANFront=intent.getStringExtra("PANFront")
             } else {
                 ll_kYCBankDetails.visibility = View.GONE
                 ll_Add_bankDetails.visibility = View.VISIBLE
@@ -70,11 +83,11 @@ class BankAccountDetails : AppCompatActivity() {
             })
 
             kyc_back.setOnClickListener(View.OnClickListener {
-                onBackPressed()
+                //onBackPressed()
 
             })
             back.setOnClickListener(View.OnClickListener {
-                onBackPressed()
+               // onBackPressed()
             })
 
             btn_submit.setOnClickListener(View.OnClickListener {
@@ -85,7 +98,7 @@ class BankAccountDetails : AppCompatActivity() {
                 intent.putExtra("screen", "KYC")
                 startActivity(intent)
                 finish()
-               /* if (alerts.isEmpty()) {
+                if (alerts.isEmpty()) {
                     //set userId here
 
                     val userID = Utils.getData(this@BankAccountDetails,"user_id","") as String
@@ -97,13 +110,21 @@ class BankAccountDetails : AppCompatActivity() {
                         account_type = accountType
                     )
                     if (btn_submit.text.toString() == "Submit") {
-                        updateBankDetails(bankDetails, "KYC")
+                        intent.setClass(this, KYCVerificationScreen::class.java)
+                        intent.putExtra("aadharNumber", aadharNumber)
+                        intent.putExtra("PANNumber", PANNumber)
+                        intent.putExtra("aadhaarFront", aadhaarFront)
+                        intent.putExtra("aadhaarBack", aadhaarBack)
+                        intent.putExtra("PANFront", PANFront)
+                        intent.putExtra("bankDetails", bankDetails)
+                        startActivity(intent)
+
                     } else {
-                        updateBankDetails(bankDetails, "Other")
+                      //  updateBankDetails(bankDetails, "Other")
                     }
                 } else {
                     Utils.showToast(this@BankAccountDetails, alerts)
-                }*/
+                }
 
 
             })
@@ -151,5 +172,8 @@ class BankAccountDetails : AppCompatActivity() {
         return alert
     }
 
+    override fun onBackPressed() {
+      //  super.onBackPressed()
 
+    }
 }

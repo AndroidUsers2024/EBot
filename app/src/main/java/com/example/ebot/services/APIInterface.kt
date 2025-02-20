@@ -37,19 +37,20 @@ interface APIInterface {
     @POST(ROOT_URL_SUB+"enquiry")
     fun submitEnquiry(@Body request: SubmitEnquiry): Call<MainResponse>
 
-    @FormUrlEncoded
-    @POST(ROOT_URL_SUB+"ApiUsersController/login")
-    fun loginUser(@Field("mobile")mobile:String): Call<LoginResponse>
-    @FormUrlEncoded
-    @POST(ROOT_URL_SUB+"ApiUsersController/register")
-    fun registerUser(@Field("mobile")mobile:String): Call<RegisterResponse>
+    @POST(ROOT_URL_SUB+"login")
+    fun loginUser(@Body request: UserCommonJson): Call<LoginResponse>
 
-    @FormUrlEncoded
-    @POST(ROOT_URL_SUB+"ApiUsersController/verify_otp")
-    fun verifyOTP( @Field("otp") otp: String,@Field("user_id") user_id: String): Call<MainResponse>
+    @POST(ROOT_URL_SUB+"registration")
+    fun registerUser(@Body reqData:RegisterData): Call<MainResponse>
+
+    @POST(ROOT_URL_SUB+"verify_otp")
+    fun verifyOTP( @Body verifyOTP:UserCommonJson): Call<LoginResponse>
+
+    @GET(ROOT_URL_SUB + "profile_get")
+    fun getProfile(@Query("id") id: String): Call<ProfileResponse>
 
     @POST(ROOT_URL_SUB+"v1/profile/myteam")
-    fun getMyTeam(@Body request: UserIdFeildJson): Call<MainResponse>
+    fun getMyTeam(@Body request: UserCommonJson): Call<MainResponse>
 
 
     @POST(ROOT_URL_SUB+"vehicle")/*{"mobile":""}*/
@@ -61,8 +62,7 @@ interface APIInterface {
     @POST(ROOT_URL_SUB+"v1/profile/update")
     fun submitUpdateProfileRefer(@Body request: UpdateProfile): Call<MainResponse>
 
-    @POST(ROOT_URL_SUB+"ApiProfileController/fetch_profile")
-    fun fetchProfile(@Body request: UserIdFeildJson): Call<MainResponse>
+
 
     @FormUrlEncoded
     @POST(ROOT_URL_SUB+"ApiBankDetailsController/bank_details")
@@ -97,40 +97,62 @@ interface APIInterface {
     fun withdraw(@Body request: Withdraw):Call<MainResponse>
 
     @Multipart
-    @POST(ROOT_URL_SUB+"v1/kycdetails/add")
-    fun addKYC(@Part("user_id")user_id: RequestBody, @Part("aadhar_number")aadhar_number:RequestBody,
-                 @Part("pan_number")pan_number:RequestBody,
-                 @Part aadhar_front : MultipartBody.Part?,
-                 @Part aadhar_back : MultipartBody.Part?,
-                 @Part pan_image : MultipartBody.Part?):Call<MainResponse>
+    @POST(ROOT_URL_SUB + "save_kyc_details")
+    fun addKYC(
+        @Part("user_id") user_id: RequestBody, @Part("aadhar_number") aadhar_number: RequestBody,
+        @Part("pan_number") pan_number: RequestBody,
+        @Part aadhar_front: MultipartBody.Part?,
+        @Part aadhar_back: MultipartBody.Part?,
+        @Part pan_image: MultipartBody.Part?,
+        @Part("account_number") account_number: RequestBody,
+        @Part("bank_name") bank_name: RequestBody,
+        @Part("ifsc_code") ifsc_code: RequestBody,
+        @Part("account_type") account_type: RequestBody,
+        @Part face_verificaton: MultipartBody.Part?
+    ): Call<MainResponse>
 
-    @Multipart
-    @POST(ROOT_URL_SUB+"v1/profile/update_profile_image")
-    fun updateProfileImage(@Part("user_id")user_id: RequestBody,
-                 @Part profile_image : MultipartBody.Part):Call<MainResponse>
+
+  @Multipart
+    @POST(ROOT_URL_SUB + "save_kyc_details")
+    fun updateProfile(
+        @Part("user_id") user_id: RequestBody, @Part("name") name: RequestBody,
+        @Part("last_name") last_name: RequestBody,
+        @Part("gender") gender: RequestBody,
+        @Part("dob") dob: RequestBody,
+        @Part("phone") phone: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("address") address: RequestBody,
+        @Part("pin_code") pin_code: RequestBody,
+        @Part("city") city: RequestBody,
+        @Part("state") state: RequestBody,
+        @Part("country") country: RequestBody,
+        @Part image: MultipartBody.Part?,
+
+    ): Call<MainResponse>
+
+
 
     @POST(ROOT_URL_SUB+"v1/buy_now")
     fun packageBuyNow(@Body request: PackageBuyNow):Call<MainResponse>
 
     @POST(ROOT_URL_SUB+"v1/wallet_amount")
-    fun getWalletAmount(@Body request: UserIdFeildJson):Call<MainResponse>
+    fun getWalletAmount(@Body request: UserCommonJson):Call<MainResponse>
 
-        @POST(ROOT_URL_SUB + "v1/profile/profile_list")
-    fun getProfileList(@Body request: UserIdFeildJson): Call<MainResponse>
+
 
     @POST(ROOT_URL_SUB + "ApiKycController/kyc_details")
-    fun getKYCDetails(@Body request: UserIdFeildJson): Call<FetchedKYCResponse>
+    fun getKYCDetails(@Body request: UserCommonJson): Call<FetchedKYCResponse>
 
     @POST(ROOT_URL_SUB + "v1/wallet_withdraw_list")
-    fun getWalletWithdrawList(@Body request: UserIdFeildJson): Call<MainResponse>
+    fun getWalletWithdrawList(@Body request: UserCommonJson): Call<MainResponse>
 
     @POST(ROOT_URL_SUB + "ApiKycController/wallet_neft_list")
-    fun getWalletNEFTList(@Body request: UserIdFeildJson): Call<MainResponse>
+    fun getWalletNEFTList(@Body request: UserCommonJson): Call<MainResponse>
 
     @POST(ROOT_URL_SUB + "v1/get_user_purchase_history")
-    fun getPurchaseHistory(@Body request: UserIdFeildJson): Call<MainResponse>
+    fun getPurchaseHistory(@Body request: UserCommonJson): Call<MainResponse>
 
     @POST(ROOT_URL_SUB + "v1/transaction_history")
-    fun getTransactionHistory(@Body request: UserIdFeildJson): Call<MainResponse>
+    fun getTransactionHistory(@Body request: UserCommonJson): Call<MainResponse>
 
 }

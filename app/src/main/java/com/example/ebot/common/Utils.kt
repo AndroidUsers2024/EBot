@@ -13,6 +13,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -43,6 +44,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+
 
 object Utils {
     var userId: String? = ""
@@ -171,9 +173,7 @@ object Utils {
             .setPositiveButton("OK") { dialog, _ ->
                 dialog.dismiss() // Close the dialog
             }
-            .setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss() // Close the dialog
-            }
+
 
         // Create and show the AlertDialog
         val alertDialog = builder.create()
@@ -462,6 +462,26 @@ object Utils {
         }
 
         dialog.show()
+    }
+    fun isNetworkAvailable(context: Context): Boolean {
+        var objConnectivityManager: ConnectivityManager?
+        var isNetworkAvailable = false
+
+        try {
+            objConnectivityManager =
+                context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            if (objConnectivityManager!!.activeNetworkInfo != null && objConnectivityManager!!.activeNetworkInfo!!
+                    .isAvailable
+                && objConnectivityManager!!.activeNetworkInfo!!.isConnected
+            ) {
+                return true.also { isNetworkAvailable = it }
+            }
+        } catch (e: java.lang.Exception) {
+            e.message
+        } finally {
+            objConnectivityManager = null
+        }
+        return isNetworkAvailable
     }
 
 

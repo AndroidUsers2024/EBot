@@ -49,7 +49,7 @@ android {
 }
 
 dependencies {
-//    implementation(libs.androidx.activity)
+    //    implementation(libs.androidx.activity)
     //implementation(libs.androidx.activity)
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
@@ -81,8 +81,14 @@ dependencies {
     implementation(files(fileTree("libs") { include("*.jar") }))
     implementation("com.intuit.sdp:sdp-android:1.0.6")
     implementation ("androidx.cardview:cardview:1.0.0")
-    implementation ("androidx.viewpager2:viewpager2:1.0.0")
-//    implementation (libs.datepickertimeline)
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+    implementation("com.google.mlkit:face-detection:16.1.5")
+    implementation("androidx.camera:camera-core:1.3.0")
+    implementation("androidx.camera:camera-lifecycle:1.3.0")
+    implementation("androidx.camera:camera-view:1.3.0")
+    implementation("androidx.camera:camera-camera2:1.3.0")
+
+
 
 
 

@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.ebot.actvities.BikeBookingDetails
 import com.example.ebot.actvities.BikeViewDetailsActivity
+import com.example.ebot.actvities.CameraActivity
 import com.example.ebot.actvities.LoginActivity
 import com.example.ebot.actvities.MainActivity
 import com.example.ebot.common.Utils
@@ -48,8 +49,7 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private fun navigateToLoginScreen() {
-//        val intent = Intent(this,LoginActivity::class.java)
-        val intent = Intent(this, LoginActivity::class.java)
+        val intent = Intent(this,LoginActivity::class.java)
         startActivity(intent)
         finish()
     }

@@ -27,14 +27,22 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.bumptech.glide.Glide
 import com.example.ebot.R
 import com.example.ebot.common.Utils
+import com.example.ebot.models.MainResponse
+import com.example.ebot.models.ProfileData
+import com.example.ebot.models.ProfileResponse
+import com.example.ebot.services.ServiceManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.imageview.ShapeableImageView
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.File
 
 class PersonalInformation : AppCompatActivity() {
@@ -55,6 +63,8 @@ class PersonalInformation : AppCompatActivity() {
     private var tempPhotoPath: String? = ""
     private lateinit var cameraBottomSheet: BottomSheetDialog
     private lateinit var editDetailBottomSheet: BottomSheetDialog
+    private lateinit var  openDialog:ProgressDialog
+    private var profileData: ProfileData?=null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,8 +89,9 @@ class PersonalInformation : AppCompatActivity() {
             tv_email = findViewById(R.id.tv_email)
             tv_mobileNo = findViewById(R.id.tv_mobileNo)
             tv_fullAddress = findViewById(R.id.tv_fullAddress)
+            val userId=Utils.getData(this@PersonalInformation,"user_id","") as String
 
-
+            getProfileData(userId)
             back.setOnClickListener(View.OnClickListener {
                 onBackPressed()
             })
@@ -500,4 +511,177 @@ class PersonalInformation : AppCompatActivity() {
             e.printStackTrace()
         }
     }
+
+
+    fun getProfileData(user:String) {
+        val dataManager = ServiceManager.getDataManager()
+        openDialog=Utils.openDialog(this@PersonalInformation)
+
+        val callback = object : Callback<ProfileResponse> {
+            override fun onResponse(call: Call<ProfileResponse>, response: Response<ProfileResponse>) {
+              if (openDialog.isShowing){
+                  openDialog.dismiss()
+              }
+                if (response.isSuccessful) {
+                    if(response.body()!!.status!="success")
+                    {
+                        profileData=ProfileData()
+                        profileData=response.body()!!.data
+                        showProfileData(profileData!!)
+
+
+
+                    }
+
+                    Log.i("Response","response"+response.body().toString())
+
+                } else {
+                    // Handle error
+                    println("Failed to getData  ${response.message()}")
+                    //showToast(requireContext(),response.body()!!.message!!)
+                }
+            }
+
+            override fun onFailure(call: Call<ProfileResponse>, t: Throwable) {
+                // Handle failure
+                println("Failed to getData. ${t.message}")
+                if (openDialog.isShowing){
+                    openDialog.dismiss()
+                }
+                Utils.showToast(this@PersonalInformation,"Please try again")
+            }
+        }
+
+        // Call the sendOtp function in DataManager
+        dataManager.fetchProfile(callback, userId = user)
+    }
+
+    private fun shownProfile(profileImageUrl:String){
+        try{
+            if (profileImageUrl.isNotEmpty()) {
+                profileImageUrl.let { url ->
+                    Glide.with(this).load(url)
+                        .into(img_profile)
+
+                }
+            }
+        }catch (e:Exception){
+            Log.e("shownProfileImage",e.message.toString())
+        }
+    }
+
+    private fun showProfileData(data: ProfileData) {
+        try {
+            tv_FullName.setText(data.first_name + " " + data.last_name)
+            Utils.saveData(
+                this@PersonalInformation,
+                "user_name",
+                tv_FullName.text.toString().trim()
+            )
+            tv_mobileNo.setText(data.mobile)
+            val dob = Utils.changeDateFormat(data.dob.toString(), "dd-MM-yyyy")
+            tv_email.setText(data.email)
+            val fullAddress =
+                """${data.address}, ${data.city}, ${data.state}, ${data.country} - ${data.pincode}"""
+            tv_fullAddress.setText(fullAddress)
+
+            shownProfile(data.profile_image.toString())
+
+        } catch (e: Exception) {
+            Log.e("PersonalInfo", e.message.toString())
+        }
+    }
+
+    private fun updateProfileApi(
+        user_id: RequestBody,
+        name: RequestBody,
+        last_name: RequestBody,
+        gender: RequestBody,
+        dob: RequestBody,
+        phone: RequestBody,
+        email: RequestBody,
+        address: RequestBody,
+        pin_code: RequestBody,
+        city: RequestBody,
+        state: RequestBody,
+        country: RequestBody,
+        image: MultipartBody.Part?,
+    ) {
+        try {
+            openDialog = Utils.openDialog(this@PersonalInformation)
+            val dataManager = ServiceManager.getDataManager()
+            val callbackAddKYC = object : Callback<MainResponse> {
+                override fun onResponse(
+                    call: Call<MainResponse>,
+                    response: Response<MainResponse>
+                ) {
+                    Utils.closeDialog(openDialog)
+                    if (response.isSuccessful) {
+                        if (response.body()!!.status == "success") {
+
+                        }
+                        Utils.showToast(
+                            this@PersonalInformation,
+                            response.body()!!.message.toString()
+                        )
+
+                    } else {
+                        Utils.showToast(this@PersonalInformation, response.message().toString())
+
+                    }
+                    println("add KYC Details response: ${response}")
+
+
+                }
+
+                override fun onFailure(call: Call<MainResponse>, t: Throwable) {
+                    Utils.closeDialog(openDialog)
+                    println("Failed to add KYC Details. ${t.message}")
+                    Utils.showToast(this@PersonalInformation, "${t.message} Please try again")
+                }
+
+            }
+            dataManager.updateProfile(
+                callbackAddKYC,
+                user_id, name, last_name, gender, dob, phone, email, address, pin_code, city, state, country, image
+            )
+
+        } catch (e: Exception) {
+            if (openDialog.isShowing) {
+                Utils.closeDialog(openDialog)
+            }
+            Log.e("addKYCApi", e.message.toString())
+        }
+    }
+    private fun updateProfileData(data: ProfileData) {
+        try {
+            val userID = Utils.getData(this@PersonalInformation, "user_id", "") as String
+
+
+            val profilePic = File(profilePicPath.toString())
+            val profileImg = profilePic.asRequestBody("image/png".toMediaType())
+            val image = MultipartBody.Part.createFormData(
+                "image",
+                profilePic.name,
+                profileImg
+            )
+            val user_id = RequestBody.create("text/plain".toMediaType(), userID)
+            val name = RequestBody.create("text/plain".toMediaType(), data.first_name!!)
+            val last_name = RequestBody.create("text/plain".toMediaType(), data.last_name!!)
+            val gender = RequestBody.create("text/plain".toMediaType(), data.gender!!)
+            val dob = RequestBody.create("text/plain".toMediaType(), data.dob!!)
+            val phone = RequestBody.create("text/plain".toMediaType(), data.mobile!!)
+            val email = RequestBody.create("text/plain".toMediaType(), data.email!!)
+            val address = RequestBody.create("text/plain".toMediaType(), data.address!!)
+            val pin_code = RequestBody.create("text/plain".toMediaType(), data.pincode!!)
+            val city = RequestBody.create("text/plain".toMediaType(), data.city!!)
+            val state = RequestBody.create("text/plain".toMediaType(), data.state!!)
+            val country = RequestBody.create("text/plain".toMediaType(), data.country!!)
+            updateProfileApi(user_id, name, last_name, gender, dob, phone, email, address, pin_code, city, state, country, image)
+        } catch (e: Exception) {
+            Log.e("addKYCData", e.message.toString())
+        }
+
+    }
+
 }

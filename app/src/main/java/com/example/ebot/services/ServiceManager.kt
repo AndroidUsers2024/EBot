@@ -9,6 +9,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Part
 import java.util.concurrent.TimeUnit
 
 class ServiceManager {
@@ -91,20 +92,20 @@ class ServiceManager {
         val call = apiService.submitEnquiry(data)
         call.enqueue(cb)
     }
-    fun verifyOTP(cb: Callback<MainResponse>,otp:String,userId:String){
+    fun verifyOTP(cb: Callback<LoginResponse>,req:UserCommonJson){
         val apiService = retrofit.create(APIInterface::class.java)
-        val call = apiService.verifyOTP(otp,userId)
+        val call = apiService.verifyOTP(req)
         call.enqueue(cb)
     }
 
-    fun loginUser(cb: Callback<LoginResponse>,loginRequest:String){
+    fun loginUser(cb: Callback<LoginResponse>,loginRequest:UserCommonJson){
         val apiService = retrofit.create(APIInterface::class.java)
         val call = apiService.loginUser(loginRequest)
         call.enqueue(cb)
     }
-    fun registerUser(cb: Callback<RegisterResponse>,loginRequest:String){
+    fun registerUser(cb: Callback<MainResponse>,data:RegisterData){
         val apiService = retrofit.create(APIInterface::class.java)
-        val call = apiService.registerUser(loginRequest)
+        val call = apiService.registerUser(data)
         call.enqueue(cb)
     }
     fun submitUpateProfile(cb: Callback<MainResponse>,data: UpdateProfile){
@@ -118,18 +119,12 @@ class ServiceManager {
         call.enqueue(cb)
     }
 
-    fun fetchProfile(cb: Callback<MainResponse>, data: UserIdFeildJson) {
+    fun fetchProfile(cb: Callback<ProfileResponse>, userId: String) {
         val apiService = retrofit.create(APIInterface::class.java)
-        val call = apiService.fetchProfile(data)
+        val call = apiService.getProfile(userId)
         call.enqueue(cb)
     }
-    fun getMyTeam(cb: Callback<MainResponse>,refer_code:String){
-        val userId=UserIdFeildJson(refer_code = refer_code)
 
-        val apiService = retrofit.create(APIInterface::class.java)
-        val call = apiService.getMyTeam(userId)
-        call.enqueue(cb)
-    }
     fun fetchBankDetails(cb: Callback<MainResponse>, userId: String){
         val api=retrofit.create(APIInterface::class.java)
         val call=api.getBankDetails(userId)
@@ -164,21 +159,46 @@ class ServiceManager {
     }
 
     fun addKYC(
-        cb: Callback<MainResponse>, user_id: RequestBody, aadhar_number: RequestBody, pan_number: RequestBody,
+        cb: Callback<MainResponse>, user_id: RequestBody, aadhar_number: RequestBody,
+        pan_number: RequestBody,
         aadhar_front: MultipartBody.Part?,
         aadhar_back: MultipartBody.Part?,
-        pan_image: MultipartBody.Part?
+        pan_image: MultipartBody.Part?,
+        account_number: RequestBody,
+        bank_name: RequestBody,
+        ifsc_code: RequestBody,
+        account_type: RequestBody,
+        face_verificaton: MultipartBody.Part?
     ) {
         val apiService = retrofit.create(APIInterface::class.java)
-        val call = apiService.addKYC(user_id, aadhar_number, pan_number, aadhar_front,aadhar_back,pan_image)
+        val call = apiService.addKYC(user_id, aadhar_number, pan_number, aadhar_front,aadhar_back,pan_image,account_number,bank_name,ifsc_code,account_type,face_verificaton)
         call.enqueue(cb)
     }
 
-    fun updateProfileImage(cb:Callback<MainResponse>,user_id: RequestBody,profile_image: MultipartBody.Part){
-        val apiService=retrofit.create(APIInterface::class.java)
-        val call=apiService.updateProfileImage(user_id,profile_image)
+    fun updateProfile(
+        cb: Callback<MainResponse>,
+        user_id: RequestBody,
+        name: RequestBody,
+        last_name: RequestBody,
+        gender: RequestBody,
+        dob: RequestBody,
+        phone: RequestBody,
+        email: RequestBody,
+        address: RequestBody,
+        pin_code: RequestBody,
+        city: RequestBody,
+        state: RequestBody,
+        country: RequestBody,
+        image: MultipartBody.Part?,
+    ) {
+        val apiService = retrofit.create(APIInterface::class.java)
+        val call =
+            apiService.updateProfile(
+                user_id, name, last_name, gender, dob, phone, email, address, pin_code, city, state, country, image)
         call.enqueue(cb)
     }
+
+
 
     fun packageBuyNow(cb:Callback<MainResponse>,requestBody: PackageBuyNow){
         val apiService=retrofit.create(APIInterface::class.java)
@@ -186,47 +206,42 @@ class ServiceManager {
         call.enqueue(cb)
     }
     fun getWalletAmount(cb:Callback<MainResponse>,user_id:String){
-        val userId=UserIdFeildJson(user_id)
+        val userId=UserCommonJson(user_id)
         val apiService=retrofit.create(APIInterface::class.java)
         val call=apiService.getWalletAmount(userId)
         call.enqueue(cb)
     }
 
-    fun getProfileList(cb:Callback<MainResponse>,user_id:String){
-        val userId=UserIdFeildJson(user_id)
-        val apiService=retrofit.create(APIInterface::class.java)
-        val call=apiService.getProfileList(userId)
-        call.enqueue(cb)
-    }
+
     fun getKYCDetails(cb:Callback<FetchedKYCResponse>, user_id:String){
-        val userId=UserIdFeildJson(user_id)
+        val userId=UserCommonJson(user_id)
         val apiService=retrofit.create(APIInterface::class.java)
         val call=apiService.getKYCDetails(userId)
         call.enqueue(cb)
     }
 
     fun getWalletWithdrawList(cb:Callback<MainResponse>,user_id:String){
-        val userId=UserIdFeildJson(user_id)
+        val userId=UserCommonJson(user_id)
         val apiService=retrofit.create(APIInterface::class.java)
         val call=apiService.getWalletWithdrawList(userId)
         call.enqueue(cb)
     }
     fun getWalletNEFTList(cb:Callback<MainResponse>,user_id:String){
-        val userId=UserIdFeildJson(user_id)
+        val userId=UserCommonJson(user_id)
         val apiService=retrofit.create(APIInterface::class.java)
         val call=apiService.getWalletNEFTList(userId)
         call.enqueue(cb)
     }
 
     fun getPurchaseHistory(cb:Callback<MainResponse>,user_id:String){
-        val userId=UserIdFeildJson(user_id)
+        val userId=UserCommonJson(user_id)
         val apiService=retrofit.create(APIInterface::class.java)
         val call=apiService.getPurchaseHistory(userId)
         call.enqueue(cb)
     }
 
     fun getTransactionHistory(cb:Callback<MainResponse>,user_id:String){
-        val userId=UserIdFeildJson(user_id)
+        val userId=UserCommonJson(user_id)
         val apiService=retrofit.create(APIInterface::class.java)
         val call=apiService.getTransactionHistory(userId)
         call.enqueue(cb)

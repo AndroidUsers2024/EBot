@@ -19,11 +19,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.bumptech.glide.Glide
 import com.example.ebot.R
 import com.example.ebot.actvities.AboutUS
 import com.example.ebot.actvities.ContactUS
@@ -37,8 +39,15 @@ import com.example.ebot.actvities.PrivacyPolicy
 import com.example.ebot.actvities.TermsAndConditions
 import com.example.ebot.actvities.ViewBankDetails
 import com.example.ebot.common.Utils
+import com.example.ebot.models.CMS
+import com.example.ebot.models.ProfileData
+import com.example.ebot.models.ProfileResponse
+import com.example.ebot.services.ServiceManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.imageview.ShapeableImageView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.File
 
 
@@ -54,6 +63,7 @@ class ProfileFragment : Fragment(),View.OnClickListener {
     private lateinit var btn_faq: Button
     private lateinit var btn_logout: Button
     private lateinit var ll_BankAcounts: LinearLayout
+    private lateinit var ll_profile: LinearLayout
     private lateinit var ll_KYCDetail: LinearLayout
     private var isNotificationNo = false
     private lateinit var openDialog: ProgressDialog
@@ -63,6 +73,7 @@ class ProfileFragment : Fragment(),View.OnClickListener {
     private val PERMISSION_REQUEST_CODE: Int = 201
     private var profilePicPath: String? = ""
     private  var tempPhotoPath: String?=""
+    private lateinit var progressbar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,6 +107,13 @@ class ProfileFragment : Fragment(),View.OnClickListener {
             btn_logout = view.findViewById(R.id.btn_logout)
             img_profile =view. findViewById(R.id.img_profile)
             wv_camera = view.findViewById(R.id.wv_camera)
+            ll_profile = view.findViewById(R.id.ll_profile)
+            progressbar = view.findViewById(R.id.progressbar)
+
+            progressbar.visibility=View.VISIBLE
+            ll_profile.visibility=View.GONE
+            val userId=Utils.getData(requireContext(),"user_id","") as String
+            getImageData(userId)
 
             wv_camera.setOnClickListener(this)
             btn_personal.setOnClickListener(this)
@@ -412,4 +430,45 @@ class ProfileFragment : Fragment(),View.OnClickListener {
             }
         }
     }
+
+    fun getImageData(user:String) {
+        val dataManager = ServiceManager.getDataManager()
+
+        progressbar.visibility= View.VISIBLE
+        // Create a callback for handling the API response
+        val callback = object : Callback<ProfileResponse> {
+            override fun onResponse(call: Call<ProfileResponse>, response: Response<ProfileResponse>) {
+                progressbar.visibility= View.GONE
+                ll_profile.visibility= View.VISIBLE
+                if (response.isSuccessful) {
+                    if(response.body()!!.status!="success")
+                    {
+                        Glide.with(requireContext()).load(response.body()!!.data!!.profile_image)
+                            .into(img_profile)
+
+
+                    }
+
+                    Log.i("Response","response"+response.body().toString())
+
+                } else {
+                    // Handle error
+                    println("Failed to getData  ${response.message()}")
+                    //showToast(requireContext(),response.body()!!.message!!)
+                }
+            }
+
+            override fun onFailure(call: Call<ProfileResponse>, t: Throwable) {
+                // Handle failure
+                println("Failed to getData. ${t.message}")
+                progressbar.visibility= View.GONE
+                ll_profile.visibility= View.VISIBLE
+                Utils.showToast(requireContext(),"Please try again")
+            }
+        }
+
+        // Call the sendOtp function in DataManager
+        dataManager.fetchProfile(callback, userId = user)
+    }
+
 }

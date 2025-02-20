@@ -18,8 +18,8 @@ data class Data (
     @SerializedName("terms" ) var terms : ArrayList<Terms> = arrayListOf(),
     @SerializedName("contact" ) var contact : ArrayList<Contact> = arrayListOf(),
     @SerializedName("packages" ) var packages : ArrayList<Packages> = arrayListOf(),
-    @SerializedName("profile" ) var profile: ArrayList<addFetchProfile> = arrayListOf(),
-    @SerializedName("profile_details" ) var profile_details: ArrayList<addFetchProfile> = arrayListOf(),
+    @SerializedName("profile" ) var profile: ArrayList<ProfileData> = arrayListOf(),
+    @SerializedName("profile_details" ) var profile_details: ArrayList<ProfileData> = arrayListOf(),
     @SerializedName("updated_profile") var updated_profile : UpdateProfile=UpdateProfile(),
     @SerializedName("bank_details" ) var bank_details : ArrayList<BankDetails> = arrayListOf(),
     @SerializedName("myteam_details" ) var team : ArrayList<MyTeam> = arrayListOf(),
@@ -104,35 +104,48 @@ data class UrlencodedData(
      @SerializedName("type") var type: String?=""
 )
 
-data class LoginRequest(
-     @SerializedName("mode") var  mode: String?="",
-     @SerializedName("urlencoded") var  urlencoded: ArrayList<UrlencodedData>?=arrayListOf()
-)
+
 data class  LoginResponse(
-    @SerializedName("status") var status: Boolean?=null,
+    @SerializedName("status") var status: String?="",
     @SerializedName("message") var message: String?="",
-    @SerializedName("data") var data: LoginResponseData?=null
+    @SerializedName("user") var user: LoginResponseData=LoginResponseData(),
+    @SerializedName("otp_sent") var otp_sent: String?=null
 )
 data class LoginResponseData(
-    @SerializedName("mobile") var mobile: String?="",
-    @SerializedName("user_id") var user_id: Int?=null,
-    @SerializedName("otp") var otp: Int?=null
+    @SerializedName("id") var id:String?="",
+    @SerializedName("name") var name:String?="",
+    @SerializedName("last_name") var last_name:String?="",
+    @SerializedName("gender") var gender:String?="",
+    @SerializedName("dob") var dob:String?="",
+    @SerializedName("phone") var phone:String?="",
+    @SerializedName("email") var email:String?="",
+    @SerializedName("address") var address:String?="",
+    @SerializedName("pin_code") var pin_code:String?="",
+    @SerializedName("city") var city:String?="",
+    @SerializedName("state") var state:String?="",
+    @SerializedName("country") var country:String?="",
+    @SerializedName("created_at") var created_at:String?="",
 )
 data class  RegisterResponse(
     @SerializedName("status") var status: Boolean?=null,
     @SerializedName("message") var message: String?="",
-    @SerializedName("data") var data: RegisterData?=RegisterData()
 )
 data class RegisterData(
-    @SerializedName("data") var data:RegisterResponseData?=RegisterResponseData()
+    @SerializedName("name") var name:String?="",
+    @SerializedName("last_name") var last_name:String?="",
+    @SerializedName("gender") var gender:String?="",
+    @SerializedName("dob") var dob:String?="",
+    @SerializedName("phone") var phone:String?="",
+    @SerializedName("email") var email:String?="",
+    @SerializedName("address") var address:String?="",
+    @SerializedName("pin_code") var pin_code:String?="",
+    @SerializedName("city") var city:String?="",
+    @SerializedName("state") var state:String?="",
+    @SerializedName("country") var country:String?=""
 
 )
-data class RegisterResponseData(
-    @SerializedName("mobile") var mobile: String?="",
-    @SerializedName("created_at") var created_at: String?="",
-    @SerializedName("otp") var otp: String?="",
-    @SerializedName("id") var id: Int?=null
-)
+
+
 
 @Parcelize
 data class Packages(
@@ -162,31 +175,49 @@ data class UpdateProfile(
 
     )
 
-data class UserIdFeildJson(
+data class UserCommonJson(
     @SerializedName("user_id") var user_id: String?="",
-    @SerializedName("refer_code") var refer_code: String?="",
+    @SerializedName("email") var email: String?="",
+    @SerializedName("otp") var otp: String?="",
     @SerializedName("id") var id: String?=""
+)
+data class ProfileResponse(
+    @SerializedName("message") var message:String?="",
+    @SerializedName("status") var status:String?="",
+    @SerializedName("data") var data:ProfileData?=ProfileData()
 )
 
 @Parcelize
-data class addFetchProfile(
+data class ProfileData(
     @SerializedName("id") var id: String?="",
     @SerializedName("mobile") var mobile: String?="",
     @SerializedName("otp") var otp: String?="",
     @SerializedName("created_at") var created_at: String?="",
     @SerializedName("email") var email: String?=null,
-    @SerializedName("first_name") var first_name: String?="",
+    @SerializedName("name") var first_name: String?="",
     @SerializedName("last_name") var last_name: String?=null,
     @SerializedName("gender") var gender: String?=null,
     @SerializedName("dob") var dob: String?=null,
     @SerializedName("address") var address: String?=null,
-    @SerializedName("pincode") var pincode: String?=null,
+    @SerializedName("pin_code") var pincode: String?=null,
     @SerializedName("city") var city: String?=null,
     @SerializedName("country") var country: String?=null,
     @SerializedName("state") var state: String?=null,
-    @SerializedName("refer_code") var refer_code: String?=null,
+    @SerializedName("country_code") var country_code: String?=null,
+    @SerializedName("location") var location: String?=null,
+    @SerializedName("latitude") var latitude: String?=null,
+    @SerializedName("longitude") var longitude: String?=null,
+    @SerializedName("km") var km: String?=null,
+    @SerializedName("password") var password: String?=null,
+    @SerializedName("password_int") var password_int: String?=null,
+    @SerializedName("reset_token") var reset_token: String?=null,
     @SerializedName("status") var status: String?=null,
-    @SerializedName("profile_image") var profile_image: String?=null
+    @SerializedName("verified") var verified: String?=null,
+    @SerializedName("firebase_token") var firebase_token: String?=null,
+    @SerializedName("created_by") var created_by: String?=null,
+    @SerializedName("updated_at") var updated_at: String?=null,
+    @SerializedName("updated_by") var updated_by: String?=null,
+    @SerializedName("image") var profile_image: String?=null
 ) : Parcelable
 
 @Parcelize

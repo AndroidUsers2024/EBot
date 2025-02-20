@@ -31,7 +31,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                
                 android:paddingStart="6dp"
                 android:paddingEnd="5dp"
                 android:text="Jet-Jitendra"
@@ -44,7 +43,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                
                 android:paddingStart="6dp"
                 android:paddingEnd="5dp"
                 android:text="Starting at ₹120/hour "
@@ -59,15 +57,17 @@
             android:layout_width="140dp"
             android:layout_height="133dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:background="@drawable/bike1" />
+            android:scaleType="fitCenter"
+            android:layout_marginBottom="@dimen/_10sdp" />
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="297dp"
+            android:layout_width="match_parent"
             android:layout_height="42dp"
             android:layout_alignParentLeft="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/_24sdp"
+            android:layout_marginRight="@dimen/_24sdp"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="48dp"
             android:weightSum="3"
 
             >
@@ -82,7 +82,6 @@
                     android:id="@+id/range"
                     android:layout_width="match_parent"
                     android:layout_height="19dp"
-                    
                     android:gravity="left|top"
                     android:text="Range" />
 
@@ -90,7 +89,6 @@
                     android:id="@+id/tv_km"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    
                     android:gravity="top"
                     android:text="110 km"
                     android:textColor="@color/primary_text"
@@ -106,7 +104,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="19dp"
-                    
                     android:gravity="left|top"
                     android:text="Speed" />
 
@@ -114,7 +111,6 @@
                     android:id="@+id/tv_speed"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    
                     android:gravity="top"
                     android:text="25 km/h"
                     android:textColor="@color/primary_text"
@@ -130,7 +126,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="19dp"
-                    
                     android:gravity="left|top"
                     android:text="Battery Type" />
 
@@ -138,7 +133,6 @@
                     android:id="@+id/tv_battery_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    
                     android:gravity="top"
                     android:text="Single"
                     android:textColor="@color/primary_text"

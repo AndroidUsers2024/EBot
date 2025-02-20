@@ -1,6 +1,8 @@
 package com.example.ebot.adapters
 
 import android.content.Context
+import android.content.Intent
+import android.provider.SyncStateContract.Constants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.ebot.R
+import com.example.ebot.actvities.BikeViewDetailsActivity
+import com.example.ebot.actvities.MainActivity
 import com.example.ebot.models.Vehicle
 import java.util.Locale
 
@@ -43,13 +47,15 @@ class BikesAdapter  (private var packagesList: ArrayList<Vehicle>, private val c
             holder.tv_km.text = vehicle_data.range
             holder.tv_speed.text = vehicle_data.speed
             holder.tv_battery_type.text = vehicle_data.battery_type
-            Glide.with(context).load(vehicle_data.bike_image)
+            Glide.with(context).load("https://ritps.com/ebot/"+vehicle_data.bike_image)
                 .into(holder.iv_vehicle)
 
 
 
         holder.ll_view_details.setOnClickListener(View.OnClickListener {
-
+            val intent = Intent(context,BikeViewDetailsActivity::class.java)
+            intent.putExtra("vehicle",vehicle_data)
+            context.startActivity(intent)
         })
 
     }

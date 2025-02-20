@@ -216,10 +216,12 @@
                     android:id="@+id/rc_vehicles"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:scrollbars="horizontal"
+                    android:orientation="vertical"
+                    android:scrollbars="none"
                     android:visibility="visible"
-                    tools:listitem="@layout/bikes_cardview" />
+                    tools:listitem="@layout/bikes_cardview"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"/>
 
 
             </LinearLayout>

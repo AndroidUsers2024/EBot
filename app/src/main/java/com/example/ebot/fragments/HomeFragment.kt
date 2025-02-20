@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ebot.R
 import com.example.ebot.adapters.BikesAdapter
 import com.example.ebot.common.Utils
+import com.example.ebot.models.MainResponse
 import com.example.ebot.models.Vehicle
 import com.example.ebot.services.ServiceManager
 import retrofit2.Call
@@ -61,11 +62,11 @@ class HomeFragment : Fragment() {
 //                startActivity(intent)
             })
 
-            rc_vehicles.layoutManager= LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL,false)
+            rc_vehicles.layoutManager= LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false)
             bikeAdapter= BikesAdapter(vehiclesList,requireContext())
             rc_vehicles.adapter=bikeAdapter
             getVehiclesList()
-
+            getWalletAmountAPI("1")
 
         }catch (e:Exception){
             e.printStackTrace()
@@ -107,6 +108,44 @@ class HomeFragment : Fragment() {
 
         }catch (e:Exception){
             Log.e("HomeFragment.getPackagesList",e.message.toString())
+        }
+    }
+
+    private fun getWalletAmountAPI(userId: String) {
+        try {
+            val dataManager = ServiceManager.getDataManager()
+
+            val otpCallback = object : Callback<MainResponse> {
+                override fun onResponse(
+                    call: Call<MainResponse>,
+                    response: Response<MainResponse>
+                ) {
+                    if (response.body()!!.status!!.toLowerCase() == "success") {
+                        val responseData = response.body()!!.data.wallet_amount
+                        val walletAmt: Float = responseData ?: 0.0f
+                        Utils.WALLET_AMOUNT=walletAmt.toString()
+                        tv_available_bal.text="₹ "+walletAmt.toString()
+
+
+                        Log.v("Response", "response" + response.body()!!.message.toString())
+                    } else {
+
+                        // Handle error
+                        println("Failed to getWalletAmount. ${response.message()}")
+                    }
+
+                }
+
+
+                override fun onFailure(call: Call<MainResponse>, t: Throwable) {
+                    println("Failed to getWalletAmount. ${t.message}")
+                }
+            }
+
+            // Call the sendOtp function in DataManager
+            dataManager.getWalletAmount(otpCallback, userId)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

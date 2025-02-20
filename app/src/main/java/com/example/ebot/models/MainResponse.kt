@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 data class MainResponse (
     @SerializedName("status"  ) var status  : String?    = "",
     @SerializedName("message" ) var message : String? = null,
-//    @SerializedName("data"    ) var data    : Data   = Data(),
+    @SerializedName("data"    ) var data    : Data   = Data(),
 //    @SerializedName("profile_image" ) var profile_image :String?  = ""
     )
 data class Data (

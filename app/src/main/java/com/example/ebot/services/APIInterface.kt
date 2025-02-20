@@ -135,7 +135,7 @@ interface APIInterface {
     @POST(ROOT_URL_SUB+"v1/buy_now")
     fun packageBuyNow(@Body request: PackageBuyNow):Call<MainResponse>
 
-    @POST(ROOT_URL_SUB+"v1/wallet_amount")
+    @POST(ROOT_URL_SUB+"wallet_amount")
     fun getWalletAmount(@Body request: UserCommonJson):Call<MainResponse>
 
 

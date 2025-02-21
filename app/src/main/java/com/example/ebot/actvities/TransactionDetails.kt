@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.ebot.R
+import com.example.ebot.common.Utils
+import com.example.ebot.models.BankDetails
 import com.google.android.material.imageview.ShapeableImageView
 
 class TransactionDetails : AppCompatActivity() {
@@ -28,6 +30,8 @@ class TransactionDetails : AppCompatActivity() {
     private lateinit var btn_goBack: Button
     private lateinit var tv_fee: TextView
     private lateinit var img_accountLogo: ShapeableImageView
+    private lateinit var bankDetails: BankDetails
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.transaction_details)
@@ -53,6 +57,17 @@ class TransactionDetails : AppCompatActivity() {
             tv_Amount = findViewById(R.id.tv_Amount)
             img_accountLogo = findViewById(R.id.img_accountLogo)
 
+            bankDetails= intent.getParcelableExtra<BankDetails>("bankDetails")!!
+            tv_BankName.text=bankDetails.bank_name
+            val bankAccNo= Utils.maskAccountNumber(bankDetails.account_number.toString())
+            tv_AccountNumber.text=bankAccNo
+            tv_payAmount.text= intent.getStringExtra("amount")
+            tv_Amount.text= intent.getStringExtra("amount")
+
+            val date =Utils.getDate()
+            tv_date.text=Utils.changeDateFormat(date,"dd MMM, YYYY")
+            val time =Utils.getCurrentTime()
+            tv_time.text=time
 
             wv_back.setOnClickListener(View.OnClickListener {
                 onBackPressed()

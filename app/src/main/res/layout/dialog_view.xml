@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:gravity="center_horizontal">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/dialogTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Confirmation"
+        android:textSize="@dimen/_18sdp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:paddingBottom="8dp" />
+
+    <!-- Message -->
+    <TextView
+        android:id="@+id/dialogMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Are you sure?"
+        android:textSize="@dimen/_14sdp"
+        android:textColor="@android:color/black"
+        android:paddingBottom="16dp" />
+
+    <!-- Button Container -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        >
+
+        <!-- Negative Button -->
+        <Button
+            android:id="@+id/negativeButton"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:text="Cancel"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/red"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/button_bg" />
+
+        <!-- Positive Button -->
+        <Button
+            android:id="@+id/positiveButton"
+            android:layout_width="90dp"
+            android:layout_height="40dp"
+            android:text="Confirm"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/secondary"
+            android:background="@drawable/button_bg" />
+    </LinearLayout>
+</LinearLayout>

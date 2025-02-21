@@ -709,7 +709,52 @@ object Utils {
         }
     }
 
+    fun isNull(data:Any?,type: String):Any{
+        if (data ==null){
+            when (type) {
+                 "s" -> return ""
+                 "i" -> return 0
+                 "b" -> return false
+                 "f" -> return 0
+                 "l" -> return 0
+                 "d" ->return 0.0
+                else -> return ""
+            }
+        }
+        return ""
+    }
 
+
+    fun showsConfirmation(context: Context, msg: String, onConfirm: () -> Unit) {
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_view, null)
+
+        val dialog = AlertDialog.Builder(context)
+            .setView(dialogView)
+            .setCancelable(false) // Prevent accidental dismiss
+            .create()
+
+        // Find views inside custom layout
+        val titleTextView = dialogView.findViewById<TextView>(R.id.dialogTitle)
+        val messageTextView = dialogView.findViewById<TextView>(R.id.dialogMessage)
+        val positiveButton = dialogView.findViewById<Button>(R.id.positiveButton)
+        val negativeButton = dialogView.findViewById<Button>(R.id.negativeButton)
+
+        // Set dynamic text
+        messageTextView.text = msg
+
+        // Handle button clicks
+        positiveButton.setOnClickListener {
+            onConfirm() // Perform the action for confirming
+            dialog.dismiss()
+        }
+
+        negativeButton.setOnClickListener {
+            dialog.dismiss() // Simply dismiss the dialog
+        }
+
+        // Show the dialog
+        dialog.show()
+    }
 
 
 

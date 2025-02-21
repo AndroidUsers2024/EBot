@@ -41,7 +41,7 @@ interface APIInterface {
     fun loginUser(@Body request: UserCommonJson): Call<LoginResponse>
 
     @POST(ROOT_URL_SUB+"registration")
-    fun registerUser(@Body reqData:RegisterData): Call<MainResponse>
+    fun registerUser(@Body reqData:RegisterData): Call<RegisterResponse>
 
     @POST(ROOT_URL_SUB+"verify_otp")
     fun verifyOTP( @Body verifyOTP:UserCommonJson): Call<LoginResponse>
@@ -49,8 +49,10 @@ interface APIInterface {
     @GET(ROOT_URL_SUB + "profile_get")
     fun getProfile(@Query("id") id: String): Call<ProfileResponse>
 
-    @POST(ROOT_URL_SUB+"v1/profile/myteam")
-    fun getMyTeam(@Body request: UserCommonJson): Call<MainResponse>
+
+
+    @GET(ROOT_URL_SUB+"home_banner_list")
+    fun getHomeBanner(): Call<ArrayList<HomeBannerList>>
 
 
     @POST(ROOT_URL_SUB+"vehicle")/*{"mobile":""}*/
@@ -64,28 +66,21 @@ interface APIInterface {
 
 
 
-    @FormUrlEncoded
-    @POST(ROOT_URL_SUB+"ApiBankDetailsController/bank_details")
-    fun getBankDetails(@Field("user_id")user_id:String): Call<MainResponse>
+    @POST(ROOT_URL_SUB+"get_bank_details")
+    fun getBankDetails(@Body user_id:UserCommonJson): Call<BankDataResponse>
 
    @FormUrlEncoded
     @POST(ROOT_URL_SUB+"ApiBankDetailsController/update_bank_details")
     fun updateBankDetails(@Body request: BankDetails): Call<MainResponse>
 
 
-    @FormUrlEncoded
-    @POST(ROOT_URL_SUB+"ApiBankDetailsController/save_bank_details")
-    fun saveBankDetails(@Field("user_id")  user_id: String,
-                        @Field("account_number")  account_number: String,
-                        @Field("bank_name")  bank_name: String,
-                        @Field("ifsc_code")  ifsc_code: String?,
-                        @Field("account_type")  account_type: String): Call<SaveBankDetailsResponse>
+    @POST(ROOT_URL_SUB+"save_bank_details")
+    fun saveBankDetails(@Body request: SaveBankDetails): Call<SaveBankDetailsResponse>
 
 
 
-    @FormUrlEncoded
-    @POST(ROOT_URL_SUB+"v1/bankdetails/delete")
-    fun removeBankDetails(@Field("id")id:Int):Call<MainResponse>
+    @POST(ROOT_URL_SUB+"delete_bank_details")
+    fun removeBankDetails(@Body id:UserCommonJson):Call<MainResponse>
 
     @Multipart
     @POST(ROOT_URL_SUB+"v1/save_neft")
@@ -93,7 +88,7 @@ interface APIInterface {
                  @Part("transaction_utr")transaction_utr:RequestBody,
                  @Part neft_image : MultipartBody.Part):Call<MainResponse>
 
-    @POST(ROOT_URL_SUB+"v1/withdraw")
+    @POST(ROOT_URL_SUB+"withdraw")
     fun withdraw(@Body request: Withdraw):Call<MainResponse>
 
     @Multipart
@@ -113,7 +108,7 @@ interface APIInterface {
 
 
   @Multipart
-    @POST(ROOT_URL_SUB + "save_kyc_details")
+    @POST(ROOT_URL_SUB + "update_profile")
     fun updateProfile(
         @Part("user_id") user_id: RequestBody, @Part("name") name: RequestBody,
         @Part("last_name") last_name: RequestBody,

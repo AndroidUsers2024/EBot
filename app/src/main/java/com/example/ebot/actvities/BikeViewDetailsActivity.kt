@@ -1,19 +1,20 @@
 package com.example.ebot.actvities
 
 import CarouselAdapter
+import android.app.ProgressDialog
 import android.os.Bundle
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.example.ebot.R
+import com.example.ebot.models.HomeBannerList
 import com.example.ebot.models.Vehicle
+import com.example.ebot.services.ServiceManager
 
 class BikeViewDetailsActivity : AppCompatActivity() {
     private lateinit var dotsLayout: LinearLayout
@@ -33,6 +34,8 @@ class BikeViewDetailsActivity : AppCompatActivity() {
     private lateinit var tv_of_Capacity: TextView
     private lateinit var tv_title: TextView
     private lateinit var tv_description_text: TextView
+    private lateinit var dialog: ProgressDialog
+    private  var vehicleData: Vehicle=Vehicle()
 
     private val YOUR_TOTAL_PROGRESS = 100
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,10 +59,17 @@ class BikeViewDetailsActivity : AppCompatActivity() {
         tv_title= findViewById(R.id.tv_title)
         tv_description_text= findViewById(R.id.tv_description_text)
 
+        vehicleData= intent.getParcelableExtra<Vehicle>("vehicle")!!
+        val bikeImg="https://ritps.com/ebot/"+vehicleData.bike_image
+        val imgs:ArrayList<HomeBannerList> = arrayListOf()
+        val temp=HomeBannerList(image =bikeImg )
+        imgs.add((temp))
+
+
 
 
         val images = listOf(R.drawable.bike1, R.drawable.bike2, R.drawable.bike3, R.drawable.bike1)
-        val adapter = CarouselAdapter(images)
+        val adapter = CarouselAdapter(images,imgs,this)
         viewPager.adapter = adapter
         setupDots(images.size)
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -101,20 +111,19 @@ class BikeViewDetailsActivity : AppCompatActivity() {
             }
         })
 
-        val vehicleItem: Vehicle? =intent.getParcelableExtra<Vehicle>("vehicle")
 
-        tv_km.text = vehicleItem?.range
-        tv_speed.text = vehicleItem?.speed
-        tv_battery_type.text = vehicleItem?.battery_type
-        starting_at.text = vehicleItem?.bike_price
-        tv_of_Battery_Type.text = vehicleItem?.battery_type
-//        tv_of_charger_no.text = vehicleItem?.
-        tv_of_speed.text = vehicleItem?.speed
-        tv_of_milage.text = vehicleItem?.milage
-        tv_of_driver_license.text = vehicleItem?.drivers_license
-        tv_of_Capacity.text = vehicleItem?.load_capacity
-        tv_title.text = vehicleItem?.bike_name
-        tv_description_text.text = vehicleItem?.description
+        tv_km.text = vehicleData.range
+        tv_speed.text = vehicleData.speed
+        tv_battery_type.text = vehicleData.battery_type
+        starting_at.text = vehicleData.bike_price
+        tv_of_Battery_Type.text = vehicleData.battery_type
+        tv_of_charger_no.text = vehicleData.charges
+        tv_of_speed.text = vehicleData.speed
+        tv_of_milage.text = vehicleData.milage
+        tv_of_driver_license.text = vehicleData.drivers_license
+        tv_of_Capacity.text = vehicleData.load_capacity
+        tv_title.text = vehicleData.bike_name
+        tv_description_text.text = vehicleData.description
     }
 
     private fun setupDots(count: Int) {
@@ -148,4 +157,6 @@ class BikeViewDetailsActivity : AppCompatActivity() {
             )
         }
     }
+
+
 }

@@ -45,6 +45,9 @@ import com.example.ebot.models.ProfileResponse
 import com.example.ebot.services.ServiceManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.imageview.ShapeableImageView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -441,10 +444,10 @@ class ProfileFragment : Fragment(),View.OnClickListener {
                 progressbar.visibility= View.GONE
                 ll_profile.visibility= View.VISIBLE
                 if (response.isSuccessful) {
-                    if(response.body()!!.status!="success")
+                    if(response.body()!!.status=="success")
                     {
-                        Glide.with(requireContext()).load(response.body()!!.data!!.profile_image)
-                            .into(img_profile)
+
+                        shownProfile(response.body()!!.data!!.profile_image.toString())
 
 
                     }
@@ -469,6 +472,21 @@ class ProfileFragment : Fragment(),View.OnClickListener {
 
         // Call the sendOtp function in DataManager
         dataManager.fetchProfile(callback, userId = user)
+    }
+    private fun shownProfile(profileImageUrl:String){
+        try{
+            if (profileImageUrl.isNotEmpty()) {
+                profileImageUrl.let { url ->
+                    Glide.with(this).load(url)
+                        .into(img_profile)
+                    Log.i("Response", "imageURL $url")
+
+
+                }
+            }
+        }catch (e:Exception){
+            Log.e("shownProfileImage",e.message.toString())
+        }
     }
 
 }

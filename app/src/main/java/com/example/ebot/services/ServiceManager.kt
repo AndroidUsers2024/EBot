@@ -103,7 +103,7 @@ class ServiceManager {
         val call = apiService.loginUser(loginRequest)
         call.enqueue(cb)
     }
-    fun registerUser(cb: Callback<MainResponse>,data:RegisterData){
+    fun registerUser(cb: Callback<RegisterResponse>,data:RegisterData){
         val apiService = retrofit.create(APIInterface::class.java)
         val call = apiService.registerUser(data)
         call.enqueue(cb)
@@ -124,10 +124,16 @@ class ServiceManager {
         val call = apiService.getProfile(userId)
         call.enqueue(cb)
     }
+    fun getHomeBanner(cb: Callback<ArrayList<HomeBannerList>>) {
+        val apiService = retrofit.create(APIInterface::class.java)
+        val call = apiService.getHomeBanner()
+        call.enqueue(cb)
+    }
 
-    fun fetchBankDetails(cb: Callback<MainResponse>, userId: String){
+    fun fetchBankDetails(cb: Callback<BankDataResponse>, userId: String){
         val api=retrofit.create(APIInterface::class.java)
-        val call=api.getBankDetails(userId)
+        val user=UserCommonJson(user_id = userId)
+        val call=api.getBankDetails(user)
         call.enqueue(cb)
     }
 
@@ -138,12 +144,13 @@ class ServiceManager {
     }
     fun saveBankDetails(cb: Callback<SaveBankDetailsResponse>, bankDetails: SaveBankDetails){
         val apiService=retrofit.create(APIInterface::class.java)
-        val call =apiService.saveBankDetails(bankDetails.user_id.toString(),bankDetails.account_number.toString(),bankDetails.bank_name.toString(),bankDetails.ifsc_code,bankDetails.account_type.toString())
+        val call =apiService.saveBankDetails(bankDetails)
         call.enqueue(cb)
     }
-    fun removeBankDetails(cb: Callback<MainResponse>, id: Int){
+    fun removeBankDetails(cb: Callback<MainResponse>, id: String){
         val apiService=retrofit.create(APIInterface::class.java)
-        val call =apiService.removeBankDetails(id)
+        val bank_id=UserCommonJson(bank_id=id)
+        val call =apiService.removeBankDetails(bank_id)
         call.enqueue(cb)
     }
     fun saveNEFT(cb: Callback<MainResponse>, userId: RequestBody, amount:RequestBody, transaction_utr:RequestBody, imageFile: MultipartBody.Part){

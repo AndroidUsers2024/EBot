@@ -81,7 +81,6 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:scaleType="fitCenter"
-                    android:backgroundTint="@color/stroke"
                     android:background="@drawable/round"
                     android:id="@+id/vw_isChoose"/>
         </LinearLayout>

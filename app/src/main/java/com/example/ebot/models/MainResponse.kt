@@ -179,7 +179,8 @@ data class UserCommonJson(
     @SerializedName("user_id") var user_id: String?="",
     @SerializedName("email") var email: String?="",
     @SerializedName("otp") var otp: String?="",
-    @SerializedName("id") var id: String?=""
+    @SerializedName("id") var id: String?="",
+    @SerializedName("bank_id") var bank_id: String?=""
 )
 data class ProfileResponse(
     @SerializedName("message") var message:String?="",
@@ -190,7 +191,7 @@ data class ProfileResponse(
 @Parcelize
 data class ProfileData(
     @SerializedName("id") var id: String?="",
-    @SerializedName("mobile") var mobile: String?="",
+    @SerializedName("phone") var mobile: String?="",
     @SerializedName("otp") var otp: String?="",
     @SerializedName("created_at") var created_at: String?="",
     @SerializedName("email") var email: String?=null,
@@ -220,6 +221,12 @@ data class ProfileData(
     @SerializedName("image") var profile_image: String?=null
 ) : Parcelable
 
+
+data class BankDataResponse (
+    @SerializedName("status"  ) var status  : String?    = "",
+    @SerializedName("message" ) var message : String? = null,
+    @SerializedName("data"    ) var data    : ArrayList<BankDetails>   = arrayListOf(),
+)
 @Parcelize
 data class BankDetails(
     @SerializedName("id") var id: String?="",
@@ -228,6 +235,8 @@ data class BankDetails(
     @SerializedName("bank_name") var bank_name: String?="",
     @SerializedName("ifsc_code") var ifsc_code: String?="",
     @SerializedName("account_type") var account_type: String?="",
+    @SerializedName("created_at") var created_at: String?="",
+    @SerializedName("updated_at") var updated_at: String?="",
     var bankLogo: String?="",
     var isChoose:Boolean=false
 
@@ -269,9 +278,10 @@ data class SaveBankDetails(
 
 data class SaveBankDetailsResponse (
 
-    @SerializedName("status"  ) var status  : Boolean?    = null,
+    @SerializedName("status"  ) var status  : String?    = null,
     @SerializedName("message" ) var message : String? = null,
-    @SerializedName("data"    ) var data    : BankResponse   = BankResponse()
+    @SerializedName("bank_id" ) var bank_id : String? = null,
+   // @SerializedName("data"    ) var data    : BankResponse   = BankResponse()
 
 )
 data class BankResponse (
@@ -283,12 +293,19 @@ data class NEFTDetails(
     @SerializedName("transaction_utr") var transaction_utr:String?="",
     @SerializedName("neft_image") var neft_image:String?=""
 )
+data class HomeBannerList(
+    @SerializedName("image") var image:String?="",
+    @SerializedName("created_date") var created_date:String?="",
+    @SerializedName("created_time") var created_time:String?="",
+)
 
 data class Withdraw(
     @SerializedName("user_id") var user_id:String?="",
     @SerializedName("amount") var amount:String?="",
     @SerializedName("user_bank_details") var user_bank_details:String?="",
-    @SerializedName("notes") var notes:String?=""
+    @SerializedName("notes") var notes:String?="",
+    @SerializedName("status") var status:String?="",
+    @SerializedName("created_at") var created_at:String?=""
 )
 
 

@@ -1,11 +1,14 @@
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.ebot.R
+import com.example.ebot.models.HomeBannerList
 
-class CarouselAdapter(private val images: List<Int>) : RecyclerView.Adapter<CarouselAdapter.ViewHolder>() {
+class CarouselAdapter(private var images: List<Int>, private var bannerList: ArrayList<HomeBannerList>?, private val context: Context) : RecyclerView.Adapter<CarouselAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.imageView)
@@ -17,8 +20,26 @@ class CarouselAdapter(private val images: List<Int>) : RecyclerView.Adapter<Caro
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.imageView.setImageResource(images[position])
+        if (bannerList!=null && bannerList!!.size>0){
+            val img= bannerList!![position].image
+            if (img!!.isNotEmpty()) {
+                img.let { url ->
+                    Glide.with(context).load(url)
+                        .into( holder.imageView)
+
+                }
+            }
+        }else{
+            holder.imageView.setImageResource(images[position])
+        }
     }
 
     override fun getItemCount(): Int = images.size
+
+    fun updateBanners(list: ArrayList<HomeBannerList>, image: List<Int>?){
+        bannerList=list
+        images=image!!
+        notifyDataSetChanged()
+
+    }
 }

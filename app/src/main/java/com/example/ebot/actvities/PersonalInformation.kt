@@ -36,6 +36,9 @@ import com.example.ebot.models.ProfileResponse
 import com.example.ebot.services.ServiceManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.imageview.ShapeableImageView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -60,7 +63,8 @@ class PersonalInformation : AppCompatActivity() {
     private lateinit var btn_other: Button
     private val PERMISSION_REQUEST_CODE: Int = 201
     private var profilePicPath: String? = ""
-    private var tempPhotoPath: String? = ""
+    private  var tempPhotoPath: String?=""
+    private lateinit var userId: String
     private lateinit var cameraBottomSheet: BottomSheetDialog
     private lateinit var editDetailBottomSheet: BottomSheetDialog
     private lateinit var  openDialog:ProgressDialog
@@ -89,7 +93,7 @@ class PersonalInformation : AppCompatActivity() {
             tv_email = findViewById(R.id.tv_email)
             tv_mobileNo = findViewById(R.id.tv_mobileNo)
             tv_fullAddress = findViewById(R.id.tv_fullAddress)
-            val userId=Utils.getData(this@PersonalInformation,"user_id","") as String
+            userId=Utils.getData(this@PersonalInformation,"user_id","") as String
 
             getProfileData(userId)
             back.setOnClickListener(View.OnClickListener {
@@ -144,7 +148,7 @@ class PersonalInformation : AppCompatActivity() {
             val close: ShapeableImageView = view.findViewById(R.id.close)
             val img_flag: ShapeableImageView = view.findViewById(R.id.img_flag)
             val tv_countryCode: TextView = view.findViewById(R.id.tv_countryCode)
-            val tv_email: TextView = view.findViewById(R.id.tv_email)
+            val tv_emailID: TextView = view.findViewById(R.id.tv_email)
             val et_fullName: EditText = view.findViewById(R.id.et_fullName)
             val et_mobileNumber: EditText = view.findViewById(R.id.et_mobileNumber)
             val et_emailId: EditText = view.findViewById(R.id.et_emailId)
@@ -162,18 +166,30 @@ class PersonalInformation : AppCompatActivity() {
             btn_other = view.findViewById(R.id.btn_other)
             val btn_cancel: Button = view.findViewById(R.id.btn_cancel)
             val btn_save: Button = view.findViewById(R.id.btn_save)
+            var updateData=ProfileData()
+            img_flag.setImageDrawable(getDrawable(R.drawable.ind_flag))
+            et_fullName.setText(tv_FullName.text.toString())
+            et_mobileNumber.setText(tv_mobileNo.text.toString())
+            et_emailId.setText(tv_email.text.toString())
+            et_Area.setText(profileData!!.address)
+            et_ZipCode.setText(profileData!!.pincode)
+            et_City.setText(profileData!!.city)
+            et_Country.setText(profileData!!.country)
+            et_state.setText(profileData!!.state)
+
 
             if (isProfileEdit) {
                 ll_editAddress.visibility = View.GONE
-                tv_email.visibility = View.VISIBLE
+                tv_emailID.visibility = View.VISIBLE
                 et_emailId.visibility = View.VISIBLE
             } else {
                 ll_editAddress.visibility = View.VISIBLE
-                tv_email.visibility = View.GONE
+                tv_emailID.visibility = View.GONE
                 et_emailId.visibility = View.GONE
                 setButtonsBG(0)
-
             }
+
+
 
 
             close.setOnClickListener(View.OnClickListener {
@@ -181,6 +197,75 @@ class PersonalInformation : AppCompatActivity() {
             })
             btn_cancel.setOnClickListener(View.OnClickListener {
                 editDetailBottomSheet.dismiss()
+            })
+            btn_save.setOnClickListener(View.OnClickListener {
+                val name=et_fullName.text.toString()
+                val email =et_emailId.text.toString()
+                val phone=et_mobileNumber.text.toString()
+                val names = name.split(" ")
+                var f_name=""
+                var l_name=""
+                if (names.size == 2) {
+                    f_name = names[0]
+                    l_name = names[1]
+                } else {
+                    f_name = name
+                }
+                var address=""
+                val fl_no=et_flat_home.text.toString().trim()
+                val floor=et_floor.text.toString().trim()
+                val area=et_Area.text.toString().trim()
+                val landmark=et_landmark.text.toString().trim()
+                val city=et_City.text.toString().trim()
+                val country=et_Country.text.toString().trim()
+                val state=et_state.text.toString().trim()
+                val pin_code=et_ZipCode.text.toString().trim()
+                val country_code=tv_countryCode.text.toString().trim()
+                address= "$fl_no,$floor,$area,$landmark".trim()
+
+                if (isProfileEdit){
+                    if (name.isEmpty()){
+                        Utils.showToast(this@PersonalInformation,"Please enter name")
+                    } else if (phone.isEmpty()){
+                        Utils.showToast(this@PersonalInformation,"Please enter phone number")
+                    }else if (email.isEmpty()){
+                        Utils.showToast(this@PersonalInformation,"Please enter email")
+                    }else if (!Utils.isNetworkAvailable(this)){
+                        Utils.showToast(this@PersonalInformation,"Please check network")
+                    }else{
+                        updateData=ProfileData(userId, phone,profileData!!.otp,profileData!!.created_at,email,f_name,l_name,profileData!!.gender,profileData!!.dob,
+                            address,pin_code,city,country,state,  country_code, profile_image = profilePicPath
+                        )
+                        updateProfileData(updateData)
+
+                    }
+
+                }else{
+                    if (name.isEmpty()){
+                        Utils.showToast(this@PersonalInformation,"Please enter name")
+                    } else if (phone.isEmpty()){
+                        Utils.showToast(this@PersonalInformation,"Please enter phone number")
+                    }else if (fl_no.isEmpty()){
+                        Utils.showToast(this@PersonalInformation,"Please enter flat/house/building no")
+                    }else if (area.isEmpty()){
+                        Utils.showToast(this@PersonalInformation,"Please enter area/sector/Locality")
+                    }else if (city.isEmpty()){
+                        Utils.showToast(this@PersonalInformation,"Please enter city")
+                    }else if (country.isEmpty()){
+                        Utils.showToast(this@PersonalInformation,"Please enter country")
+                    }else if (state.isEmpty()){
+                        Utils.showToast(this@PersonalInformation,"Please enter state")
+                    }else if (pin_code.isEmpty()){
+                        Utils.showToast(this@PersonalInformation,"Please enter Zip Code")
+                    }else if (!Utils.isNetworkAvailable(this)){
+                        Utils.showToast(this@PersonalInformation,"Please check network")
+                    }else{
+                        updateData=ProfileData(userId,email,profileData!!.otp,profileData!!.created_at,email,f_name,l_name,profileData!!.gender,profileData!!.dob,
+                            address,pin_code,city,country,state,  country_code, profile_image = profilePicPath
+                        )
+                        updateProfileData(updateData)
+                    }
+                }
             })
             btn_home.setOnClickListener(View.OnClickListener {
                 setButtonsBG(0)
@@ -523,7 +608,7 @@ class PersonalInformation : AppCompatActivity() {
                   openDialog.dismiss()
               }
                 if (response.isSuccessful) {
-                    if(response.body()!!.status!="success")
+                    if(response.body()!!.status=="success")
                     {
                         profileData=ProfileData()
                         profileData=response.body()!!.data
@@ -562,7 +647,10 @@ class PersonalInformation : AppCompatActivity() {
                 profileImageUrl.let { url ->
                     Glide.with(this).load(url)
                         .into(img_profile)
+                    CoroutineScope(Dispatchers.Main).launch {
+                        profilePicPath=Utils.convertURLToLocalPath(this@PersonalInformation,url,"IMG_Profile")
 
+                    }
                 }
             }
         }catch (e:Exception){
@@ -572,18 +660,18 @@ class PersonalInformation : AppCompatActivity() {
 
     private fun showProfileData(data: ProfileData) {
         try {
-            tv_FullName.setText(data.first_name + " " + data.last_name)
+            tv_FullName.text = data.first_name + " " + data.last_name
             Utils.saveData(
                 this@PersonalInformation,
                 "user_name",
                 tv_FullName.text.toString().trim()
             )
-            tv_mobileNo.setText(data.mobile)
+            tv_mobileNo.text = data.mobile
             val dob = Utils.changeDateFormat(data.dob.toString(), "dd-MM-yyyy")
-            tv_email.setText(data.email)
+            tv_email.text = data.email
             val fullAddress =
                 """${data.address}, ${data.city}, ${data.state}, ${data.country} - ${data.pincode}"""
-            tv_fullAddress.setText(fullAddress)
+            tv_fullAddress.text = fullAddress
 
             shownProfile(data.profile_image.toString())
 
@@ -619,6 +707,10 @@ class PersonalInformation : AppCompatActivity() {
                     if (response.isSuccessful) {
                         if (response.body()!!.status == "success") {
 
+                            if (editDetailBottomSheet.isShowing){
+                                editDetailBottomSheet.dismiss()
+                                updateXML()
+                            }
                         }
                         Utils.showToast(
                             this@PersonalInformation,
@@ -657,14 +749,19 @@ class PersonalInformation : AppCompatActivity() {
         try {
             val userID = Utils.getData(this@PersonalInformation, "user_id", "") as String
 
-
+             val image:MultipartBody.Part?
             val profilePic = File(profilePicPath.toString())
-            val profileImg = profilePic.asRequestBody("image/png".toMediaType())
-            val image = MultipartBody.Part.createFormData(
-                "image",
-                profilePic.name,
-                profileImg
-            )
+            if (profilePic.exists()){
+                val profileImg = profilePic.asRequestBody("image/png".toMediaType())
+                image = MultipartBody.Part.createFormData(
+                    "image",
+                    profilePic.name,
+                    profileImg
+                )
+            }else{
+                image=null
+            }
+
             val user_id = RequestBody.create("text/plain".toMediaType(), userID)
             val name = RequestBody.create("text/plain".toMediaType(), data.first_name!!)
             val last_name = RequestBody.create("text/plain".toMediaType(), data.last_name!!)

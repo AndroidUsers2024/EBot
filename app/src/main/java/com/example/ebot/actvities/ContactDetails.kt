@@ -15,6 +15,7 @@ import com.example.ebot.R
 import com.example.ebot.common.Utils
 import com.example.ebot.models.MainResponse
 import com.example.ebot.models.RegisterData
+import com.example.ebot.models.RegisterResponse
 import com.example.ebot.services.ServiceManager
 import retrofit2.Call
 import retrofit2.Callback
@@ -144,17 +145,17 @@ class ContactDetails : AppCompatActivity() {
         try{
             openDialog = Utils.openDialog(this)
             val service = ServiceManager.getDataManager()
-            val callback = object : Callback<MainResponse> {
+            val callback = object : Callback<RegisterResponse> {
                 override fun onResponse(
-                    call: Call<MainResponse>,
-                    response: Response<MainResponse>
+                    call: Call<RegisterResponse>,
+                    response: Response<RegisterResponse>
                 ) {
                     if (openDialog.isShowing){
                         openDialog.dismiss()
 
                     }
                     if (response.isSuccessful) {
-                        if (response.body()?.status.equals("success")) {
+                        if (response.body()?.status!!.equals("success")) {
                             val body = response.body()
                             Utils.showToast(this@ContactDetails, body!!.message.toString())
                             val intent = Intent()
@@ -180,7 +181,7 @@ class ContactDetails : AppCompatActivity() {
                     }
                 }
 
-                override fun onFailure(call: Call<MainResponse>, t: Throwable) {
+                override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
                     println("Failed to send OTP. ${t.message}")
                     if (openDialog.isShowing){
                         openDialog.dismiss()

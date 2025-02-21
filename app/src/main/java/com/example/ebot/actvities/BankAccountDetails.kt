@@ -16,6 +16,11 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.ebot.R
 import com.example.ebot.common.Utils
 import com.example.ebot.models.SaveBankDetails
+import com.example.ebot.models.SaveBankDetailsResponse
+import com.example.ebot.services.ServiceManager
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class BankAccountDetails : AppCompatActivity() {
     private lateinit var ll_kYCBankDetails: LinearLayout
@@ -39,6 +44,7 @@ class BankAccountDetails : AppCompatActivity() {
     private var aadhaarFront: String? = ""
     private var aadhaarBack: String? = ""
     private var PANFront: String? = ""
+    private lateinit var screen: String
     private lateinit var dialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +66,7 @@ class BankAccountDetails : AppCompatActivity() {
             et_IFSCCode = findViewById(R.id.et_IFSCCode)
             et_AccountType = findViewById(R.id.et_AccountType)
             btn_submit = findViewById(R.id.btn_submit)
-            val screen = intent.getStringExtra("screen")
+            screen = intent.getStringExtra("screen").toString()
             ll_kYCBankDetails.visibility = View.GONE
             ll_Add_bankDetails.visibility = View.GONE
             if (screen == "KYC") {
@@ -93,11 +99,7 @@ class BankAccountDetails : AppCompatActivity() {
             btn_submit.setOnClickListener(View.OnClickListener {
                 val alerts = isEmpty()
                 val intent = Intent()
-                intent.setClass(this, KYCVerificationScreen::class.java)
-                // intent.setClass(this, MainActivity::class.java)
-                intent.putExtra("screen", "KYC")
-                startActivity(intent)
-                finish()
+
                 if (alerts.isEmpty()) {
                     //set userId here
 
@@ -110,17 +112,12 @@ class BankAccountDetails : AppCompatActivity() {
                         account_type = accountType
                     )
                     if (btn_submit.text.toString() == "Submit") {
-                        intent.setClass(this, KYCVerificationScreen::class.java)
-                        intent.putExtra("aadharNumber", aadharNumber)
-                        intent.putExtra("PANNumber", PANNumber)
-                        intent.putExtra("aadhaarFront", aadhaarFront)
-                        intent.putExtra("aadhaarBack", aadhaarBack)
-                        intent.putExtra("PANFront", PANFront)
-                        intent.putExtra("bankDetails", bankDetails)
-                        startActivity(intent)
+
+                        updateBankDetails(bankDetails, "KYC")
+
 
                     } else {
-                      //  updateBankDetails(bankDetails, "Other")
+                       updateBankDetails(bankDetails, "Other")
                     }
                 } else {
                     Utils.showToast(this@BankAccountDetails, alerts)
@@ -173,7 +170,77 @@ class BankAccountDetails : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-      //  super.onBackPressed()
+     if (screen.equals("KYC")){
+
+     }else{
+         super.onBackPressed()
+     }
+
 
     }
+    private fun updateBankDetails(bankDetails: SaveBankDetails, screen: String) {
+        try {
+            dialog = Utils.openDialog(this)
+            val dataManager = ServiceManager.getDataManager()
+            val callback = object : Callback<SaveBankDetailsResponse> {
+                override fun onResponse(call: Call<SaveBankDetailsResponse>, response: Response<SaveBankDetailsResponse>) {
+
+                    Utils.closeDialog(dialog)
+
+                    if (response.isSuccessful) {
+                        if (response.body()!!.status == "success") {
+                            //move to next screen
+                            if (screen.equals("KYC")) {
+                                val intent=Intent()
+                                intent.setClass(this@BankAccountDetails, KYCVerificationScreen::class.java)
+                                intent.putExtra("aadharNumber", aadharNumber)
+                                intent.putExtra("PANNumber", PANNumber)
+                                intent.putExtra("aadhaarFront", aadhaarFront)
+                                intent.putExtra("aadhaarBack", aadhaarBack)
+                                intent.putExtra("PANFront", PANFront)
+                                intent.putExtra("bankDetails", bankDetails)
+                                intent.putExtra("screen", "KYC")
+                                startActivity(intent)
+                                finish()
+                            } else {
+                                onBackPressed()
+                            }
+                        }
+
+                        Utils.showToast(this@BankAccountDetails, response.body()!!.message!!)
+                        Log.e("Response", "response" + response.body()!!.message!!)
+
+                    } else {
+                        println("Failed to get packages. ${response.message()}")
+                        Utils.showToast(
+                            this@BankAccountDetails,
+                            "Failed to update BankAccountDetails. ${response.message()}"
+                        )
+                    }
+
+                }
+
+                override fun onFailure(call: Call<SaveBankDetailsResponse>, t: Throwable) {
+                    Utils.closeDialog(dialog)
+                    println("Failed to get packages. ${t.message}")
+                    Utils.showToast(
+                        this@BankAccountDetails,
+                        "Failed to update BankAccountDetails. ${t.message}"
+                    )
+                }
+
+
+            }
+
+            if (screen.equals("KYC")){
+                dataManager.saveBankDetails(callback, bankDetails)
+
+            }
+
+
+        } catch (e: Exception) {
+            Log.e("BankAccountDetails.updateBankDetails: ", e.message.toString())
+        }
+    }
+
 }

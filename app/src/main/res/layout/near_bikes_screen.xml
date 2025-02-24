@@ -32,6 +32,13 @@
         android:layout_marginTop="@dimen/_3sdp"
         android:background="@color/stroke_lite"
         android:layout_height="@dimen/_10sdp"/>
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_34sdp"
+        android:id="@+id/progressbar"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

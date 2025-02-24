@@ -9,7 +9,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Part
 import java.util.concurrent.TimeUnit
 
 class ServiceManager {
@@ -127,6 +126,11 @@ class ServiceManager {
     fun getHomeBanner(cb: Callback<ArrayList<HomeBannerList>>) {
         val apiService = retrofit.create(APIInterface::class.java)
         val call = apiService.getHomeBanner()
+        call.enqueue(cb)
+    }
+    fun getHubList(cb: Callback<ArrayList<HubList>>) {
+        val apiService = retrofit.create(APIInterface::class.java)
+        val call = apiService.getHubList()
         call.enqueue(cb)
     }
 
@@ -251,6 +255,18 @@ class ServiceManager {
         val userId=UserCommonJson(user_id)
         val apiService=retrofit.create(APIInterface::class.java)
         val call=apiService.getTransactionHistory(userId)
+        call.enqueue(cb)
+    }
+
+    fun getTimeSlot(cb:Callback<List<TimeSlot>>, vehicle_id:String){
+        val userId=UserCommonJson(vehicle_id =vehicle_id )
+        val apiService=retrofit.create(APIInterface::class.java)
+        val call=apiService.getTimeSlot(userId)
+        call.enqueue(cb)
+    }
+    fun vehicleBooking(cb:Callback<BookingResponse>, data:BookVehicle){
+        val apiService=retrofit.create(APIInterface::class.java)
+        val call=apiService.vehicleBooking(data)
         call.enqueue(cb)
     }
 

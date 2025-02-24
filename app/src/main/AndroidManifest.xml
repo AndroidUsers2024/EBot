@@ -29,13 +29,19 @@
         android:theme="@style/Theme.EBot"
         tools:targetApi="31">
         <activity
+            android:name=".actvities.BookingSummaryScreen"
+            android:exported="false" />
+        <activity
+            android:name=".actvities.BikeBookingSlotScreen"
+            android:exported="false" />
+        <activity
             android:name=".actvities.CameraActivity"
             android:exported="false" />
         <activity
             android:name=".actvities.WithdrawScreen"
             android:exported="false" />
         <activity
-            android:name=".actvities.BikeBookingDetails"
+            android:name=".actvities.HubListScreen"
             android:exported="false" />
         <activity
             android:name=".actvities.KYCDetailsView"

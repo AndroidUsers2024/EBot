@@ -2,7 +2,9 @@ package com.example.ebot.actvities
 
 import CarouselAdapter
 import android.app.ProgressDialog
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -14,7 +16,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.ebot.R
 import com.example.ebot.models.HomeBannerList
 import com.example.ebot.models.Vehicle
-import com.example.ebot.services.ServiceManager
 
 class BikeViewDetailsActivity : AppCompatActivity() {
     private lateinit var dotsLayout: LinearLayout
@@ -33,17 +34,20 @@ class BikeViewDetailsActivity : AppCompatActivity() {
     private lateinit var tv_of_driver_license: TextView
     private lateinit var tv_of_Capacity: TextView
     private lateinit var tv_title: TextView
+    private lateinit var swipeText: TextView
     private lateinit var tv_description_text: TextView
     private lateinit var dialog: ProgressDialog
     private  var vehicleData: Vehicle=Vehicle()
+    private var isMove:Boolean=false
 
-    private val YOUR_TOTAL_PROGRESS = 100
+    private val YOUR_TOTAL_PROGRESS = 55
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bike_view_details)
          viewPager = findViewById(R.id.viewPager)
          dotsLayout = findViewById(R.id.dotsLayout)
         seekBar = findViewById(R.id.seekBar1)
+        swipeText = findViewById(R.id.swipeText)
 
         ll_back= findViewById(R.id.ll_back)
         tv_km= findViewById(R.id.tv_km)
@@ -71,7 +75,23 @@ class BikeViewDetailsActivity : AppCompatActivity() {
         val images = listOf(R.drawable.bike1, R.drawable.bike2, R.drawable.bike3, R.drawable.bike1)
         val adapter = CarouselAdapter(images,imgs,this)
         viewPager.adapter = adapter
-        setupDots(images.size)
+        if (vehicleData.bike_image.isNullOrEmpty()){
+            setupDots(images.size)
+            viewPager.isEnabled=true
+            dotsLayout.visibility=View.VISIBLE
+            setupDots(images.size)
+
+        }else{
+            if (imgs.size>1){
+                viewPager.isEnabled=true
+                dotsLayout.visibility=View.VISIBLE
+                setupDots(images.size)
+            }else{
+                viewPager.isEnabled=false
+                dotsLayout.visibility=View.GONE
+            }
+
+        }
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 updateDots(position)
@@ -84,14 +104,24 @@ class BikeViewDetailsActivity : AppCompatActivity() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 // Show the progress as a Toast
 //                Toast.makeText(applicationContext, "Seekbar progress: $progress", Toast.LENGTH_SHORT).show()
+                if (progress >= 20) {
+                    swipeText.setBackgroundResource((R.drawable.roundedcorners))
+                }else{
+                    swipeText.setBackgroundResource((R.drawable.button_bg))
 
+                }
                 // If progress reaches the total value, hide the SeekBar and show the circle
-                if (progress == YOUR_TOTAL_PROGRESS) {
+                if(progress >= YOUR_TOTAL_PROGRESS) {
+                    if (!isMove) {
+                        seekBar!!.progress = 5
+                        isMove=true
+                        val intent = Intent(this@BikeViewDetailsActivity, HubListScreen::class.java)
+                        intent.putExtra("vehicleData", vehicleData)
+                        startActivity(intent)
+
+                    }
 
 
-
-//                    seekBar?.visibility = View.GONE
-//                    circle.visibility = View.VISIBLE
                 }
             }
 
@@ -110,12 +140,15 @@ class BikeViewDetailsActivity : AppCompatActivity() {
                 }
             }
         })
+        ll_back.setOnClickListener(View.OnClickListener {
+            onBackPressed()
+        })
 
 
         tv_km.text = vehicleData.range
         tv_speed.text = vehicleData.speed
         tv_battery_type.text = vehicleData.battery_type
-        starting_at.text = vehicleData.bike_price
+        starting_at.text = " Starting at "+vehicleData.bike_price
         tv_of_Battery_Type.text = vehicleData.battery_type
         tv_of_charger_no.text = vehicleData.charges
         tv_of_speed.text = vehicleData.speed
@@ -124,6 +157,7 @@ class BikeViewDetailsActivity : AppCompatActivity() {
         tv_of_Capacity.text = vehicleData.load_capacity
         tv_title.text = vehicleData.bike_name
         tv_description_text.text = vehicleData.description
+        swipeText.text="Submit to Swipe   "+vehicleData.bike_price
     }
 
     private fun setupDots(count: Int) {
@@ -156,6 +190,12 @@ class BikeViewDetailsActivity : AppCompatActivity() {
                 )
             )
         }
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        seekBar.progress = 5
+        isMove=false
     }
 
 

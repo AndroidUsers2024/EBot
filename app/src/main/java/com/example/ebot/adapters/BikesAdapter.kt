@@ -43,8 +43,9 @@ class BikesAdapter  (private var packagesList: ArrayList<Vehicle>, private val c
     override fun onBindViewHolder(holder: VehiclesViewHolder, position: Int) {
         val vehicle_data:Vehicle=packagesList[position]
             holder.tv_title.text =  vehicle_data.bike_name
-            holder.tv_subTitle.text = vehicle_data.bike_price
-            holder.tv_km.text = vehicle_data.range
+            holder.tv_subTitle.text = " Starting at "+vehicle_data.bike_price
+
+        holder.tv_km.text = vehicle_data.range
             holder.tv_speed.text = vehicle_data.speed
             holder.tv_battery_type.text = vehicle_data.battery_type
             Glide.with(context).load("https://ritps.com/ebot/"+vehicle_data.bike_image)

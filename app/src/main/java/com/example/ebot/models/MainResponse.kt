@@ -22,7 +22,6 @@ data class Data (
     @SerializedName("profile_details" ) var profile_details: ArrayList<ProfileData> = arrayListOf(),
     @SerializedName("updated_profile") var updated_profile : UpdateProfile=UpdateProfile(),
     @SerializedName("bank_details" ) var bank_details : ArrayList<BankDetails> = arrayListOf(),
-    @SerializedName("myteam_details" ) var team : ArrayList<MyTeam> = arrayListOf(),
     @SerializedName("neft_details" ) var neft_details : NEFTDetails = NEFTDetails(),
     @SerializedName("withdraw_details" ) var withdraw_details : Withdraw = Withdraw(),
     @SerializedName("kyc_details" ) var kyc_details :AddKYC  = AddKYC(),
@@ -180,7 +179,8 @@ data class UserCommonJson(
     @SerializedName("email") var email: String?="",
     @SerializedName("otp") var otp: String?="",
     @SerializedName("id") var id: String?="",
-    @SerializedName("bank_id") var bank_id: String?=""
+    @SerializedName("bank_id") var bank_id: String?="",
+    @SerializedName("vehicle_id") var vehicle_id: String?=""
 )
 data class ProfileResponse(
     @SerializedName("message") var message:String?="",
@@ -244,26 +244,20 @@ data class BankDetails(
     ):Parcelable
 
 @Parcelize
-data class MyTeam(
-    @SerializedName("team_id") var team_id: String?="",
-    @SerializedName("id") var id: String?="",
-    @SerializedName("parent_user_id") var parent_user_id: String?="",
-    @SerializedName("child_user_id") var child_user_id: String?="",
-    @SerializedName("mobile") var mobile: String?="",
-    @SerializedName("otp") var otp: String?="",
-    @SerializedName("created_at") var created_at: String?="",
-    @SerializedName("first_name") var first_name: String?="",
-    @SerializedName("last_name") var last_name: String?="",
-    @SerializedName("gender") var gender: String?="",
-    @SerializedName("dob") var dob: String?="",
-    @SerializedName("email") var email: String?="",
-    @SerializedName("address") var address: String?="",
-    @SerializedName("pincode") var pincode: String?="",
-    @SerializedName("city") var city: String?="",
-    @SerializedName("state") var state: String?="",
-    @SerializedName("country") var country: String?="",
-    @SerializedName("refer_code") var refer_code: String?="",
-    @SerializedName("profile_image") var profile_image: String?=""
+data class BookVehicle(
+    @SerializedName("vehicle_id") var vehicle_id: String?="",
+    @SerializedName("hublist_id") var hublist_id: String?="",
+    @SerializedName("date") var date: String?="",
+    @SerializedName("time_slot") var time_slot: String?="",
+    @SerializedName("location") var location: String?="",
+    @SerializedName("total_amount") var total_amount: String?="",
+    @SerializedName("created_by") var created_by: String?=""
+):Parcelable
+@Parcelize
+data class BookingResponse(
+    @SerializedName("status") var status: String?="",
+    @SerializedName("message") var message: String?="",
+    @SerializedName("vehicle_booking_id") var date: String?=""
 ):Parcelable
 
 
@@ -412,5 +406,28 @@ data class Vehicle(
     @SerializedName("status") var status:String?="",
     @SerializedName("created_date") var created_date:String?="",
     @SerializedName("created_time") var created_time:String?=""
+):Parcelable
+
+@Parcelize
+data class HubList(
+    @SerializedName("id") var id:String?="",
+    @SerializedName("title") var title:String?="",
+    @SerializedName("direction") var direction:String?="",
+    @SerializedName("description") var description:String?="",
+    @SerializedName("created_by") var created_by:String?="",
+    @SerializedName("status") var status:String?="",
+    @SerializedName("created_date") var created_date:String?="",
+    @SerializedName("created_time") var created_time:String?="",
+    var isChoose:Boolean=false
+
+):Parcelable
+
+@Parcelize
+data class TimeSlot(
+    @SerializedName("id") val id: String,
+    @SerializedName("vehicle_id") val vehicleId: String,
+    @SerializedName("timeslot") val timeslot: String,
+    @SerializedName("created_date") val createdDate: String,
+    @SerializedName("created_time") val createdTime: String
 ):Parcelable
 

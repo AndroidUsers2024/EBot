@@ -5,14 +5,8 @@ import android.os.Bundle
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
-import com.example.ebot.actvities.BikeBookingDetails
-import com.example.ebot.actvities.BikeViewDetailsActivity
-import com.example.ebot.actvities.CameraActivity
 import com.example.ebot.actvities.LoginActivity
 import com.example.ebot.actvities.MainActivity
 import com.example.ebot.common.Utils

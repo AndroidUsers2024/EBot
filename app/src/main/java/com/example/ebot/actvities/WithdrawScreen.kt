@@ -109,6 +109,10 @@ class WithdrawScreen : AppCompatActivity() {
                 Utils.showToast(this@WithdrawScreen, "The Notes field is required")
                 return false
             }
+            if (selectedBankData == null) {
+                Utils.showToast(this@WithdrawScreen, "please select bank account")
+                return false
+            }
 
 
 

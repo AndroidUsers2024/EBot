@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".actvities.BikeBookingDetails">
+    tools:context=".actvities.HubListScreen">
 
     <LinearLayout
         android:id="@+id/ll_header"
@@ -81,37 +81,48 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_5sdp"
-            android:orientation="vertical"
-            android:padding="@dimen/_5sdp">
+            android:layout_margin="@dimen/_4sdp"
+            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/ll_NearBikes"
+                android:layout_margin="@dimen/_5sdp"
                 android:orientation="vertical"
-                android:padding="2dp"
+                android:padding="@dimen/_5sdp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Hub List"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@color/primary_text"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Please select a hub which is near to you"
+                    android:fontFamily="sans-serif"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:textColor="@color/primary_text"
+                    android:textSize="16sp"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:background="@color/stroke_lite"
+                android:layout_height="@dimen/_10sdp"/>
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_34sdp"
+                android:id="@+id/progressbar"
                 />
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/ll_BookingSlot"
-                android:orientation="vertical"
-                android:padding="2dp"
-                />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/ll_BookingSummary"
-                android:orientation="vertical"
-                android:padding="2dp"
-                />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/ll_BookingStatus"
-                android:orientation="vertical"
-                android:padding="2dp"
-                />
+                android:id="@+id/rc_hubList"
+                tools:listitem="@layout/near_bikes_list_view"
+                android:background="@color/stroke_lite" />
 
         </LinearLayout>
 

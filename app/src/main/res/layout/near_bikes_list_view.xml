@@ -11,18 +11,14 @@
         android:layout_margin="@dimen/_5sdp"
         android:orientation="horizontal"
         android:padding="@dimen/_5sdp">
-        <RadioButton
-            android:layout_width="@dimen/_35sdp"
-            android:layout_height="@dimen/_35sdp"
-            android:buttonTint="@color/icons"
-            android:gravity="center"
-            android:padding="@dimen/_5sdp"
-            android:scaleX="1.5"
-            android:scaleY="1.5"
-            android:id="@+id/rb_isSelect"
+        <View
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:scaleType="fitCenter"
+            android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginEnd="@dimen/_5sdp"
-            />
+            android:background="@drawable/round"
+            android:id="@+id/vw_isChoose"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -79,7 +75,7 @@ Telangana-500008"
                 android:textSize="18sp"
                 android:fontFamily="sans-serif-medium"
                 android:layout_gravity="center|start"
-                android:layout_marginStart="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_10sdp"
                 android:drawableStart="@drawable/ic_map_direction"
                 android:drawablePadding="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_10sdp"

@@ -8,7 +8,6 @@ import retrofit2.Call
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Body
-import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Multipart
@@ -53,6 +52,9 @@ interface APIInterface {
 
     @GET(ROOT_URL_SUB+"home_banner_list")
     fun getHomeBanner(): Call<ArrayList<HomeBannerList>>
+
+    @GET(ROOT_URL_SUB + "hub_list")
+    fun getHubList(): Call<ArrayList<HubList>>
 
 
     @POST(ROOT_URL_SUB+"vehicle")/*{"mobile":""}*/
@@ -150,4 +152,9 @@ interface APIInterface {
     @POST(ROOT_URL_SUB + "v1/transaction_history")
     fun getTransactionHistory(@Body request: UserCommonJson): Call<MainResponse>
 
+    @POST(ROOT_URL_SUB + "timeslot")
+    fun getTimeSlot(@Body request: UserCommonJson): Call<List<TimeSlot>>
+
+    @POST(ROOT_URL_SUB + "vehicle_booking")
+    fun vehicleBooking(@Body request: BookVehicle): Call<BookingResponse>
 }

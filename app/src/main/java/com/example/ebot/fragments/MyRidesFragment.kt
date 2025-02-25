@@ -1,6 +1,7 @@
 package com.example.ebot.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ebot.R
 import com.example.ebot.adapters.MyRidesAdapter
+import com.example.ebot.common.Utils
+import com.example.ebot.models.Vehicle
+import com.example.ebot.services.ServiceManager
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class MyRidesFragment : Fragment() {
@@ -35,4 +42,6 @@ private lateinit var rc_myRidesList:RecyclerView
         myRidesAdapter = MyRidesAdapter(requireContext())
         rc_myRidesList.adapter = myRidesAdapter*/
     }
+
+
 }

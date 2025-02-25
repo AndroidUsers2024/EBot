@@ -270,6 +270,12 @@ class ServiceManager {
         call.enqueue(cb)
     }
 
+ fun getAllTransaction(cb:Callback<TransactionResponse>, userId:UserCommonJson){
+        val apiService=retrofit.create(APIInterface::class.java)
+        val call=apiService.getAllTransaction(userId)
+        call.enqueue(cb)
+    }
+
 
 
 }

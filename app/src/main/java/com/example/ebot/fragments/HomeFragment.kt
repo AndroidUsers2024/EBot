@@ -85,7 +85,8 @@ class HomeFragment : Fragment() {
             bikeAdapter= BikesAdapter(vehiclesList,requireContext())
             rc_vehicles.adapter=bikeAdapter
             getVehiclesList()
-            getWalletAmountAPI("1")
+            val userId=Utils.getData(requireContext(),"user_id","").toString()
+            getWalletAmountAPI(userId)
             getHomeBanner()
 
         }catch (e:Exception){
@@ -110,16 +111,18 @@ class HomeFragment : Fragment() {
                         Log.e("Response","response"+response.body().toString())
 
                     }else{
-                        println("Failed to get packages. ${response.message()}")
-                        Utils.showToast(requireContext(),"Failed to get packages. ${response.message()}")
+                        println("Failed to get bikes. ${response.message()}")
+                        Utils.showToast(requireContext(),"Failed to get bikes. ${response.message()}")
                     }
 
 
                 }
 
                 override fun onFailure(call: Call<List<Vehicle>>, t: Throwable) {
-                    println("Failed to get packages. ${t.message}")
-                    Utils.showToast(requireContext(),"Failed to get packages. ${t.message}")
+                    println("Failed to get bikes. ${t.message}")
+                    progressbar.visibility= View.GONE
+
+                    Utils.showToast(requireContext(),"Failed to get bikes. ${t.message}")
                 }
 
             }
@@ -127,7 +130,9 @@ class HomeFragment : Fragment() {
 
 
         }catch (e:Exception){
-            Log.e("HomeFragment.getPackagesList",e.message.toString())
+            progressbar.visibility= View.GONE
+
+            Log.e("HomeFragment.bikes",e.message.toString())
         }
     }
 

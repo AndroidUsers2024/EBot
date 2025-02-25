@@ -157,4 +157,7 @@ interface APIInterface {
 
     @POST(ROOT_URL_SUB + "vehicle_booking")
     fun vehicleBooking(@Body request: BookVehicle): Call<BookingResponse>
+
+    @POST(ROOT_URL_SUB + "all_transcation_list")
+    fun getAllTransaction(@Body request: UserCommonJson): Call<TransactionResponse>
 }

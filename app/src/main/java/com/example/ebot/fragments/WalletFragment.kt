@@ -18,9 +18,18 @@ import com.example.ebot.R
 import com.example.ebot.actvities.MainActivity
 import com.example.ebot.actvities.TransactionsHistory
 import com.example.ebot.actvities.WithdrawScreen
+import com.example.ebot.adapters.HistoryAdapter
 import com.example.ebot.common.Utils
+import com.example.ebot.models.MainResponse
+import com.example.ebot.models.TransactionList
+import com.example.ebot.models.TransactionResponse
+import com.example.ebot.models.UserCommonJson
+import com.example.ebot.services.ServiceManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.imageview.ShapeableImageView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class WalletFragment : Fragment() {
     private lateinit var tv_total_Balance: TextView
@@ -32,6 +41,8 @@ class WalletFragment : Fragment() {
     private lateinit var rc_lastTransactions: RecyclerView
     private lateinit var viewAll: TextView
     private lateinit var bottomSheetDialog: BottomSheetDialog
+    private  var transactionList:ArrayList<TransactionList> = ArrayList()
+    private lateinit var historyAdapter: HistoryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,8 +75,10 @@ class WalletFragment : Fragment() {
 
 
 
+
             viewAll.setOnClickListener(View.OnClickListener {
                 val intent= Intent(requireContext(), TransactionsHistory::class.java)
+                intent.putExtra("history",transactionList)
                 startActivity(intent)
 
 
@@ -90,6 +103,15 @@ class WalletFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        transactionList= arrayListOf()
+        showHistroy()
+        getTransactionHistory()
+        rc_lastTransactions.layoutManager= LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false)
+        historyAdapter= HistoryAdapter(transactionList,requireContext())
+        rc_lastTransactions.adapter=historyAdapter
+        showTransactions(transactionList)
+
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
@@ -132,5 +154,74 @@ class WalletFragment : Fragment() {
         }
     }
 
+    private fun showHistroy(){
+
+        if (transactionList.size<=0){
+            ll_empty_tran.visibility=View.VISIBLE
+            ll_last_trans.visibility=View.GONE
+        }else{
+            ll_empty_tran.visibility=View.GONE
+            ll_last_trans.visibility=View.VISIBLE
+        }
+
+    }
+    private fun showTransactions(transactionList:ArrayList<TransactionList>){
+
+        if (transactionList.size<=0){
+            ll_empty_tran.visibility=View.VISIBLE
+            ll_last_trans.visibility=View.GONE
+        }else{
+            ll_empty_tran.visibility=View.GONE
+            ll_last_trans.visibility=View.VISIBLE
+            historyAdapter.updateData(transactionList)
+        }
+
+        if(transactionList.size<6){
+            viewAll.visibility = View.VISIBLE
+        }else{
+            viewAll.visibility = View.VISIBLE
+        }
+
+    }
+
+    private fun getTransactionHistory() {
+        try {
+            val dataManager = ServiceManager.getDataManager()
+
+            val otpCallback = object : Callback<TransactionResponse> {
+                override fun onResponse(
+                    call: Call<TransactionResponse>,
+                    response: Response<TransactionResponse>
+                ) {
+                    if (response.body()!!.status == "success") {
+                        val responseData = response.body()!!.data
+
+                        transactionList.clear()
+                        transactionList.addAll(responseData)
+                        historyAdapter.updateData(transactionList)
+                        showTransactions(responseData)
+                        Log.v("Response", "getAllTransaction.response" + response.body()!!.message.toString())
+                    } else {
+                        // Handle error
+                        println("Failed to getAllTransaction. ${response.message()}")
+                    }
+
+
+                }
+
+
+                override fun onFailure(call: Call<TransactionResponse>, t: Throwable) {
+                    println("Failed to getWalletAmount. ${t.message}")
+                }
+            }
+
+            val  userId= Utils.getData(requireContext(),"user_id","").toString()
+            val req=UserCommonJson(user_id = "1")
+
+            dataManager.getAllTransaction(otpCallback, req)
+        } catch (e: Exception) {
+            Log.e("getAllTransaction",e.message.toString())
+        }
+    }
 
 }

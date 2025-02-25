@@ -90,7 +90,7 @@ class BikeBookingSlotScreen : AppCompatActivity() {
                 LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
             val calendarList = generateCalendarDates()
             val adapter = CalendarAdapter(calendarList) { data ->
-                selectedDate = "${data.get(Calendar.DAY_OF_MONTH)} ${
+                selectedDate = "${Utils.getDayNumber(data.get(Calendar.DAY_OF_MONTH))} ${
                     data.getDisplayName(
                         Calendar.MONTH,
                         Calendar.LONG,
@@ -112,7 +112,7 @@ class BikeBookingSlotScreen : AppCompatActivity() {
                 progressbar.visibility = View.VISIBLE
 
             }
-
+            seekBar.progress=5
             seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(
                     seekBar: SeekBar?,

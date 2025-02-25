@@ -362,13 +362,15 @@ data class KYCResponseList (
 @Parcelize
 data class TransactionList(
     @SerializedName("id") var id:String?="",
-    @SerializedName("user_id") var user_id:String?="",
     @SerializedName("amount") var amount:String?="",
+    @SerializedName("pro_status") var pro_status:String?="",
     @SerializedName("notes") var notes:String?="",
-    @SerializedName("source") var source:String?="",
+    @SerializedName("type") var type:String?="",
     @SerializedName("status") var status:String?="",
     @SerializedName("created_at") var created_at:String?=""
 ):Parcelable
+
+
 
 @Parcelize
 data class PurchaseHistory(
@@ -430,4 +432,10 @@ data class TimeSlot(
     @SerializedName("created_date") val createdDate: String,
     @SerializedName("created_time") val createdTime: String
 ):Parcelable
+
+data class TransactionResponse (
+    @SerializedName("status"  ) var status  : String?    = "",
+    @SerializedName("message" ) var message : String? = null,
+    @SerializedName("data"    ) var data    : ArrayList<TransactionList>   = arrayListOf(),
+)
 

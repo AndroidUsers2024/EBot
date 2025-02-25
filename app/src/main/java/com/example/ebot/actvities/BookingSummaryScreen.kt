@@ -110,11 +110,15 @@ class BookingSummaryScreen : AppCompatActivity() {
             vehicleData = intent.getParcelableExtra<Vehicle>("vehicleData")!!
             time = intent.getStringExtra("time")
             date = intent.getStringExtra("date")
-
-            val inputFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.ENGLISH)
-            val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-            val localDate = LocalDate.parse(date, inputFormatter)
-            val dateStr = localDate.format(outputFormatter)
+            var dateStr=""
+            try{
+                val inputFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.ENGLISH)
+                val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                val localDate = LocalDate.parse(date, inputFormatter)
+                 dateStr = localDate.format(outputFormatter).toString()
+            }catch (e:Exception){
+                Log.e("dateStr",e.message.toString())
+            }
             val userId=Utils.getData(this@BookingSummaryScreen,"user_id","").toString()
             if (selectedHub != null) {
                 tv_Name.text = selectedHub!!.title
@@ -163,6 +167,7 @@ class BookingSummaryScreen : AppCompatActivity() {
                 finish()
 
             })
+            seekBar.progress=5
             seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(
                     seekBar: SeekBar?,
@@ -199,10 +204,6 @@ class BookingSummaryScreen : AppCompatActivity() {
                     }
                 }
             })
-
-
-
-
 
 
         } catch (e: Exception) {

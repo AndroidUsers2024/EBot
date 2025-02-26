@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:padding="5dp"
     android:orientation="vertical">
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/close"
         android:layout_width="28dp"
@@ -16,6 +17,7 @@
         app:tint="@color/white"
         app:shapeAppearanceOverlay="@style/CircularView"
         android:gravity="center" />
+
     <LinearLayout
         android:id="@+id/header_ll"
         android:layout_width="match_parent"
@@ -28,123 +30,74 @@
         android:layout_margin="5dp"
         android:orientation="vertical">
 
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="8dp">
+
+            <RadioButton
+                android:id="@+id/rb_changePlan"
+                style="@style/CustomRadioButton"
+                android:text="Changed my plan" />
+
+            <RadioButton
+                android:id="@+id/rb_wrongLocation"
+                style="@style/CustomRadioButton"
+                android:text="Selected Wrong location" />
+
+            <RadioButton
+                android:id="@+id/rb_priceHigh"
+                style="@style/CustomRadioButton"
+                android:text="Pricing High" />
+
+            <RadioButton
+                android:id="@+id/rb_location"
+                style="@style/CustomRadioButton"
+                android:text="Selected wrong location" />
+        </RadioGroup>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="8dp"
-            android:orientation="vertical"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:orientation="horizontal"
             android:padding="10dp">
 
-
-            <TextView
-                android:id="@+id/tv_changePlane"
+            <Button
+                android:id="@+id/btn_cancel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="3dp"
-                android:gravity="center|start"
-                android:paddingStart="15dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/ic_border"
+                android:backgroundTint="@color/gray"
+                android:text="Cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="normal|bold" />
+
+            <Button
+                android:id="@+id/btn_submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
                 android:background="@drawable/edit_text_bg"
-                android:backgroundTint="@color/stroke_lite"
-                android:paddingEnd="5dp"
-                android:padding="@dimen/_10sdp"
-                android:text="Changed my plan"
+                android:backgroundTint="@color/primary"
+                android:text="Submit"
+                android:textAllCaps="false"
                 android:textColor="@color/primary_text"
-                android:textSize="17sp"
-                android:textStyle="normal" />
-            <TextView
-                android:id="@+id/tv_wrongLocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:gravity="center|start"
-                android:paddingStart="15dp"
-                android:background="@drawable/edit_text_bg"
-                android:backgroundTint="@color/stroke_lite"
-                android:paddingEnd="5dp"
-                android:padding="@dimen/_10sdp"
-                android:text="Selected Wrong location"
-                android:textColor="@color/primary_text"
-                android:textSize="17sp"
-                android:textStyle="normal" />
-            <TextView
-                android:id="@+id/tv_priceHigh"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:gravity="center|start"
-                android:paddingStart="15dp"
-                android:background="@drawable/edit_text_bg"
-                android:backgroundTint="@color/stroke_lite"
-                android:paddingEnd="5dp"
-                android:padding="@dimen/_10sdp"
-                android:text="Pricing High"
-                android:textColor="@color/primary_text"
-                android:textSize="17sp"
-                android:textStyle="normal" />
-            <TextView
-                android:id="@+id/tv_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:gravity="center|start"
-                android:paddingStart="15dp"
-                android:background="@drawable/edit_text_bg"
-                android:backgroundTint="@color/stroke_lite"
-                android:paddingEnd="5dp"
-                android:padding="@dimen/_10sdp"
-                android:text="Selected wrong location"
-                android:textColor="@color/primary_text"
-                android:textSize="17sp"
-                android:textStyle="normal" />
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <Button
-                    android:id="@+id/btn_cancel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/ic_border"
-                    android:gravity="center"
-                    android:backgroundTint="@color/gray"
-                    android:text="Cancel"
-                    android:textAllCaps="false"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:textStyle="normal|bold" />
-
-                <Button
-                    android:id="@+id/btn_submit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/edit_text_bg"
-                    android:backgroundTint="@color/primary"
-                    android:gravity="center"
-                    android:text="Submit"
-                    android:textAllCaps="false"
-                    android:textColor="@color/primary_text"
-                    android:textSize="15sp"
-                    android:textStyle="normal|bold" />
-            </LinearLayout>
-
+                android:textSize="15sp"
+                android:textStyle="normal|bold" />
         </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>

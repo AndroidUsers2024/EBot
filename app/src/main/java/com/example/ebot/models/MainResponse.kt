@@ -126,8 +126,10 @@ data class LoginResponseData(
     @SerializedName("created_at") var created_at:String?="",
 )
 data class  RegisterResponse(
-    @SerializedName("status") var status: Boolean?=null,
+    @SerializedName("status") var status: String?="",
     @SerializedName("message") var message: String?="",
+    @SerializedName("user_id") var user_id: String?="",
+    @SerializedName("otp_sent") var otp_sent: Boolean?=null,
 )
 data class RegisterData(
     @SerializedName("name") var name:String?="",
@@ -142,6 +144,11 @@ data class RegisterData(
     @SerializedName("state") var state:String?="",
     @SerializedName("country") var country:String?=""
 
+)
+
+data class CancelData(
+    @SerializedName("id") var name:String?="",
+    @SerializedName("reason") var last_name:String?=""
 )
 
 
@@ -181,6 +188,9 @@ data class UserCommonJson(
     @SerializedName("id") var id: String?="",
     @SerializedName("bank_id") var bank_id: String?="",
     @SerializedName("vehicle_id") var vehicle_id: String?=""
+)
+data class UserCreatedByJson(
+    @SerializedName("created_by") var user_id: String?=""
 )
 data class ProfileResponse(
     @SerializedName("message") var message:String?="",
@@ -409,6 +419,48 @@ data class Vehicle(
     @SerializedName("created_date") var created_date:String?="",
     @SerializedName("created_time") var created_time:String?=""
 ):Parcelable
+
+
+data class MyRidesResponse (
+    @SerializedName("status"  ) var status  : Boolean? = null,
+    @SerializedName("message" ) var message : String? = null,
+    @SerializedName("data"    ) var data    : List<MyRides> = emptyList(),
+)
+
+
+@Parcelize
+data class MyRides(
+    @SerializedName("id") var id: String? = "",
+    @SerializedName("vehicle_id") var vehicle_id: String? = "",
+    @SerializedName("hublist_id") var hublist_id: String? = "",
+    @SerializedName("date") var date: String? = "",
+    @SerializedName("time_slot") var time_slot: String? = "",
+    @SerializedName("total_amount") var total_amount: String? = "",
+    @SerializedName("location") var location: String? = "",
+    @SerializedName("created_at") var created_at: String? = "",
+    @SerializedName("created_by") var created_by: String? = "",
+    @SerializedName("updated_at") var updated_at: String? = "",
+    @SerializedName("updated_by") var updated_by: String? = "",
+    @SerializedName("status") var status: String? = "",
+    @SerializedName("reason") var reason: String? = "",
+    @SerializedName("created_date") var created_date: String? = "",
+    @SerializedName("created_time") var created_time: String? = ""
+) : Parcelable
+
+
+
+data class RideCancelResponse(
+    @SerializedName("status") var status: Int? = 0,
+    @SerializedName("message") var message: String? = "",
+    @SerializedName("reason") var reason: String? = "",
+    @SerializedName("post_data") var post_data: PostData? = PostData()
+)
+
+@Parcelize
+data class PostData(
+    @SerializedName("id") var id: String? = "",
+    @SerializedName("reason") var reason: String? = ""
+) : Parcelable
 
 @Parcelize
 data class HubList(

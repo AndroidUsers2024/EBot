@@ -49,6 +49,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.material3.android)
     //    implementation(libs.androidx.activity)
     //implementation(libs.androidx.activity)
     testImplementation("junit:junit:4.13.2")

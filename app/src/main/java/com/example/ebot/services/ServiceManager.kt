@@ -276,6 +276,17 @@ class ServiceManager {
         call.enqueue(cb)
     }
 
-
+    fun getMyRides(cb: Callback<MyRidesResponse>,user_id:String) {
+        val userId=UserCreatedByJson(user_id)
+        val apiService = retrofit.create(APIInterface::class.java)
+        val call = apiService.getMyRides(userId)
+        call.enqueue(cb)
+    }
+    fun calcelRide(cb: Callback<RideCancelResponse>,id:String,reason:String) {
+        val userId=CancelData(id,reason)
+        val apiService = retrofit.create(APIInterface::class.java)
+        val call = apiService.cancelRide(userId)
+        call.enqueue(cb)
+    }
 
 }

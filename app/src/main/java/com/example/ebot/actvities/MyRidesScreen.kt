@@ -1,6 +1,8 @@
 package com.example.ebot.actvities
 
 import android.annotation.SuppressLint
+import android.app.ProgressDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,14 +10,32 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.compose.material3.RadioButton
 import androidx.core.content.ContextCompat
 import com.example.ebot.R
+import com.example.ebot.common.Utils
+import com.example.ebot.models.CancelData
+import com.example.ebot.models.MyRides
+import com.example.ebot.models.RegisterData
+import com.example.ebot.models.RegisterResponse
+import com.example.ebot.models.RideCancelResponse
+import com.example.ebot.models.Vehicle
+import com.example.ebot.services.ServiceManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.imageview.ShapeableImageView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.time.LocalTime
+import java.time.temporal.ChronoUnit
 
 class MyRidesScreen : AppCompatActivity() {
     private lateinit var back:View
@@ -32,6 +52,9 @@ class MyRidesScreen : AppCompatActivity() {
     private lateinit var tv_price:TextView
     private lateinit var btn_cancelRide:Button
     private lateinit var bottomSheetDialog: BottomSheetDialog
+    private lateinit var ll_cardView: LinearLayout
+
+    private  var ride_data: MyRides= MyRides()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +77,26 @@ class MyRidesScreen : AppCompatActivity() {
             tv_booking_date_time_below =findViewById(R.id.tv_booking_date_time_below)
             tv_price =findViewById(R.id.tv_price)
             btn_cancelRide =findViewById(R.id.btn_cancelRide)
-            pendingRide()
+            ll_cardView =findViewById(R.id.ll_cardView)
+            ride_data= intent.getParcelableExtra<MyRides>("ride_data")!!
+
+//            tv_bike_name.text = ride_data.
+            tv_total_bill.text = "Total Amount : ₹ "+ride_data.total_amount
+            tv_booking_date_time_below.text = ride_data.date+" ,"+ride_data.time_slot
+
+            if(ride_data.status.equals("1")){
+                pendingRide()
+            }else if (ride_data.status.equals("2")){
+                confirmedRide()
+            }else if(ride_data.status.equals("3")){
+                rejectedRide()
+            }else if (ride_data.status.equals("4")){
+                onGoingRide()
+            }else if(ride_data.status.equals("5")){
+                completedRide()
+            }else if (ride_data.status.equals("6")){
+                canceledRide()
+            }
 
             back.setOnClickListener(View.OnClickListener {
                 onBackPressed()
@@ -71,11 +113,17 @@ class MyRidesScreen : AppCompatActivity() {
             val color_tx = ContextCompat.getColor(this, R.color.icons)
             val color_card = ContextCompat.getColor(this, R.color.yellow_low)
 
+            //MyRides(id=5, vehicle_id=3, hublist_id=3, date=2025-02-20, time_slot=10:00 AM - 12:00 PM,
+            // total_amount=200, location=City Center, created_at=2025-02-20 13:04:15, created_by=1,
+            // updated_at=2025-02-20 13:24:41, updated_by=, status=5, reason=test, created_date=20-Feb-2025,
+            // created_time=01:04 PM)
+
             tv_status.text="Pending at Admin"
-            tv_date_time.text="Booked at 21 Jan 2025 , 10:00 am"
+            tv_date_time.text="Booked at "+ride_data.created_date+" ,"+ride_data.created_time
             tv_status.setTextColor(color_tx)
             card_header.setCardBackgroundColor(color_card)
-            card_header.outlineSpotShadowColor=color_card
+//            card_header.outlineSpotShadowColor=color_card
+            ll_cardView.setBackgroundColor(color_card)
             tv_total_bill.visibility=View.GONE
             tv_reason.visibility=View.GONE
             btn_cancelRide.visibility=View.VISIBLE
@@ -94,12 +142,12 @@ class MyRidesScreen : AppCompatActivity() {
             val color_card = ContextCompat.getColor(this, R.color.secondary_low)
 
             tv_status.text="Completed Your Ride"
-            tv_date_time.text="Booked at 21 Jan 2025 , 12:00 pm"
+            tv_date_time.text="Booked at "+ride_data.created_date+" ,"+ride_data.created_time
             tv_status.setTextColor(color_tx)
             card_header.setCardBackgroundColor(color_card)
-            card_header.outlineSpotShadowColor=color_card
+//            card_header.outlineSpotShadowColor=color_card
+            ll_cardView.setBackgroundColor(color_card)
             tv_total_bill.visibility=View.VISIBLE
-            tv_total_bill.text="Total Amount : ₹ 198.00"
             tv_reason.visibility=View.GONE
             btn_cancelRide.visibility=View.INVISIBLE
         }catch (e:Exception){
@@ -114,10 +162,11 @@ class MyRidesScreen : AppCompatActivity() {
             val color_card = ContextCompat.getColor(this, R.color.secondary_low)
 
             tv_status.text="Confirmed your Ride"
-            tv_date_time.text="Booked at 21 Jan 2025 , 12:00 pm"
+            tv_date_time.text="Booked at "+ride_data.created_date+" ,"+ride_data.created_time
             tv_status.setTextColor(color_tx)
             card_header.setCardBackgroundColor(color_card)
-            card_header.outlineSpotShadowColor=color_card
+//            card_header.outlineSpotShadowColor=color_card
+            ll_cardView.setBackgroundColor(color_card)
             tv_total_bill.visibility=View.GONE
             tv_reason.visibility=View.GONE
             btn_cancelRide.visibility=View.INVISIBLE
@@ -128,19 +177,36 @@ class MyRidesScreen : AppCompatActivity() {
     @SuppressLint("NewApi")
     private fun onGoingRide(){
         try{
+            // Define the current time and the end of the time slot
+            val currentTime = LocalTime.now()  // Get the current time
+            var endTimeArray = ride_data.time_slot?.substring(11,16)?.split(":")
+//            val endTime = LocalTime.of(endTimeArray?.get(0)?.toInt()!!, endTimeArray.get(1).toInt())  // End time is 12:00 PM
+            val endTime = LocalTime.of(21, 0)  // End time is 12:00 PM
+
+            // Check if the current time is within the time slot
+            if (currentTime.isBefore(endTime)) {
+                val remainingTime = ChronoUnit.MINUTES.between(currentTime, endTime)  // Calculate remaining time in minutes
+                tv_reason.text = "Your Ride will complete in $remainingTime minutes"
+                println("Remaining time: $remainingTime minutes")
+            } else {
+                println("The time slot has already passed.")
+            }
             val color_tx = ContextCompat.getColor(this, R.color.blue)
             val color_txs = ContextCompat.getColor(this, R.color.yellow)
             val color_card = ContextCompat.getColor(this, R.color.blue_low)
-
             tv_status.text="On Going Ride"
-            tv_date_time.text="Time slot: 21 Jan 2025 , 10 AM to 12 PM"
+            tv_date_time.text="Time Slot: "+ride_data.date+" ,"+ride_data.time_slot
             tv_status.setTextColor(color_tx)
             tv_reason.setTextColor(color_txs)
+
+
+
             card_header.setCardBackgroundColor(color_card)
-            card_header.outlineSpotShadowColor=color_card
+//            card_header.outlineSpotShadowColor=color_card
+            ll_cardView.setBackgroundColor(color_card)
             tv_total_bill.visibility=View.GONE
             tv_reason.visibility=View.VISIBLE
-            tv_reason.text="Your ride will completed in 46 minutes"
+//            tv_reason.text="Your ride will completed in 46 minutes"
             btn_cancelRide.visibility=View.INVISIBLE
         }catch (e:Exception){
             Log.e("MyRidesScreen.onGoingRide: ",e.message.toString())
@@ -158,7 +224,8 @@ class MyRidesScreen : AppCompatActivity() {
             tv_status.setTextColor(color_tx)
             tv_reason.setTextColor(color_txs)
             card_header.setCardBackgroundColor(color_card)
-            card_header.outlineSpotShadowColor=color_card
+//            card_header.outlineSpotShadowColor=color_card
+            ll_cardView.setBackgroundColor(color_card)
             tv_total_bill.visibility=View.GONE
             tv_date_time.visibility=View.GONE
             tv_reason.visibility=View.VISIBLE
@@ -176,11 +243,12 @@ class MyRidesScreen : AppCompatActivity() {
             val color_txs = ContextCompat.getColor(this, R.color.gray)
             val color_card = ContextCompat.getColor(this, R.color.red_low)
 
-            tv_status.text="Canceled"
+            tv_status.text="Rejected"
             tv_status.setTextColor(color_tx)
             tv_reason.setTextColor(color_txs)
             card_header.setCardBackgroundColor(color_card)
-            card_header.outlineSpotShadowColor=color_card
+//            card_header.outlineSpotShadowColor=color_card
+            ll_cardView.setBackgroundColor(color_card)
             tv_total_bill.visibility=View.GONE
             tv_date_time.visibility=View.GONE
             tv_reason.visibility=View.VISIBLE
@@ -197,12 +265,13 @@ class MyRidesScreen : AppCompatActivity() {
             val view:View=
                 LayoutInflater.from(this).inflate(R.layout.cancel_reasons_view,null )
             val close: ShapeableImageView =view.findViewById(R.id.close)
-            val tv_location: TextView =view.findViewById(R.id.tv_location)
-            val tv_priceHigh: TextView =view.findViewById(R.id.tv_priceHigh)
-            val tv_wrongLocation: TextView =view.findViewById(R.id.tv_wrongLocation)
-            val tv_changePlane: TextView =view.findViewById(R.id.tv_changePlane)
+            /*val tv_location: TextView =view.findViewById(R.id.rb_location)
+            val tv_priceHigh: TextView =view.findViewById(R.id.rb_priceHigh)
+            val tv_wrongLocation: TextView =view.findViewById(R.id.rb_wrongLocation)
+            val tv_changePlane: TextView =view.findViewById(R.id.rb_changePlan)*/
             val btn_cancel:Button=view.findViewById(R.id.btn_cancel)
             val btn_submit:Button=view.findViewById(R.id.btn_submit)
+            val radioGroup:RadioGroup = view.findViewById(R.id.radioGroup)
             close.setOnClickListener(View.OnClickListener {
                 bottomSheetDialog.dismiss()
             })
@@ -210,6 +279,27 @@ class MyRidesScreen : AppCompatActivity() {
                 bottomSheetDialog.dismiss()
 
             })
+
+
+
+            // Submit Button Click
+            btn_submit.setOnClickListener {
+                val selectedRadioButton = findViewById<RadioButton>(radioGroup.checkedRadioButtonId)
+                if (selectedRadioButton != null) {
+                    cancelRideAPI(ride_data.id.toString(),selectedRadioButton.text.toString())
+//                    Toast.makeText(this, "Selected: ${selectedRadioButton.text}", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Please select an option", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            // Cancel Button Click
+            btn_cancel.setOnClickListener {
+                radioGroup.clearCheck()
+                Toast.makeText(this, "Selection cleared", Toast.LENGTH_SHORT).show()
+            }
+
+
             bottomSheetDialog.setContentView(view)
             bottomSheetDialog.show()
             bottomSheetDialog.setCancelable(false)
@@ -218,4 +308,58 @@ class MyRidesScreen : AppCompatActivity() {
             Log.e("Wallet.showAddMoney()",e.message.toString())
         }
     }
+
+    private lateinit var openDialog: ProgressDialog
+    private fun cancelRideAPI(id:String,reason:String){
+        try{
+            openDialog = Utils.openDialog(this)
+            val service = ServiceManager.getDataManager()
+            val callback = object : Callback<RideCancelResponse> {
+                override fun onResponse(
+                    call: Call<RideCancelResponse>,
+                    response: Response<RideCancelResponse>
+                ) {
+                    if (openDialog.isShowing){
+                        openDialog.dismiss()
+                    }
+                    if (response.isSuccessful) {
+//                        if (response.body()?.status!!.equals("success")) {
+                        val body = response.body()
+                        Utils.showToast(this@MyRidesScreen, body!!.message.toString())
+
+                        /*}else{
+                            Utils.showToast(this@ContactDetails, response.body()!!.message!!)
+                        }*/
+
+                        Log.e("Response", "response" + response.message().toString())
+
+                    } else {
+
+                        println("Failed to send OTP. ${response.message()}")
+                        Utils.showToast(this@MyRidesScreen, response.body()!!.message!!)
+
+                    }
+                }
+
+                override fun onFailure(call: Call<RideCancelResponse>, t: Throwable) {
+                    println("Failed to send OTP. ${t.message}")
+                    if (openDialog.isShowing){
+                        openDialog.dismiss()
+
+                    }
+                    Utils.showToast(this@MyRidesScreen, "Please try again")
+                }
+
+            }
+            service.calcelRide(callback,id,reason)
+        }catch (e:Exception){
+            if (openDialog.isShowing){
+                openDialog.dismiss()
+
+            }
+            Log.e("ContactDetails.RegisterAPI ",e.message.toString())
+        }
+    }
+
+
 }

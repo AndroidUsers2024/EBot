@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.BikesFragment">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -42,10 +43,8 @@
             tools:listitem="@layout/bikes_cardview"
             android:id="@+id/rc_addedBank"
             />
+
     </LinearLayout>
     </LinearLayout>
-
-
-
 
 </FrameLayout>

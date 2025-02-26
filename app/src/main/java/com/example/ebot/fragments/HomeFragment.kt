@@ -77,6 +77,12 @@ class HomeFragment : Fragment() {
             tv_vehicles_view = view.findViewById(R.id.tv_vehicles_view)
             progressbar = view.findViewById(R.id.progressbar)
             tv_vehicles_view.setOnClickListener(View.OnClickListener {
+
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, BikesFragment())
+                    .addToBackStack(null)
+                    .commit()
+
 //                val intent= Intent(requireContext(),PackagesListActivity::class.java)
 //                startActivity(intent)
             })

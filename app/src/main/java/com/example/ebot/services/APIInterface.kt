@@ -160,4 +160,11 @@ interface APIInterface {
 
     @POST(ROOT_URL_SUB + "all_transcation_list")
     fun getAllTransaction(@Body request: UserCommonJson): Call<TransactionResponse>
+
+    @POST(ROOT_URL_SUB+"myrides")
+    fun getMyRides(@Body request: UserCreatedByJson):Call<MyRidesResponse>
+
+    @POST(ROOT_URL_SUB+"cancle_ride")
+    fun cancelRide(@Body request: CancelData):Call<RideCancelResponse>
+
 }

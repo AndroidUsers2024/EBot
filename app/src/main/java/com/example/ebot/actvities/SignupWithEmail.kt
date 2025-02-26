@@ -1,5 +1,6 @@
 package com.example.ebot.actvities
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -13,12 +14,20 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.ebot.R
 import com.example.ebot.common.Utils
+import com.example.ebot.models.RegisterData
+import com.example.ebot.models.RegisterResponse
+import com.example.ebot.services.ServiceManager
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SignupWithEmail : AppCompatActivity() {
     private lateinit var et_emailId: EditText
     private lateinit var btn_sendOTP: Button
     private lateinit var tv_Login: TextView
     private lateinit var back: View
+
+    private lateinit var openDialog: ProgressDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.signup_with_email)
@@ -40,10 +49,14 @@ class SignupWithEmail : AppCompatActivity() {
                 }else if(isValid.isNotEmpty()){
                     Utils.showToast(this,isValid)
                 }else{
-                    val intent= Intent(this,VerifyOTP::class.java)
+                    val registerData=RegisterData("","","","","",et_emailId.text.toString(),"","","","","")
+
+                    registrationAPI(registerData)
+
+                    /*val intent= Intent(this,VerifyOTP::class.java)
                     intent.putExtra("screen","signup")
                     intent.putExtra("email",email)
-                    startActivity(intent)
+                    startActivity(intent)*/
                 }
 
             })
@@ -59,6 +72,63 @@ class SignupWithEmail : AppCompatActivity() {
 
         }catch (e:Exception){
             Log.e("SignupWithEmail.updateXML: ",e.message.toString())
+        }
+    }
+
+    private fun registrationAPI(registerData: RegisterData){
+        try{
+            openDialog = Utils.openDialog(this)
+            val service = ServiceManager.getDataManager()
+            val callback = object : Callback<RegisterResponse> {
+                override fun onResponse(
+                    call: Call<RegisterResponse>,
+                    response: Response<RegisterResponse>
+                ) {
+                    if (openDialog.isShowing){
+                        openDialog.dismiss()
+
+                    }
+                    if (response.isSuccessful) {
+                        if (response.body()?.status!!.equals("success")) {
+                        val body = response.body()
+                        Utils.showToast(this@SignupWithEmail, body!!.message.toString())
+                        Utils.saveData(this@SignupWithEmail,"user_id",body.user_id)
+                        val intent= Intent(this@SignupWithEmail,VerifyOTP::class.java)
+                        intent.putExtra("screen","signup")
+                        intent.putExtra("email",et_emailId.text.toString())
+                        startActivity(intent)
+
+                        }else{
+                            Utils.showToast(this@SignupWithEmail, response.body()!!.message!!)
+                        }
+
+                        Log.e("Response", "response" + response.message().toString())
+
+                    } else {
+
+                        println("Failed to send OTP. ${response.message()}")
+                        Utils.showToast(this@SignupWithEmail, response.body()!!.message!!)
+
+                    }
+                }
+
+                override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                    println("Failed to send OTP. ${t.message}")
+                    if (openDialog.isShowing){
+                        openDialog.dismiss()
+
+                    }
+                    Utils.showToast(this@SignupWithEmail, "Please try again")
+                }
+
+            }
+            service.registerUser(callback,registerData)
+        }catch (e:Exception){
+            if (openDialog.isShowing){
+                openDialog.dismiss()
+
+            }
+            Log.e("ContactDetails.RegisterAPI ",e.message.toString())
         }
     }
 }

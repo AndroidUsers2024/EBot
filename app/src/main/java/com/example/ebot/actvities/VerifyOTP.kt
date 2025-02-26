@@ -54,19 +54,19 @@ class VerifyOTP : AppCompatActivity() {
             
 
             btn_OTPVerify.setOnClickListener(View.OnClickListener {
-                if (screen.equals("login")){
+//                if (screen.equals("login")){
                     if (Utils.isNetworkAvailable(this)){
                         isEmpty()
                     }else{
                         Utils.showAlertDialog(this@VerifyOTP,"alert","Please check network verification")
                     }
-                }else{
+                /*}else{
                     val intent= Intent(this,PersonalDetails::class.java)
                     intent.putExtra("email",email)
                     intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                     startActivity(intent)
                     finish()
-                }
+                }*/
 
 
 

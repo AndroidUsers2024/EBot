@@ -155,7 +155,7 @@ class ContactDetails : AppCompatActivity() {
 
                     }
                     if (response.isSuccessful) {
-                        if (response.body()?.status!!.equals("success")) {
+//                        if (response.body()?.status!!.equals("success")) {
                             val body = response.body()
                             Utils.showToast(this@ContactDetails, body!!.message.toString())
                             val intent = Intent()
@@ -165,9 +165,9 @@ class ContactDetails : AppCompatActivity() {
                             startActivity(intent)
                             finish()
 
-                        }else{
+                        /*}else{
                             Utils.showToast(this@ContactDetails, response.body()!!.message!!)
-                        }
+                        }*/
 
 
                         Log.e("Response", "response" + response.message().toString())
@@ -189,7 +189,6 @@ class ContactDetails : AppCompatActivity() {
                     }
                     Utils.showToast(this@ContactDetails, "Please try again")
                 }
-
 
             }
             service.registerUser(callback,registerData)

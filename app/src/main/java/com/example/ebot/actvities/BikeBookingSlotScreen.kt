@@ -44,7 +44,7 @@ class BikeBookingSlotScreen : AppCompatActivity() {
     private lateinit var progressbar: ProgressBar
     private var selectedHub: HubList? = null
     private var isMove: Boolean = false
-    private val YOUR_TOTAL_PROGRESS = 55
+    private val YOUR_TOTAL_PROGRESS = 100
     private var selectedDate: String? = ""
 
     private var vehicleData: Vehicle? =null
@@ -70,6 +70,7 @@ class BikeBookingSlotScreen : AppCompatActivity() {
             seekBar = findViewById(R.id.seekBar)
             progressbar = findViewById(R.id.progressbar)
             timeSlotList = arrayListOf()
+            timeSlot=TimeSlot("","","","","")
 
             selectedHub = intent.getParcelableExtra<HubList>("selectedHub")
             vehicleData = intent.getParcelableExtra<Vehicle>("vehicleData")!!
@@ -123,22 +124,23 @@ class BikeBookingSlotScreen : AppCompatActivity() {
                         swipeText.setBackgroundResource((R.drawable.roundedcorners))
                     } else {
                         swipeText.setBackgroundResource((R.drawable.button_bg))
-
                     }
                     if (progress >= YOUR_TOTAL_PROGRESS) {
                         if (!isMove) {
 
                             isMove = true
                             seekBar!!.progress = 5
-                            val intent =
-                                Intent(this@BikeBookingSlotScreen, BookingSummaryScreen::class.java)
-                            intent.putExtra("time", timeSlot.timeslot)
-                            intent.putExtra("date", selectedDate)
-                            intent.putExtra("selectedHub", selectedHub)
-                            intent.putExtra("vehicleData", vehicleData)
-                            startActivity(intent)
-
-
+                            if(timeSlot.timeslot!=""&&selectedDate!=""){
+                                val intent = Intent(this@BikeBookingSlotScreen, BookingSummaryScreen::class.java)
+                                intent.putExtra("time", timeSlot.timeslot)
+                                intent.putExtra("date", selectedDate)
+                                intent.putExtra("selectedHub", selectedHub)
+                                intent.putExtra("vehicleData", vehicleData)
+                                startActivity(intent)
+                            }else{
+                                Utils.showToast(this@BikeBookingSlotScreen, "Please select Date and Time Slot")
+                                seekBar!!.progress = 5
+                            }
                         }
 
                     }

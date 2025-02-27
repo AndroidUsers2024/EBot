@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat
 import com.example.ebot.R
 import com.example.ebot.common.Utils
 import com.example.ebot.models.CancelData
+import com.example.ebot.models.HubList
 import com.example.ebot.models.MyRides
 import com.example.ebot.models.RegisterData
 import com.example.ebot.models.RegisterResponse
@@ -83,7 +84,7 @@ class MyRidesScreen : AppCompatActivity() {
 //            tv_bike_name.text = ride_data.
             tv_total_bill.text = "Total Amount : ₹ "+ride_data.total_amount
             tv_booking_date_time_below.text = ride_data.date+" ,"+ride_data.time_slot
-
+            getVehiclesList()
             if(ride_data.status.equals("1")){
                 pendingRide()
             }else if (ride_data.status.equals("2")){
@@ -361,5 +362,82 @@ class MyRidesScreen : AppCompatActivity() {
         }
     }
 
+    private var vehiclesList: ArrayList<Vehicle> = ArrayList()
+    private var vehicle_data: Vehicle = Vehicle()
+    private fun getVehiclesList(){
+        try{
+            val dataManager:ServiceManager=ServiceManager.getDataManager()
+
+            val callback=object : Callback<List<Vehicle>> {
+                override fun onResponse(
+                    call: Call<List<Vehicle>>,
+                    response: Response<List<Vehicle>>
+                ) {
+                    if (response.isSuccessful){
+                        vehiclesList.clear()
+                        vehiclesList.addAll(response.body()!!)
+                        vehicle_data=vehiclesList.find { it.id == ride_data.vehicle_id }!!
+                        Log.e("Response","response"+response.body().toString())
+                        tv_bike_name.text = vehicle_data.bike_name
+                        tv_price.text = vehicle_data.bike_price
+                    }else{
+                        println("Failed to get bikes. ${response.message()}")
+                        Utils.showToast(this@MyRidesScreen,"Failed to get bikes. ${response.message()}")
+                    }
+
+
+                }
+
+                override fun onFailure(call: Call<List<Vehicle>>, t: Throwable) {
+                    println("Failed to get bikes. ${t.message}")
+
+
+                    Utils.showToast(this@MyRidesScreen,"Failed to get bikes. ${t.message}")
+                }
+
+            }
+            dataManager.getVehicles(callback)
+
+
+        }catch (e:Exception){
+            Log.e("HomeFragment.bikes",e.message.toString())
+        }finally {
+            getHubList()
+        }
+    }
+
+    private var hubLists: ArrayList<HubList> = ArrayList()
+    var hubList_data :HubList = HubList()
+    private fun getHubList() {
+        try {
+            val dataManager = ServiceManager.getDataManager()
+
+            val otpCallback = object : Callback<ArrayList<HubList>> {
+                override fun onResponse(
+                    call: Call<ArrayList<HubList>>,
+                    response: Response<ArrayList<HubList>>
+                ) {
+                    if (response.isSuccessful) {
+                        val responseData = response.body()!!
+                        hubLists.clear()
+                        hubLists.addAll(responseData)
+                        hubList_data = hubLists.find { it.id == ride_data.hublist_id }!!
+                        tv_address.text = hubList_data.description
+                        tv_bike_title.text = hubList_data.title
+                    } else {
+                        // Handle error
+                        println("Failed to hub_list. ${response.message()}")
+                    }
+                }
+                override fun onFailure(call: Call<ArrayList<HubList>>, t: Throwable) {
+                    println("Failed to hub_list. ${t.message}")
+                }
+            }
+
+            dataManager.getHubList(otpCallback)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 
 }

@@ -33,6 +33,7 @@ import com.example.ebot.common.Utils
 import com.example.ebot.models.MainResponse
 import com.example.ebot.models.ProfileData
 import com.example.ebot.models.ProfileResponse
+import com.example.ebot.models.UpdateProfile
 import com.example.ebot.services.ServiceManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.imageview.ShapeableImageView
@@ -236,7 +237,7 @@ class PersonalInformation : AppCompatActivity() {
                         updateData=ProfileData(userId, phone,profileData!!.otp,profileData!!.created_at,email,f_name,l_name,profileData!!.gender,profileData!!.dob,
                             address,pin_code,city,country,state,  country_code, profile_image = profilePicPath
                         )
-                        updateProfileData(updateData)
+                        updateProfileData(updateData,false)
 
                     }
 
@@ -263,7 +264,7 @@ class PersonalInformation : AppCompatActivity() {
                         updateData=ProfileData(userId,email,profileData!!.otp,profileData!!.created_at,email,f_name,l_name,profileData!!.gender,profileData!!.dob,
                             address,pin_code,city,country,state,  country_code, profile_image = profilePicPath
                         )
-                        updateProfileData(updateData)
+                        updateProfileData(updateData,false)
                     }
                 }
             })
@@ -345,6 +346,9 @@ class PersonalInformation : AppCompatActivity() {
                     img_profile.setImageBitmap(bitmap)
 
                 }
+            }
+            if (profilePicPath.toString().isNotEmpty()){
+                updateProfileData(profileData!!,true)
             }
 
 
@@ -694,6 +698,7 @@ class PersonalInformation : AppCompatActivity() {
         state: RequestBody,
         country: RequestBody,
         image: MultipartBody.Part?,
+        isUpdateProfilePic: Boolean
     ) {
         try {
             openDialog = Utils.openDialog(this@PersonalInformation)
@@ -706,8 +711,10 @@ class PersonalInformation : AppCompatActivity() {
                     Utils.closeDialog(openDialog)
                     if (response.isSuccessful) {
                         if (response.body()!!.status == "success") {
-
-                            if (editDetailBottomSheet.isShowing){
+                            if (isUpdateProfilePic){
+                                updateXML()
+                            }
+                            else if (editDetailBottomSheet.isShowing){
                                 editDetailBottomSheet.dismiss()
                                 updateXML()
                             }
@@ -745,7 +752,7 @@ class PersonalInformation : AppCompatActivity() {
             Log.e("addKYCApi", e.message.toString())
         }
     }
-    private fun updateProfileData(data: ProfileData) {
+    private fun updateProfileData(data: ProfileData,  isUpdateProfilePic: Boolean) {
         try {
             val userID = Utils.getData(this@PersonalInformation, "user_id", "") as String
 
@@ -774,7 +781,7 @@ class PersonalInformation : AppCompatActivity() {
             val city = RequestBody.create("text/plain".toMediaType(), data.city!!)
             val state = RequestBody.create("text/plain".toMediaType(), data.state!!)
             val country = RequestBody.create("text/plain".toMediaType(), data.country!!)
-            updateProfileApi(user_id, name, last_name, gender, dob, phone, email, address, pin_code, city, state, country, image)
+            updateProfileApi(user_id, name, last_name, gender, dob, phone, email, address, pin_code, city, state, country, image,isUpdateProfilePic)
         } catch (e: Exception) {
             Log.e("addKYCData", e.message.toString())
         }

@@ -81,8 +81,8 @@ class HistoryAdapter(
             holder.vw_ic_Type.backgroundTintList =
                 ContextCompat.getColorStateList(context, R.color.blue)
         }else{
-            holder.tv_status.text = ""
-
+            holder.tv_status.text = "Pending...!"
+            holder.tv_status.setTextColor(ContextCompat.getColor(context, R.color.red_low))
         }
         if (obj.type.equals("withdraw")) {
 

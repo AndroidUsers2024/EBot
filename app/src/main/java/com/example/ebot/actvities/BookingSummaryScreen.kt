@@ -126,7 +126,7 @@ class BookingSummaryScreen : AppCompatActivity() {
                 tv_distance.text = ""
             }
             if (vehicleData != null) {
-                val bikeImg = "https://ritps.com/ebot/" + vehicleData!!.bike_image
+                val bikeImg = Utils.IMG_ROOT_URL + vehicleData!!.bike_image
                 tv_distance.text = "(" + vehicleData!!.range + ")"
                 tv_speed.text = vehicleData!!.speed
                 tv_battery_type.text = vehicleData!!.battery_type

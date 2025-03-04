@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.example.ebot.R
+import com.example.ebot.common.Utils
 import com.example.ebot.models.HomeBannerList
 import com.example.ebot.models.Vehicle
 
@@ -64,7 +65,7 @@ class BikeViewDetailsActivity : AppCompatActivity() {
         tv_description_text= findViewById(R.id.tv_description_text)
 
         vehicleData= intent.getParcelableExtra<Vehicle>("vehicle")!!
-        val bikeImg="https://ritps.com/ebot/"+vehicleData.bike_image
+        val bikeImg=Utils.IMG_ROOT_URL+vehicleData.bike_image
         val imgs:ArrayList<HomeBannerList> = arrayListOf()
         val temp=HomeBannerList(image =bikeImg )
         imgs.add((temp))

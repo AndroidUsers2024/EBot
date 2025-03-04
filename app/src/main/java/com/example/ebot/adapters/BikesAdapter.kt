@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.example.ebot.R
 import com.example.ebot.actvities.BikeViewDetailsActivity
 import com.example.ebot.actvities.MainActivity
+import com.example.ebot.common.Utils
 import com.example.ebot.models.Vehicle
 import java.util.Locale
 
@@ -48,7 +49,7 @@ class BikesAdapter  (private var packagesList: ArrayList<Vehicle>, private val c
         holder.tv_km.text = vehicle_data.range
             holder.tv_speed.text = vehicle_data.speed
             holder.tv_battery_type.text = vehicle_data.battery_type
-            Glide.with(context).load("https://ritps.com/ebot/"+vehicle_data.bike_image)
+            Glide.with(context).load(Utils.IMG_ROOT_URL+vehicle_data.bike_image)
                 .into(holder.iv_vehicle)
 
 

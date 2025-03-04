@@ -27,6 +27,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.compose.ui.text.toLowerCase
 import androidx.core.content.ContextCompat
 import com.example.ebot.R
 import kotlinx.coroutines.Dispatchers
@@ -48,6 +49,7 @@ import java.util.Locale
 
 object Utils {
     var userId: String? = ""
+    val IMG_ROOT_URL = "https://ritps.com/ebot/"
     var sponser_code: String? = ""
     var WALLET_AMOUNT: String = ""
     val REQUEST_CODE_CAMERA = 100
@@ -756,6 +758,13 @@ object Utils {
         dialog.show()
     }
 
+    fun isNull(value: String?):String{
+        if (value==null || value==" "|| value.toLowerCase(Locale.getDefault())=="null"){
+            return ""
+
+        }
+        return value.trim()
+    }
 
 
 }

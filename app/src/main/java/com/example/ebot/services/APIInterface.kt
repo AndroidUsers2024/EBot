@@ -161,10 +161,32 @@ interface APIInterface {
     @POST(ROOT_URL_SUB + "all_transcation_list")
     fun getAllTransaction(@Body request: UserCommonJson): Call<TransactionResponse>
 
+    @POST(ROOT_URL_SUB+"add_money")
+    fun addAmount(@Body request: Withdraw):Call<AddAmountResponse>
+    @Multipart
+
+    @POST(ROOT_URL_SUB + "update_kyc_details")
+    fun updateKYC(
+        @Part("user_id") user_id: RequestBody, @Part("aadhar_number") aadhar_number: RequestBody,
+        @Part("pan_number") pan_number: RequestBody,
+        @Part aadhar_front: MultipartBody.Part?,
+        @Part aadhar_back: MultipartBody.Part?,
+        @Part pan_image: MultipartBody.Part?,
+        @Part("account_number") account_number: RequestBody,
+        @Part("bank_name") bank_name: RequestBody,
+        @Part("ifsc_code") ifsc_code: RequestBody,
+        @Part("account_type") account_type: RequestBody,
+        @Part face_verificaton: MultipartBody.Part?
+    ): Call<MainResponse>
+
     @POST(ROOT_URL_SUB+"myrides")
     fun getMyRides(@Body request: UserCreatedByJson):Call<MyRidesResponse>
 
     @POST(ROOT_URL_SUB+"cancle_ride")
     fun cancelRide(@Body request: CancelData):Call<RideCancelResponse>
+
+    @POST(ROOT_URL_SUB+"get_kyc_details")
+    fun getKYCDetail(@Body request: UserCommonJson):Call<KYCResponse>
+
 
 }

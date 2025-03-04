@@ -204,7 +204,7 @@ class WithdrawScreen : AppCompatActivity() {
                         println("Failed to get bankDetail. ${response.message()}")
                         Utils.showToast(
                             this@WithdrawScreen,
-                            "Failed to fetch BankAccountDetails. ${response.message()}"
+                            "Failed to  Withdraw. ${response.message()}"
                         )
                     }
                 }

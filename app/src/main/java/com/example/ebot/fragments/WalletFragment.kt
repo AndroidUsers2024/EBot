@@ -1,5 +1,6 @@
 package com.example.ebot.fragments
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -16,14 +17,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ebot.R
 import com.example.ebot.actvities.MainActivity
+import com.example.ebot.actvities.TransactionDetails
 import com.example.ebot.actvities.TransactionsHistory
 import com.example.ebot.actvities.WithdrawScreen
 import com.example.ebot.adapters.HistoryAdapter
 import com.example.ebot.common.Utils
+import com.example.ebot.models.AddAmountResponse
 import com.example.ebot.models.MainResponse
 import com.example.ebot.models.TransactionList
 import com.example.ebot.models.TransactionResponse
 import com.example.ebot.models.UserCommonJson
+import com.example.ebot.models.Withdraw
 import com.example.ebot.services.ServiceManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.imageview.ShapeableImageView
@@ -43,6 +47,8 @@ class WalletFragment : Fragment() {
     private lateinit var bottomSheetDialog: BottomSheetDialog
     private  var transactionList:ArrayList<TransactionList> = ArrayList()
     private lateinit var historyAdapter: HistoryAdapter
+    private lateinit var dialog: ProgressDialog
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -135,6 +141,7 @@ class WalletFragment : Fragment() {
             val view:View=LayoutInflater.from(requireContext()).inflate(R.layout.add_money_view,null )
             val close: ShapeableImageView =view.findViewById(R.id.close)
             val et_money: EditText =view.findViewById(R.id.et_money)
+            val et_note: EditText =view.findViewById(R.id.et_note)
             val btn_cancel:Button=view.findViewById(R.id.btn_cancel)
             val btn_continue:Button=view.findViewById(R.id.btn_continue)
             close.setOnClickListener(View.OnClickListener {
@@ -142,7 +149,29 @@ class WalletFragment : Fragment() {
             })
             btn_cancel.setOnClickListener(View.OnClickListener {
                 et_money.setText("")
+                et_note.setText("")
                 bottomSheetDialog.dismiss()
+
+            })
+            btn_continue.setOnClickListener(View.OnClickListener {
+               val amount=et_money.text.toString().trim()
+               val note=et_money.text.toString().trim()
+                if (amount.isEmpty()|| amount.toFloatOrNull()!! <=0){
+                    Utils.showToast(requireContext(),"Please enter valid amount")
+
+                }else if (note.isEmpty()){
+                    Utils.showToast(requireContext(),"Please enter note")
+
+                }else{
+                    if (Utils.isNetworkAvailable(requireContext())){
+                        val  userId= Utils.getData(requireContext(),"user_id","").toString()
+                        val req=Withdraw(user_id = userId,amount=amount, notes = note)
+                        addAmountApi(req)
+                    }else{
+                        Utils.showToast(requireContext(),"Please check network connection")
+
+                    }
+                }
 
             })
             bottomSheetDialog.setContentView(view)
@@ -177,7 +206,7 @@ class WalletFragment : Fragment() {
         }
 
         if(transactionList.size<6){
-            viewAll.visibility = View.VISIBLE
+            viewAll.visibility = View.GONE
         }else{
             viewAll.visibility = View.VISIBLE
         }
@@ -216,12 +245,56 @@ class WalletFragment : Fragment() {
             }
 
             val  userId= Utils.getData(requireContext(),"user_id","").toString()
-            val req=UserCommonJson(user_id = "1")
+            val req=UserCommonJson(user_id = userId)
 
             dataManager.getAllTransaction(otpCallback, req)
         } catch (e: Exception) {
             Log.e("getAllTransaction",e.message.toString())
         }
     }
+
+    private fun addAmountApi(req: Withdraw) {
+        try {
+            dialog = Utils.openDialog(requireContext())
+            val dataManager = ServiceManager.getDataManager()
+            val callback = object : Callback<AddAmountResponse> {
+                override fun onResponse(
+                    call: Call<AddAmountResponse>,
+                    response: Response<AddAmountResponse>
+                ) {
+                    Utils.closeDialog(dialog)
+                    if (response.isSuccessful) {
+                        if (response.body()!!.status == "success") {
+                            if (bottomSheetDialog.isShowing){
+                                bottomSheetDialog.dismiss()
+                            }
+                            Utils.showToast(requireContext(), response.body()!!.message.toString())
+
+
+                        }else{
+                            Utils.showToast(requireContext(), response.body()!!.message.toString())
+                        }
+                    } else {
+                        println("Failed to get bankDetail. ${response.message()}")
+                        Utils.showToast(
+                            requireContext(),
+                            "Failed to AddAmount. ${response.message()}"
+                        )
+                    }
+                }
+
+                override fun onFailure(call: Call<AddAmountResponse>, t: Throwable) {
+                    Utils.closeDialog(dialog)
+                    println("Failed to AddAmountAPI. ${t.message}")
+                    Utils.showToast(requireContext(), "Failed to AddAmount. ${t.message}")
+                }
+            }
+            dataManager.addAmount(callback,req)
+
+        } catch (e: Exception) {
+            Log.e("AddAmountAPI ", e.message.toString())
+        }
+    }
+
 
 }

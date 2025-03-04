@@ -40,6 +40,7 @@ import com.example.ebot.actvities.TermsAndConditions
 import com.example.ebot.actvities.ViewBankDetails
 import com.example.ebot.common.Utils
 import com.example.ebot.models.CMS
+import com.example.ebot.models.MainResponse
 import com.example.ebot.models.ProfileData
 import com.example.ebot.models.ProfileResponse
 import com.example.ebot.services.ServiceManager
@@ -48,6 +49,10 @@ import com.google.android.material.imageview.ShapeableImageView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -76,7 +81,10 @@ class ProfileFragment : Fragment(),View.OnClickListener {
     private val PERMISSION_REQUEST_CODE: Int = 201
     private var profilePicPath: String? = ""
     private  var tempPhotoPath: String?=""
+    private  var userId: String?=""
     private lateinit var progressbar: ProgressBar
+    private var profileData: ProfileData?=null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,11 +120,11 @@ class ProfileFragment : Fragment(),View.OnClickListener {
             wv_camera = view.findViewById(R.id.wv_camera)
             ll_profile = view.findViewById(R.id.ll_profile)
             progressbar = view.findViewById(R.id.progressbar)
-
+            profileData=ProfileData()
             progressbar.visibility=View.VISIBLE
             ll_profile.visibility=View.GONE
-            val userId=Utils.getData(requireContext(),"user_id","") as String
-            getImageData(userId)
+             userId=Utils.getData(requireContext(),"user_id","") as String
+            getImageData(userId!!)
 
             wv_camera.setOnClickListener(this)
             btn_personal.setOnClickListener(this)
@@ -327,6 +335,13 @@ class ProfileFragment : Fragment(),View.OnClickListener {
                     img_profile.setImageBitmap(bitmap)
 
                 }
+
+            }
+            if (Utils.isNull(profilePicPath).isNotEmpty()){
+                if (cameraBottomSheet!=null && cameraBottomSheet.isShowing){
+                    cameraBottomSheet.dismiss()
+                }
+                updateProfileData(profileData!!,true)
             }
 
 
@@ -446,7 +461,8 @@ class ProfileFragment : Fragment(),View.OnClickListener {
                 if (response.isSuccessful) {
                     if(response.body()!!.status=="success")
                     {
-
+                        profileData=ProfileData()
+                        profileData=response.body()!!.data
                         shownProfile(response.body()!!.data!!.profile_image.toString())
 
 
@@ -488,5 +504,99 @@ class ProfileFragment : Fragment(),View.OnClickListener {
             Log.e("shownProfileImage",e.message.toString())
         }
     }
+
+    private fun updateProfileApi(
+        user_id: RequestBody,
+        name: RequestBody,
+        last_name: RequestBody,
+        gender: RequestBody,
+        dob: RequestBody,
+        phone: RequestBody,
+        email: RequestBody,
+        address: RequestBody,
+        pin_code: RequestBody,
+        city: RequestBody,
+        state: RequestBody,
+        country: RequestBody,
+        image: MultipartBody.Part?,
+        isUpdateProfilePic: Boolean
+    ) {
+        try {
+            openDialog = Utils.openDialog(requireContext())
+            val dataManager = ServiceManager.getDataManager()
+            val callbackAddKYC = object : Callback<MainResponse> {
+                override fun onResponse(
+                    call: Call<MainResponse>,
+                    response: Response<MainResponse>
+                ) {
+                    Utils.closeDialog(openDialog)
+                    if (response.isSuccessful) {
+                        if (response.body()!!.status == "success") {
+
+                           getImageData(userId!!)
+
+                        }
+
+
+                    }
+                    println("add KYC Details response: ${response}")
+
+
+                }
+
+                override fun onFailure(call: Call<MainResponse>, t: Throwable) {
+                    Utils.closeDialog(openDialog)
+                    println("Failed to add KYC Details. ${t.message}")
+                }
+
+            }
+            dataManager.updateProfile(
+                callbackAddKYC,
+                user_id, name, last_name, gender, dob, phone, email, address, pin_code, city, state, country, image
+            )
+
+        } catch (e: Exception) {
+            if (openDialog.isShowing) {
+                Utils.closeDialog(openDialog)
+            }
+            Log.e("addKYCApi", e.message.toString())
+        }
+    }
+    private fun updateProfileData(data: ProfileData,  isUpdateProfilePic: Boolean) {
+        try {
+            val userID = Utils.getData(requireContext(), "user_id", "") as String
+
+            val image: MultipartBody.Part?
+            val profilePic = File(profilePicPath.toString())
+            if (profilePic.exists()){
+                val profileImg = profilePic.asRequestBody("image/png".toMediaType())
+                image = MultipartBody.Part.createFormData(
+                    "image",
+                    profilePic.name,
+                    profileImg
+                )
+            }else{
+                image=null
+            }
+
+            val user_id = RequestBody.create("text/plain".toMediaType(), userID)
+            val name = RequestBody.create("text/plain".toMediaType(), data.first_name!!)
+            val last_name = RequestBody.create("text/plain".toMediaType(), data.last_name!!)
+            val gender = RequestBody.create("text/plain".toMediaType(), data.gender!!)
+            val dob = RequestBody.create("text/plain".toMediaType(), data.dob!!)
+            val phone = RequestBody.create("text/plain".toMediaType(), data.mobile!!)
+            val email = RequestBody.create("text/plain".toMediaType(), data.email!!)
+            val address = RequestBody.create("text/plain".toMediaType(), data.address!!)
+            val pin_code = RequestBody.create("text/plain".toMediaType(), data.pincode!!)
+            val city = RequestBody.create("text/plain".toMediaType(), data.city!!)
+            val state = RequestBody.create("text/plain".toMediaType(), data.state!!)
+            val country = RequestBody.create("text/plain".toMediaType(), data.country!!)
+            updateProfileApi(user_id, name, last_name, gender, dob, phone, email, address, pin_code, city, state, country, image,isUpdateProfilePic)
+        } catch (e: Exception) {
+            Log.e("addKYCData", e.message.toString())
+        }
+
+    }
+
 
 }

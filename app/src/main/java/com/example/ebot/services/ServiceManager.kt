@@ -210,6 +210,11 @@ class ServiceManager {
     }
 
 
+    fun addAmount(cb: Callback<AddAmountResponse>, withdraw: Withdraw){
+        val apiService=retrofit.create(APIInterface::class.java)
+        val call =apiService.addAmount(withdraw)
+        call.enqueue(cb)
+    }
 
     fun packageBuyNow(cb:Callback<MainResponse>,requestBody: PackageBuyNow){
         val apiService=retrofit.create(APIInterface::class.java)
@@ -223,11 +228,10 @@ class ServiceManager {
         call.enqueue(cb)
     }
 
-
-    fun getKYCDetails(cb:Callback<FetchedKYCResponse>, user_id:String){
+    fun getKYCDetails(cb:Callback<KYCResponse>,  user_id:String){
         val userId=UserCommonJson(user_id)
         val apiService=retrofit.create(APIInterface::class.java)
-        val call=apiService.getKYCDetails(userId)
+        val call=apiService.getKYCDetail(userId)
         call.enqueue(cb)
     }
 
@@ -286,6 +290,23 @@ class ServiceManager {
         val userId=CancelData(id,reason)
         val apiService = retrofit.create(APIInterface::class.java)
         val call = apiService.cancelRide(userId)
+        call.enqueue(cb)
+    }
+
+    fun updateKYC(
+        cb: Callback<MainResponse>, user_id: RequestBody, aadhar_number: RequestBody,
+        pan_number: RequestBody,
+        aadhar_front: MultipartBody.Part?,
+        aadhar_back: MultipartBody.Part?,
+        pan_image: MultipartBody.Part?,
+        account_number: RequestBody,
+        bank_name: RequestBody,
+        ifsc_code: RequestBody,
+        account_type: RequestBody,
+        face_verificaton: MultipartBody.Part?
+    ) {
+        val apiService = retrofit.create(APIInterface::class.java)
+        val call = apiService.updateKYC(user_id, aadhar_number, pan_number, aadhar_front,aadhar_back,pan_image,account_number,bank_name,ifsc_code,account_type,face_verificaton)
         call.enqueue(cb)
     }
 

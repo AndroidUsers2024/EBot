@@ -490,4 +490,36 @@ data class TransactionResponse (
     @SerializedName("message" ) var message : String? = null,
     @SerializedName("data"    ) var data    : ArrayList<TransactionList>   = arrayListOf(),
 )
+data class AddAmountResponse (
+    @SerializedName("status"  ) var status  : String?    = "",
+    @SerializedName("message" ) var message : String? = null,
+    @SerializedName("data"    ) var data    : AddedAmountData=AddedAmountData()
+)
+data class AddedAmountData(
+    @SerializedName("transaction_id"  ) var transaction_id  : String?    = "",
+   // @SerializedName("added_amount" ) var added_amount : String? = null
+)
+
+data class KYCResponse(
+    @SerializedName("status"  ) var status  : String?    = "",
+    @SerializedName("message" ) var message : String? = null,
+    @SerializedName("data"    ) var data    : ArrayList<GetKYCData> = arrayListOf()
+)
+
+data class GetKYCData(
+    @SerializedName("user_id") var user_id:String?="",
+    @SerializedName("aadhar_number") var aadhar_number:String?="",
+    @SerializedName("pan_number") var pan_number:String?="",
+    @SerializedName("aadhar_front") var aadhar_front:String?="",
+    @SerializedName("aadhar_back") var aadhar_back:String?="",
+    @SerializedName("pan_image") var pan_image:String?="",
+    @SerializedName("id") var id:String?="",
+    @SerializedName("account_number") var account_number:String?="",
+    @SerializedName("bank_name") var bank_name:String?="",
+    @SerializedName("ifsc_code") var ifsc_code:String?="",
+    @SerializedName("account_type") var account_type:String?="",
+    @SerializedName("face_verificaton") var face_verificaton:String?=""
+)
+
+
 

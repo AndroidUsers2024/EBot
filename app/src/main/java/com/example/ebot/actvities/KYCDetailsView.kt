@@ -26,8 +26,14 @@ import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.ebot.R
 import com.example.ebot.common.Utils
+import com.example.ebot.models.GetKYCData
+import com.example.ebot.models.KYCResponse
+import com.example.ebot.models.MainResponse
+import com.example.ebot.services.ServiceManager
 import com.google.android.material.imageview.ShapeableImageView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -197,13 +203,13 @@ class KYCDetailsView : AppCompatActivity() {
                 openCamera("IMG_Aadhaar_Front")
             })
             img_AadharFront.setOnClickListener(View.OnClickListener {
-              //  Utils.popUpFullViewImage(img_AadharFront_Path,this)
+               Utils.popUpFullViewImage(img_AadharFront_Path,this)
             })
             img_AadharBack.setOnClickListener(View.OnClickListener {
-              //  Utils.popUpFullViewImage(img_AadharBack_Path,this)
+                Utils.popUpFullViewImage(img_AadharBack_Path,this)
             })
             img_PANFront.setOnClickListener(View.OnClickListener {
-              //  Utils.popUpFullViewImage(img_PANFront_Path,this)
+               Utils.popUpFullViewImage(img_PANFront_Path,this)
             })
             btn_takeAadharBack.setOnClickListener(View.OnClickListener {
                 openCamera("IMG_Aadhaar_Back")
@@ -234,7 +240,7 @@ class KYCDetailsView : AppCompatActivity() {
             })
             val userID = Utils.getData(this@KYCDetailsView, "user_id", "") as String
 
-           // getKYCDetailsAPI(userID)
+            getKYCDetailsAPI(userID)
             btn_UpdateAadhar.setOnClickListener(View.OnClickListener {
                 /*val msg=isEmptyOrNot(isShowAadhar!!,isShowPAN!!)
                 if (msg.isEmpty()){
@@ -245,13 +251,13 @@ class KYCDetailsView : AppCompatActivity() {
                 }*/
             })
             btn_UpdateKYC.setOnClickListener(View.OnClickListener {
-              /*  val msg=isEmptyOrNot(true,false)
+                val msg=isEmptyOrNot(true,false)
                 if (msg.isEmpty()){
                     updateKYCData()
 
                 }else{
                     Utils.showAlertDialog(this,"Alert",msg)
-                }*/
+                }
             })
             btn_UpdatePAN.setOnClickListener(View.OnClickListener {
                /* val msg=isEmptyOrNot(false,true)
@@ -297,7 +303,7 @@ class KYCDetailsView : AppCompatActivity() {
                 msg += "Please enter your PAN Card Number\n"
 
             } else if (PANNumber.toString().isNotEmpty()) {
-               // msg += Utils.validatePAN(PANNumber.toString())
+                msg += Utils.validatePAN(PANNumber.toString())
             }
             if (img_PANFront_Path.isNullOrEmpty()) {
                 msg += "Please capture  PAN Front Image\n"
@@ -325,22 +331,22 @@ class KYCDetailsView : AppCompatActivity() {
     private fun openCamera(name: String) {
         if (checkStoragePermissions()) {
             tempFileName = name
-           // ImageFile = Utils.createImageFile(name, this@KYCDetailsView)
+            ImageFile = Utils.createImageFile(name, this@KYCDetailsView)
             val photoUri =
                 FileProvider.getUriForFile(this, "${packageName}.fileprovider", ImageFile!!)
             val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-           // startActivityForResult(cameraIntent, Utils.REQUEST_CODE_CAMERA)
+            startActivityForResult(cameraIntent, Utils.REQUEST_CODE_CAMERA)
         }
     }
 
     private fun openGallery(name: String) {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         tempFileName = name
-       // startActivityForResult(intent, Utils.REQUEST_CODE_GALLERY)
+        startActivityForResult(intent, Utils.REQUEST_CODE_GALLERY)
     }
 
-   /* override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
@@ -383,7 +389,6 @@ class KYCDetailsView : AppCompatActivity() {
         }
 
     }
-*/
     private fun updateKYCData() {
         try {
             val userID = Utils.getData(this@KYCDetailsView, "user_id", "") as String
@@ -427,33 +432,42 @@ class KYCDetailsView : AppCompatActivity() {
             }else{
                 panImgPart=null
             }
-
             val user_id = RequestBody.create("text/plain".toMediaType(), userID)
             val aadhar_number = RequestBody.create("text/plain".toMediaType(), aadharNumber!!)
             val pan_number = RequestBody.create("text/plain".toMediaType(), PANNumber!!)
-            /*updateKYCApi(
+            val account_number = RequestBody.create("text/plain".toMediaType(), "")
+            val bank_name = RequestBody.create("text/plain".toMediaType(),"")
+            val ifsc_code = RequestBody.create("text/plain".toMediaType(),"")
+            val account_type = RequestBody.create("text/plain".toMediaType(),"")
+
+            updateKYCApi(
                 user_id,
                 aadhar_number,
                 pan_number,
                 aadharFrontPart,
                 aadharBackPart,
-                panImgPart
-            )*/
+                panImgPart,account_number,bank_name,ifsc_code,account_type,null
+            )
         } catch (e: Exception) {
             Log.e("updateKYCData", e.message.toString())
         }
 
     }
 
-   /* private fun updateKYCApi(
+    private fun updateKYCApi(
         user_id: RequestBody, aadhar_number: RequestBody, pan_number: RequestBody,
         aadhar_front: MultipartBody.Part?,
         aadhar_back: MultipartBody.Part?,
-        pan_image: MultipartBody.Part?
+        pan_image: MultipartBody.Part?,
+        account_number: RequestBody,
+        bank_name: RequestBody,
+        ifsc_code: RequestBody,
+        account_type: RequestBody,
+        face_verificaton: MultipartBody.Part?
     ) {
         try {
             openDialog = Utils.openDialog(this@KYCDetailsView)
-            val dataManager = DataManager.getDataManager()
+            val dataManager = ServiceManager.getDataManager()
             val callbackAddKYC = object : Callback<MainResponse> {
                 override fun onResponse(
                     call: Call<MainResponse>,
@@ -487,7 +501,7 @@ class KYCDetailsView : AppCompatActivity() {
                 }
 
             }
-            dataManager.addKYC(
+            dataManager.updateKYC(
                 callbackAddKYC,
                 user_id,
                 aadhar_number,
@@ -495,6 +509,7 @@ class KYCDetailsView : AppCompatActivity() {
                 aadhar_front,
                 aadhar_back,
                 pan_image
+                ,account_number,bank_name,ifsc_code,account_type,face_verificaton
             )
 
         } catch (e: Exception) {
@@ -503,7 +518,7 @@ class KYCDetailsView : AppCompatActivity() {
             }
             Log.e("updateKYCApi", e.message.toString())
         }
-    }*/
+    }
 
     private fun upLoadImageCancel(name: String) {
         try {
@@ -511,6 +526,7 @@ class KYCDetailsView : AppCompatActivity() {
 
             if (name.contains("Aadhaar_Front")) {
                 img_AadharFront.setImageBitmap(null)
+                img_AadharFront.setImageDrawable(getDrawable(R.drawable.edit_text_bg))
                 file = File(img_AadharFront_Path)
                 if (file.exists()) {
                     file.delete()
@@ -521,6 +537,7 @@ class KYCDetailsView : AppCompatActivity() {
                 btn_chooseAadharFront.visibility = View.VISIBLE
             } else if (name.contains("Aadhaar_Back")) {
                 img_AadharBack.setImageBitmap(null)
+                img_AadharBack.setImageDrawable(getDrawable(R.drawable.edit_text_bg))
                 file = File(img_AadharBack_Path)
                 if (file.exists()) {
                     file.delete()
@@ -531,6 +548,7 @@ class KYCDetailsView : AppCompatActivity() {
                 btn_chooseAadharBack.visibility = View.VISIBLE
             } else if (name.contains("PAN_Card")) {
                 img_PANFront.setImageBitmap(null)
+                img_PANFront.setImageDrawable(getDrawable(R.drawable.edit_text_bg))
                 file = File(img_PANFront_Path)
                 if (file.exists()) {
                     file.delete()
@@ -677,44 +695,47 @@ class KYCDetailsView : AppCompatActivity() {
 
     }
 
-    /*private fun getKYCDetailsAPI(userId: String) {
+    private fun getKYCDetailsAPI(userId: String) {
         try {
-            val dataManager = DataManager.getDataManager()
+            val dataManager = ServiceManager.getDataManager()
 
-            val otpCallback = object : Callback<FetchedKYCResponse> {
+            val otpCallback = object : Callback<KYCResponse> {
                 override fun onResponse(
-                    call: Call<FetchedKYCResponse>,
-                    response: Response<FetchedKYCResponse>
+                    call: Call<KYCResponse>,
+                    response: Response<KYCResponse>
                 ) {
-                    if (response.body()!!.status == true) {
-                        val responseData = response.body()!!.data.kyc_details
+                    if (response.body()!!.status == "success") {
+                        val responseData = response.body()!!.data
                         setKYCData(responseData)
-
 
                         Log.v("Response", "response" + response.body()!!.message.toString())
                     } else {
 
                         // Handle error
                         println("Failed to KYC. ${response.message()}")
+                        Log.e("KYCDetails.GetKYCDetail",response.message())
+
                     }
 
                 }
 
 
-                override fun onFailure(call: Call<FetchedKYCResponse>, t: Throwable) {
+                override fun onFailure(call: Call<KYCResponse>, t: Throwable) {
                     println("Failed to KYC. ${t.message}")
+                    Log.i("KYCDetails.GetKYCDetail",t.message.toString())
+
                 }
             }
 
-            // Call the sendOtp function in DataManager
+
             dataManager.getKYCDetails(otpCallback, userId)
         } catch (e: Exception) {
-            e.printStackTrace()
+           Log.e("KYCDetails.GetKYCDetail",e.message.toString())
         }
     }
 
 
-    private fun setKYCData(list: ArrayList<AddKYC>) {
+    private fun setKYCData(list: ArrayList<GetKYCData>) {
         try {
             var aadhar_front: String? = ""
             var aadhar_back: String? = ""
@@ -722,11 +743,22 @@ class KYCDetailsView : AppCompatActivity() {
             var aadhar_number: String? = ""
             var pan_number: String? = ""
             for (data in list) {
-                aadhar_front = data.aadhar_front.toString()
-                aadhar_back = data.aadhar_back.toString()
-                aadhar_number = data.aadhar_number.toString()
-                pan_image = data.pan_image.toString()
-                pan_number = data.pan_number.toString()
+                aadhar_front = Utils.isNull(data.aadhar_front.toString())
+                aadhar_back =  Utils.isNull(data.aadhar_back.toString())
+                aadhar_number = Utils.isNull(data.aadhar_number.toString())
+                pan_image =  Utils.isNull(pan_image.toString())
+                pan_number = Utils.isNull(data.pan_number.toString())
+                if (aadhar_front.isNotEmpty()){
+                    aadhar_front = Utils.IMG_ROOT_URL+data.aadhar_front.toString()
+                }
+                if (aadhar_back.isNotEmpty()){
+                    aadhar_back =  Utils.IMG_ROOT_URL+data.aadhar_back.toString()
+
+                }
+                if (pan_image.isNotEmpty()){
+                    pan_image =  Utils.IMG_ROOT_URL+data.pan_image.toString()
+
+                }
 
             }
             tv_kyc_Number.text = aadhar_number
@@ -737,12 +769,12 @@ class KYCDetailsView : AppCompatActivity() {
             if (aadhar_front!!.isNotEmpty()) {
                 aadhar_front.let { url ->
                     Glide.with(this).load(url)
-                        *//*.apply(
+                        .apply(
                             RequestOptions()
                                 .diskCacheStrategy(DiskCacheStrategy.ALL)  // Cache for fast loading
                                 .override(1080, 1920)  // Set high resolution
                                 .fitCenter()
-                        )*//*
+                        )
                         .into(img_AadharFront)
 
                     CoroutineScope(Dispatchers.Main).launch {
@@ -751,16 +783,19 @@ class KYCDetailsView : AppCompatActivity() {
                     }
 
                 }
+            }else{
+                img_AadharFront.setImageDrawable(getDrawable(R.drawable.edit_text_bg))
+
             }
             if (aadhar_back!!.isNotEmpty()) {
                 aadhar_back.let { url ->
                     Glide.with(this).load(url)
-                        *//*.apply(
+                        .apply(
                             RequestOptions()
                                 .diskCacheStrategy(DiskCacheStrategy.ALL)  // Cache for fast loading
                                 .override(1080, 1920)  // Set high resolution
                                 .fitCenter()
-                        )*//*
+                        )
                         .into(img_AadharBack)
                     CoroutineScope(Dispatchers.Main).launch {
                         img_AadharBack_Path=Utils.convertURLToLocalPath(this@KYCDetailsView,url,"IMG_Aadhaar_Back")
@@ -769,16 +804,19 @@ class KYCDetailsView : AppCompatActivity() {
 
 
                 }
+            }else{
+                img_AadharBack.setImageDrawable(getDrawable(R.drawable.edit_text_bg))
+
             }
             if (pan_image!!.isNotEmpty()) {
                 pan_image.let { url ->
                     Glide.with(this).load(url)
-                        *//*.apply(
+                        .apply(
                             RequestOptions()
                                 .diskCacheStrategy(DiskCacheStrategy.ALL)  // Cache for fast loading
                                 .override(1080, 1920)  // Set high resolution
                                 .fitCenter()
-                        )*//*
+                        )
                         .into(img_PANFront)
                     CoroutineScope(Dispatchers.Main).launch {
                         img_PANFront_Path=Utils.convertURLToLocalPath(this@KYCDetailsView,url,"IMG_PAN_Card")
@@ -787,11 +825,14 @@ class KYCDetailsView : AppCompatActivity() {
 
 
                 }
+            }else{
+                img_PANFront.setImageDrawable(getDrawable(R.drawable.edit_text_bg))
+
             }
         } catch (e: Exception) {
             Log.e("shownProfileImage", e.message.toString())
         }
-    }*/
+    }
 
     private fun showUpdateKYCDetails(isKYC: Boolean):Boolean {
         if (isKYC) {

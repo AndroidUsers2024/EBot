@@ -53,7 +53,7 @@ class MyRidesFragment : Fragment() {
             rc_myRidesList.layoutManager= LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false)
             myRidesAdapter= MyRidesAdapter(myRidesList,requireContext())
             rc_myRidesList.adapter=myRidesAdapter
-            getMyRidesList("1")//id
+            getMyRidesList(id)//id
 
         }catch (e:Exception){
             e.printStackTrace()
@@ -78,20 +78,20 @@ class MyRidesFragment : Fragment() {
 
                             Log.e("Response","response"+response.body().toString())
                         }else{
-                            Utils.showToast(requireContext(),"Failed to get packages. ${response.message()}")
+                            Utils.showToast(requireContext(),"Failed to get My Rides. ${response.message()}")
                         }
 
                     }else{
-                        println("Failed to get packages. ${response.message()}")
-                        Utils.showToast(requireContext(),"Failed to get packages. ${response.message()}")
+                        println("Failed to get My Rides. ${response.message()}")
+                        Utils.showToast(requireContext(),"Failed to get My Rides. ${response.message()}")
                     }
 
 
                 }
 
                 override fun onFailure(call: Call<MyRidesResponse>, t: Throwable) {
-                    println("Failed to get packages. ${t.message}")
-                    Utils.showToast(requireContext(),"Failed to get packages. ${t.message}")
+                    println("Failed to get My Rides. ${t.message}")
+                    Utils.showToast(requireContext(),"Failed to get My Rides. ${t.message}")
                 }
 
             }
@@ -99,7 +99,7 @@ class MyRidesFragment : Fragment() {
 
 
         }catch (e:Exception){
-            Log.e("HomeFragment.getPackagesList",e.message.toString())
+            Log.e("HomeFragment.getMy RidesList",e.message.toString())
         }
     }
 

@@ -280,15 +280,17 @@ class MyRidesScreen : AppCompatActivity() {
                 bottomSheetDialog.dismiss()
 
             })
+            var selectedRadioButton:RadioButton?=null
 
-
+            radioGroup.setOnCheckedChangeListener { group, checkedId ->
+                 selectedRadioButton = view.findViewById(checkedId)
+            }
 
             // Submit Button Click
             btn_submit.setOnClickListener {
-                val selectedRadioButton = findViewById<RadioButton>(radioGroup.checkedRadioButtonId)
-                if (selectedRadioButton != null) {
-                    cancelRideAPI(ride_data.id.toString(),selectedRadioButton.text.toString())
-//                    Toast.makeText(this, "Selected: ${selectedRadioButton.text}", Toast.LENGTH_SHORT).show()
+                val reason=selectedRadioButton!!.text.toString().trim()
+                if (reason.isNotEmpty() || reason!="null") {
+                    cancelRideAPI(ride_data.id.toString(),reason)
                 } else {
                     Toast.makeText(this, "Please select an option", Toast.LENGTH_SHORT).show()
                 }
@@ -327,6 +329,9 @@ class MyRidesScreen : AppCompatActivity() {
 //                        if (response.body()?.status!!.equals("success")) {
                         val body = response.body()
                         Utils.showToast(this@MyRidesScreen, body!!.message.toString())
+                        if(bottomSheetDialog.isShowing){
+                            bottomSheetDialog.dismiss()
+                        }
 
                         /*}else{
                             Utils.showToast(this@ContactDetails, response.body()!!.message!!)

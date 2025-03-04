@@ -85,7 +85,11 @@ class BankAccountDetails : AppCompatActivity() {
                 btn_submit.text = "Save"
             }
             skip.setOnClickListener(View.OnClickListener {
-
+                val intent= Intent()
+                intent.setClass(this,MainActivity::class.java)
+                intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
             })
 
             kyc_back.setOnClickListener(View.OnClickListener {

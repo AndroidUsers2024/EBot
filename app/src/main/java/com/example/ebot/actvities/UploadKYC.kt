@@ -150,15 +150,18 @@ class UploadKYC : AppCompatActivity() {
 
             })
             skip.setOnClickListener(View.OnClickListener {
-                val intent = Intent()
-               // intent.setClass(this, BankAccountDetails::class.java)
-                intent.setClass(this, MainActivity::class.java)
-                intent.putExtra("screen", "KYC")
+                val intent= Intent()
+                intent.setClass(this,MainActivity::class.java)
+                intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
                 finish()
             })
             skip_kyc.setOnClickListener(View.OnClickListener {
-
+                val intent= Intent()
+                intent.setClass(this,MainActivity::class.java)
+                intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
             })
             back.setOnClickListener(View.OnClickListener {
                 onBackPressed()

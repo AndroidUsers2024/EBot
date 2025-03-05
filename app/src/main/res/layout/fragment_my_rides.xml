@@ -29,7 +29,39 @@
             android:padding="5dp"
             tools:listitem="@layout/my_rides_view"
             android:id="@+id/rc_myRidesList"
+            android:visibility="gone"
             android:layout_marginTop="@dimen/_25sdp"/>
+
+        <LinearLayout
+            android:id="@+id/ll_empty_tran"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            android:layout_marginTop="45dp"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_my_rides" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:gravity="center"
+                android:layout_marginTop="2dp"
+                android:text="There’s no rides till now!"
+                android:textColor="@color/gray"
+                android:textStyle="normal"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
 
 
     </LinearLayout>

@@ -146,7 +146,9 @@ class KYCVerificationScreen : AppCompatActivity() {
             }catch (e:Exception){
                 Log.e("KYCVerification",e.message.toString())
             }
-
+            skip.setOnClickListener(View.OnClickListener {
+                addKYCData(true)
+            })
 
 
             btn_takePhoto.setOnClickListener(View.OnClickListener {
@@ -163,7 +165,7 @@ class KYCVerificationScreen : AppCompatActivity() {
 
                     }else{
                         if (Utils.isNetworkAvailable(this)){
-                            addKYCData()
+                            addKYCData(false)
                         }else{
                             Utils.showAlertDialog(this,"Alert","Please check network connection")
                         }
@@ -360,39 +362,55 @@ class KYCVerificationScreen : AppCompatActivity() {
 
 
     }
-    private fun addKYCData() {
+    private fun addKYCData(isSkip:Boolean) {
         try {
             val userID = Utils.getData(this@KYCVerificationScreen, "user_id", "") as String
 
             val aadharFront_File = File(aadhaarFront.toString())
-            val aadharFront = aadharFront_File.asRequestBody("image/png".toMediaType())
-            val aadharFrontPart = MultipartBody.Part.createFormData(
-                "aadhar_front",
-                aadharFront_File.name,
-                aadharFront
-            )
+            var aadharFrontPart : MultipartBody.Part?=null
+            if (aadharFront_File.exists()){
+                val aadharFront = aadharFront_File.asRequestBody("image/png".toMediaType())
+                 aadharFrontPart = MultipartBody.Part.createFormData(
+                    "aadhar_front",
+                    aadharFront_File.name,
+                    aadharFront
+                )
+            }
+
 
             val aadharBack_File = File(aadhaarBack.toString())
-            val aadharBack = aadharBack_File.asRequestBody("image/png".toMediaType())
-            val aadharBackPart = MultipartBody.Part.createFormData(
-                "aadhar_back",
-                aadharBack_File.name,
-                aadharBack
-            )
+            var aadharBackPart :MultipartBody.Part?=null
+            if (aadharBack_File.exists()){
+                val aadharBack = aadharBack_File.asRequestBody("image/png".toMediaType())
+                 aadharBackPart = MultipartBody.Part.createFormData(
+                    "aadhar_back",
+                    aadharBack_File.name,
+                    aadharBack
+                )
+            }
+
             val panCard_File = File(PANFront.toString())
-            val panImg = panCard_File.asRequestBody("image/png".toMediaType())
-            val panImgPart = MultipartBody.Part.createFormData(
-                "pan_image",
-                panCard_File.name,
-                panImg
-            )
+            var panImgPart : MultipartBody.Part?=null
+            if (panCard_File.exists()){
+                val panImg = panCard_File.asRequestBody("image/png".toMediaType())
+                panImgPart = MultipartBody.Part.createFormData(
+                    "pan_image",
+                    panCard_File.name,
+                    panImg
+                )
+            }
+
             val face_File = File(faceIMGPath.toString())
-            val faceImg = panCard_File.asRequestBody("image/png".toMediaType())
-            val face_verificaton = MultipartBody.Part.createFormData(
-                "face_verificaton",
-                face_File.name,
-                faceImg
-            )
+            var face_verificaton : MultipartBody.Part?=null
+            if (face_File.exists()){
+                val faceImg = panCard_File.asRequestBody("image/png".toMediaType())
+                 face_verificaton = MultipartBody.Part.createFormData(
+                    "face_verificaton",
+                    face_File.name,
+                    faceImg
+                )
+            }
+
             val user_id = RequestBody.create("text/plain".toMediaType(), userID)
             val aadhar_number = RequestBody.create("text/plain".toMediaType(), aadharNumber!!)
             val pan_number = RequestBody.create("text/plain".toMediaType(), PANNumber!!)
@@ -400,7 +418,7 @@ class KYCVerificationScreen : AppCompatActivity() {
             val bank_name = RequestBody.create("text/plain".toMediaType(), bankDetails!!.bank_name!!)
             val ifsc_code = RequestBody.create("text/plain".toMediaType(), bankDetails!!.ifsc_code!!)
             val account_type = RequestBody.create("text/plain".toMediaType(), bankDetails!!.account_type!!)
-            addKYCApi(user_id,aadhar_number,pan_number,aadharFrontPart,aadharBackPart,panImgPart,account_number,bank_name,ifsc_code,account_type,face_verificaton)
+            addKYCApi(user_id,aadhar_number,pan_number,aadharFrontPart!!,aadharBackPart!!,panImgPart!!,account_number,bank_name,ifsc_code,account_type,face_verificaton,isSkip)
         } catch (e: Exception) {
             Log.e("addKYCData", e.message.toString())
         }
@@ -408,15 +426,16 @@ class KYCVerificationScreen : AppCompatActivity() {
     }
 
     private fun addKYCApi(
-        user_id: RequestBody, aadhar_number: RequestBody, pan_number: RequestBody,
-        aadhar_front: MultipartBody.Part,
-        aadhar_back: MultipartBody.Part,
-        pan_image: MultipartBody.Part,
-        account_number: RequestBody,
-        bank_name: RequestBody,
-        ifsc_code: RequestBody,
-        account_type: RequestBody,
-        face_verificaton: MultipartBody.Part?
+        user_id: RequestBody, aadhar_number: RequestBody, pan_number: RequestBody?,
+        aadhar_front: MultipartBody.Part?,
+        aadhar_back: MultipartBody.Part?,
+        pan_image: MultipartBody.Part?,
+        account_number: RequestBody?,
+        bank_name: RequestBody?,
+        ifsc_code: RequestBody?,
+        account_type: RequestBody?,
+        face_verificaton: MultipartBody.Part?,
+        isSkip:Boolean
     ) {
         try {
             openDialog = Utils.openDialog(this@KYCVerificationScreen)
@@ -427,19 +446,32 @@ class KYCVerificationScreen : AppCompatActivity() {
                     response: Response<MainResponse>
                 ) {
                     Utils.closeDialog(openDialog)
-                    if (response.isSuccessful) {
-                        if (response.body()!!.status == "success") {
-                            screenNo = screenNo!! + 1
-                            setScreens(screenNo!!)
+                    if (isSkip)
+                    {
+                        val intent= Intent()
+                        intent.setClass(this@KYCVerificationScreen,MainActivity::class.java)
+                        intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                        finish()
+                    }
+                    else{
+                        if (response.isSuccessful) {
+                            if (response.body()!!.status == "success") {
+                                screenNo = screenNo!! + 1
+                                setScreens(screenNo!!)
+                            }
+                            Utils.showToast(
+                                this@KYCVerificationScreen,
+                                response.body()!!.message.toString()
+                            )
+
+                        } else {
+                            Utils.showToast(
+                                this@KYCVerificationScreen,
+                                response.message().toString()
+                            )
+
                         }
-                        Utils.showToast(
-                            this@KYCVerificationScreen,
-                            response.body()!!.message.toString()
-                        )
-
-                    } else {
-                        Utils.showToast(this@KYCVerificationScreen, response.message().toString())
-
                     }
                     println("add KYC Details response: ${response}")
 
@@ -449,7 +481,16 @@ class KYCVerificationScreen : AppCompatActivity() {
                 override fun onFailure(call: Call<MainResponse>, t: Throwable) {
                     Utils.closeDialog(openDialog)
                     println("Failed to add KYC Details. ${t.message}")
-                    Utils.showToast(this@KYCVerificationScreen, "${t.message} Please try again")
+                    if (isSkip)
+                    {
+                        val intent= Intent()
+                        intent.setClass(this@KYCVerificationScreen,MainActivity::class.java)
+                        intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                        finish()
+                    }else{
+                        Utils.showToast(this@KYCVerificationScreen, "${t.message} Please try again")
+                    }
                 }
 
             }
@@ -466,6 +507,14 @@ class KYCVerificationScreen : AppCompatActivity() {
         } catch (e: Exception) {
             if (openDialog.isShowing) {
                 Utils.closeDialog(openDialog)
+            }
+            if (isSkip)
+            {
+                val intent= Intent()
+                intent.setClass(this@KYCVerificationScreen,MainActivity::class.java)
+                intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
             }
             Log.e("addKYCApi", e.message.toString())
         }

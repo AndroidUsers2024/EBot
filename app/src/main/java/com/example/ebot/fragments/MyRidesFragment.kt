@@ -29,6 +29,7 @@ class MyRidesFragment : Fragment() {
     private lateinit var myRidesAdapter: MyRidesAdapter
     private var myRidesList: ArrayList<MyRides> = ArrayList()
     private lateinit var rc_myRidesList:RecyclerView
+    private lateinit var ll_empty_tran:RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -47,6 +48,9 @@ class MyRidesFragment : Fragment() {
         try{
             rc_myRidesList = view.findViewById(R.id.rc_myRidesList)
             progressbar = view.findViewById(R.id.progressbar)
+            ll_empty_tran = view.findViewById(R.id.ll_empty_tran)
+            rc_myRidesList.visibility=View.GONE
+            ll_empty_tran.visibility=View.VISIBLE
 
             val id=Utils.getData(requireContext(),"user_id","") as String
 
@@ -54,6 +58,13 @@ class MyRidesFragment : Fragment() {
             myRidesAdapter= MyRidesAdapter(myRidesList,requireContext())
             rc_myRidesList.adapter=myRidesAdapter
             getMyRidesList(id)//id
+            if (myRidesList.size<=0){
+                rc_myRidesList.visibility=View.GONE
+                ll_empty_tran.visibility=View.VISIBLE
+            }else{
+                rc_myRidesList.visibility=View.VISIBLE
+                ll_empty_tran.visibility=View.GONE
+            }
 
         }catch (e:Exception){
             e.printStackTrace()
@@ -74,6 +85,13 @@ class MyRidesFragment : Fragment() {
                         if(response.body()!!.status==true){
                             myRidesList.clear()
                             myRidesList.addAll(response.body()!!.data)
+                            if (myRidesList.size<=0){
+                                rc_myRidesList.visibility=View.GONE
+                                ll_empty_tran.visibility=View.VISIBLE
+                            }else{
+                                rc_myRidesList.visibility=View.VISIBLE
+                                ll_empty_tran.visibility=View.GONE
+                            }
                             myRidesAdapter.updateVehiclesList(myRidesList)
 
                             Log.e("Response","response"+response.body().toString())
@@ -92,6 +110,13 @@ class MyRidesFragment : Fragment() {
                 override fun onFailure(call: Call<MyRidesResponse>, t: Throwable) {
                     println("Failed to get My Rides. ${t.message}")
                     Utils.showToast(requireContext(),"Failed to get My Rides. ${t.message}")
+                    if (myRidesList.size<=0){
+                        rc_myRidesList.visibility=View.GONE
+                        ll_empty_tran.visibility=View.VISIBLE
+                    }else{
+                        rc_myRidesList.visibility=View.VISIBLE
+                        ll_empty_tran.visibility=View.GONE
+                    }
                 }
 
             }

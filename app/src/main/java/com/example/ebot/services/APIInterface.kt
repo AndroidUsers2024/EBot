@@ -96,15 +96,15 @@ interface APIInterface {
     @Multipart
     @POST(ROOT_URL_SUB + "save_kyc_details")
     fun addKYC(
-        @Part("user_id") user_id: RequestBody, @Part("aadhar_number") aadhar_number: RequestBody,
-        @Part("pan_number") pan_number: RequestBody,
+        @Part("user_id") user_id: RequestBody?, @Part("aadhar_number") aadhar_number: RequestBody?,
+        @Part("pan_number") pan_number: RequestBody?,
         @Part aadhar_front: MultipartBody.Part?,
         @Part aadhar_back: MultipartBody.Part?,
         @Part pan_image: MultipartBody.Part?,
-        @Part("account_number") account_number: RequestBody,
-        @Part("bank_name") bank_name: RequestBody,
-        @Part("ifsc_code") ifsc_code: RequestBody,
-        @Part("account_type") account_type: RequestBody,
+        @Part("account_number") account_number: RequestBody?,
+        @Part("bank_name") bank_name: RequestBody?,
+        @Part("ifsc_code") ifsc_code: RequestBody?,
+        @Part("account_type") account_type: RequestBody?,
         @Part face_verificaton: MultipartBody.Part?
     ): Call<MainResponse>
 
@@ -163,8 +163,8 @@ interface APIInterface {
 
     @POST(ROOT_URL_SUB+"add_money")
     fun addAmount(@Body request: Withdraw):Call<AddAmountResponse>
-    @Multipart
 
+    @Multipart
     @POST(ROOT_URL_SUB + "update_kyc_details")
     fun updateKYC(
         @Part("user_id") user_id: RequestBody, @Part("aadhar_number") aadhar_number: RequestBody,

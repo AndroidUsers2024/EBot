@@ -93,9 +93,14 @@ class SignupWithEmail : AppCompatActivity() {
                         val body = response.body()
                         Utils.showToast(this@SignupWithEmail, body!!.message.toString())
                         Utils.saveData(this@SignupWithEmail,"user_id",body.user_id)
-                        val intent= Intent(this@SignupWithEmail,VerifyOTP::class.java)
+                        /*val intent= Intent(this@SignupWithEmail,VerifyOTP::class.java)
                         intent.putExtra("screen","signup")
                         intent.putExtra("email",et_emailId.text.toString())
+                        startActivity(intent)*/
+
+                        val intent= Intent(this@SignupWithEmail,PersonalDetails::class.java)
+                        intent.putExtra("email",et_emailId.text.toString())
+                        intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                         startActivity(intent)
 
                         }else{

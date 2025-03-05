@@ -107,6 +107,7 @@ class ServiceManager {
         val call = apiService.registerUser(data)
         call.enqueue(cb)
     }
+
     fun submitUpateProfile(cb: Callback<MainResponse>,data: UpdateProfile){
         val apiService = retrofit.create(APIInterface::class.java)
         val call = apiService.submitUpdateProfile(data)
@@ -170,15 +171,15 @@ class ServiceManager {
     }
 
     fun addKYC(
-        cb: Callback<MainResponse>, user_id: RequestBody, aadhar_number: RequestBody,
-        pan_number: RequestBody,
+        cb: Callback<MainResponse>, user_id: RequestBody?, aadhar_number: RequestBody?,
+        pan_number: RequestBody?,
         aadhar_front: MultipartBody.Part?,
         aadhar_back: MultipartBody.Part?,
         pan_image: MultipartBody.Part?,
-        account_number: RequestBody,
-        bank_name: RequestBody,
-        ifsc_code: RequestBody,
-        account_type: RequestBody,
+        account_number: RequestBody?,
+        bank_name: RequestBody?,
+        ifsc_code: RequestBody?,
+        account_type: RequestBody?,
         face_verificaton: MultipartBody.Part?
     ) {
         val apiService = retrofit.create(APIInterface::class.java)

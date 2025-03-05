@@ -17,6 +17,8 @@ import com.example.ebot.models.MainResponse
 import com.example.ebot.models.RegisterData
 import com.example.ebot.models.RegisterResponse
 import com.example.ebot.services.ServiceManager
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -145,10 +147,10 @@ class ContactDetails : AppCompatActivity() {
         try{
             openDialog = Utils.openDialog(this)
             val service = ServiceManager.getDataManager()
-            val callback = object : Callback<RegisterResponse> {
+            val callback = object : Callback<MainResponse> {
                 override fun onResponse(
-                    call: Call<RegisterResponse>,
-                    response: Response<RegisterResponse>
+                    call: Call<MainResponse>,
+                    response: Response<MainResponse>
                 ) {
                     if (openDialog.isShowing){
                         openDialog.dismiss()
@@ -181,7 +183,7 @@ class ContactDetails : AppCompatActivity() {
                     }
                 }
 
-                override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                override fun onFailure(call: Call<MainResponse>, t: Throwable) {
                     println("Failed to send OTP. ${t.message}")
                     if (openDialog.isShowing){
                         openDialog.dismiss()
@@ -191,7 +193,24 @@ class ContactDetails : AppCompatActivity() {
                 }
 
             }
-            service.registerUser(callback,registerData)
+            val userID = Utils.getData(this@ContactDetails, "user_id", "") as String
+            val user_id = RequestBody.create("text/plain".toMediaType(), userID)
+            val name = RequestBody.create("text/plain".toMediaType(), registerData.name!!)
+            val last_name = RequestBody.create("text/plain".toMediaType(), registerData.last_name!!)
+            val gender = RequestBody.create("text/plain".toMediaType(), registerData.gender!!)
+            val dob = RequestBody.create("text/plain".toMediaType(), registerData.dob!!)
+            val phone = RequestBody.create("text/plain".toMediaType(), registerData.phone!!)
+            val email = RequestBody.create("text/plain".toMediaType(), registerData.email!!)
+            val address = RequestBody.create("text/plain".toMediaType(), registerData.address!!)
+            val pin_code = RequestBody.create("text/plain".toMediaType(), registerData.pin_code!!)
+            val city = RequestBody.create("text/plain".toMediaType(), registerData.city!!)
+            val state = RequestBody.create("text/plain".toMediaType(), registerData.state!!)
+            val country = RequestBody.create("text/plain".toMediaType(), registerData.country!!)
+            service.updateProfile(
+                callback,
+                user_id, name, last_name, gender, dob, phone, email, address, pin_code, city, state, country, null
+            )
+//            service.registerUser(callback,registerData)
         }catch (e:Exception){
             if (openDialog.isShowing){
                 openDialog.dismiss()

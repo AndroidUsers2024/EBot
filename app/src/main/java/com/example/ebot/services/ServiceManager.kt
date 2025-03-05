@@ -310,5 +310,10 @@ class ServiceManager {
         val call = apiService.updateKYC(user_id, aadhar_number, pan_number, aadhar_front,aadhar_back,pan_image,account_number,bank_name,ifsc_code,account_type,face_verificaton)
         call.enqueue(cb)
     }
-
+    fun deleteAccount(cb:Callback<MainResponse>,  user_id:String){
+        val user=UserCommonJson(id=user_id, status = "0")
+        val apiService=retrofit.create(APIInterface::class.java)
+        val call=apiService.deleteAccount(user)
+        call.enqueue(cb)
+    }
 }

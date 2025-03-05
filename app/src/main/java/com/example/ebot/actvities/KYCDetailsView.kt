@@ -11,6 +11,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -46,6 +48,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
+import java.util.Locale
 
 class KYCDetailsView : AppCompatActivity() {
     private lateinit var wv_back: View
@@ -150,6 +153,27 @@ class KYCDetailsView : AppCompatActivity() {
             isPANOpen = false
             isShowAadhar=showUpdatePANDetails(false)
             isShowPAN=showUpdateKYCDetails(false)
+
+            et_PANNumber.addTextChangedListener(object :TextWatcher{
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    et_PANNumber.removeTextChangedListener(this)
+                    val cursorPosition = et_PANNumber.selectionStart
+                    val text:String= s.toString()
+                    et_PANNumber.setText(text.uppercase())
+                    et_PANNumber.setSelection(cursorPosition)
+                    et_PANNumber.addTextChangedListener(this)
+
+
+                }
+
+            })
 
 
             ll_AadharCard.setOnClickListener(View.OnClickListener {
@@ -746,7 +770,7 @@ class KYCDetailsView : AppCompatActivity() {
                 aadhar_front = Utils.isNull(data.aadhar_front.toString())
                 aadhar_back =  Utils.isNull(data.aadhar_back.toString())
                 aadhar_number = Utils.isNull(data.aadhar_number.toString())
-                pan_image =  Utils.isNull(pan_image.toString())
+                pan_image =  Utils.isNull(data.pan_image.toString())
                 pan_number = Utils.isNull(data.pan_number.toString())
                 if (aadhar_front.isNotEmpty()){
                     aadhar_front = Utils.IMG_ROOT_URL+data.aadhar_front.toString()

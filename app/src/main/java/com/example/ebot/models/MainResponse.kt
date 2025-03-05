@@ -6,7 +6,7 @@ import kotlinx.android.parcel.Parcelize
 
 data class MainResponse (
     @SerializedName("status"  ) var status  : String?    = "",
-    @SerializedName("message" ) var message : String? = null,
+    @SerializedName("message" ) var message : String? = "",
     @SerializedName("data"    ) var data    : Data   = Data(),
 //    @SerializedName("profile_image" ) var profile_image :String?  = ""
     )
@@ -187,7 +187,8 @@ data class UserCommonJson(
     @SerializedName("otp") var otp: String?="",
     @SerializedName("id") var id: String?="",
     @SerializedName("bank_id") var bank_id: String?="",
-    @SerializedName("vehicle_id") var vehicle_id: String?=""
+    @SerializedName("vehicle_id") var vehicle_id: String?="",
+    @SerializedName("status") var status: String?=""
 )
 data class UserCreatedByJson(
     @SerializedName("created_by") var user_id: String?=""

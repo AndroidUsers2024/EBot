@@ -683,7 +683,6 @@
                                     android:id="@+id/et_PANNumber"
                                     android:layout_width="match_parent"
                                     android:layout_height="45dp"
-                                    android:textAllCaps="true"
                                     android:layout_margin="5dp"
                                     android:background="@drawable/edit_text_bg"
                                     android:hint="Enter PAN Card Number"

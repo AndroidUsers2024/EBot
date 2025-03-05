@@ -10,6 +10,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -145,6 +147,26 @@ class UploadKYC : AppCompatActivity() {
                             Utils.showAlertDialog(this,"Alert",msg)
                         }
                     }
+
+                }
+
+            })
+            et_PANNumber.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    et_PANNumber.removeTextChangedListener(this)
+                    val cursorPosition = et_PANNumber.selectionStart
+                    val text:String= s.toString()
+                    et_PANNumber.setText(text.uppercase())
+                    et_PANNumber.setSelection(cursorPosition)
+                    et_PANNumber.addTextChangedListener(this)
+
 
                 }
 

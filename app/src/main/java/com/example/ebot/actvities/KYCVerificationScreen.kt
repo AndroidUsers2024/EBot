@@ -456,7 +456,7 @@ class KYCVerificationScreen : AppCompatActivity() {
                     }
                     else{
                         if (response.isSuccessful) {
-                            if (response.body()!!.status == "success") {
+                            if (response.body()!!.status == "true") {
                                 screenNo = screenNo!! + 1
                                 setScreens(screenNo!!)
                             }

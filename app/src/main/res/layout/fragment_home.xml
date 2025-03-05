@@ -66,9 +66,8 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
-                    android:layout_height="21dp"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     >
 
@@ -81,11 +80,11 @@
 
                     <TextView
                         android:id="@+id/tv_home_address"
-                        android:layout_width="267dp"
-                        android:layout_height="21dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_marginLeft="@dimen/_5sdp"
-                        android:text="92/2 ecr road, perunthuravu,... 500081"
+                        android:maxLines="1"
+                        android:layout_marginStart="@dimen/_5sdp"
                         android:textAppearance="@style/ecr_road_pe"
                         android:gravity="top"
                         />

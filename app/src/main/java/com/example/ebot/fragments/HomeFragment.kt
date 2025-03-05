@@ -20,6 +20,8 @@ import com.example.ebot.adapters.BikesAdapter
 import com.example.ebot.common.Utils
 import com.example.ebot.models.HomeBannerList
 import com.example.ebot.models.MainResponse
+import com.example.ebot.models.ProfileData
+import com.example.ebot.models.ProfileResponse
 import com.example.ebot.models.Vehicle
 import com.example.ebot.services.ServiceManager
 import retrofit2.Call
@@ -94,6 +96,13 @@ class HomeFragment : Fragment() {
             val userId=Utils.getData(requireContext(),"user_id","").toString()
             getWalletAmountAPI(userId)
             getHomeBanner()
+            val fullAddress=Utils.getData(requireContext(),"fullAddress","").toString()
+            if (fullAddress.isNotEmpty()){
+                tv_home_address.text=fullAddress
+            }else{
+                getProfileData(userId)
+            }
+
 
         }catch (e:Exception){
             e.printStackTrace()
@@ -250,6 +259,40 @@ class HomeFragment : Fragment() {
                 )
             )
         }
+    }
+    fun getProfileData(user:String) {
+        val dataManager = ServiceManager.getDataManager()
+
+        val callback = object : Callback<ProfileResponse> {
+            override fun onResponse(call: Call<ProfileResponse>, response: Response<ProfileResponse>) {
+
+                if (response.isSuccessful) {
+                    if(response.body()!!.status=="success")
+                    {
+                        val data:ProfileData?=response.body()!!.data
+                        val fullAddress =
+                            """${data!!.address}, ${data.city}, ${data.state}, ${data.country} - ${data.pincode}"""
+
+                        Utils.saveData(requireContext(),"fullAddress",fullAddress)
+                        tv_home_address.text=fullAddress
+                    }
+
+                    Log.i("Response","response"+response.body().toString())
+
+                } else {
+                    // Handle error
+                    println("Failed to getData  ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ProfileResponse>, t: Throwable) {
+                // Handle failure
+                println("Failed to getData. ${t.message}")
+
+            }
+        }
+
+        dataManager.fetchProfile(callback, userId = user)
     }
 
 }

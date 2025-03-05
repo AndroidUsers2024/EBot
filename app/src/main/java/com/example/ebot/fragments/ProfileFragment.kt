@@ -226,6 +226,7 @@ class ProfileFragment : Fragment(),View.OnClickListener {
                 Utils.saveData(requireContext(), "mobile", "")
                 Utils.saveData(requireContext(), "user_id", "")
                 Utils.saveData(requireContext(), "user_name", "")
+                Utils.saveData(requireContext(), "fullAddress", "")
                 startActivity(intent)
 
             }

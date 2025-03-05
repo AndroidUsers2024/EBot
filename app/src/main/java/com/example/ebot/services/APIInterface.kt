@@ -188,5 +188,7 @@ interface APIInterface {
     @POST(ROOT_URL_SUB+"get_kyc_details")
     fun getKYCDetail(@Body request: UserCommonJson):Call<KYCResponse>
 
+    @POST(ROOT_URL_SUB+"update_status")
+    fun deleteAccount(@Body request: UserCommonJson):Call<MainResponse>
 
 }

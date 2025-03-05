@@ -62,6 +62,7 @@ class PersonalInformation : AppCompatActivity() {
     private lateinit var btn_home: Button
     private lateinit var btn_shop: Button
     private lateinit var btn_other: Button
+    private lateinit var btn_delete_Acc: Button
     private val PERMISSION_REQUEST_CODE: Int = 201
     private var profilePicPath: String? = ""
     private  var tempPhotoPath: String?=""
@@ -92,6 +93,7 @@ class PersonalInformation : AppCompatActivity() {
             btn_editAddress = findViewById(R.id.btn_editAddress)
             tv_FullName = findViewById(R.id.tv_FullName)
             tv_email = findViewById(R.id.tv_email)
+            btn_delete_Acc = findViewById(R.id.btn_delete_Acc)
             tv_mobileNo = findViewById(R.id.tv_mobileNo)
             tv_fullAddress = findViewById(R.id.tv_fullAddress)
             userId=Utils.getData(this@PersonalInformation,"user_id","") as String
@@ -108,6 +110,14 @@ class PersonalInformation : AppCompatActivity() {
             })
             btn_editAddress.setOnClickListener(View.OnClickListener {
                 editDetailsSource(false)
+            })
+            btn_delete_Acc.setOnClickListener(View.OnClickListener {
+                if (Utils.isNetworkAvailable(this)){
+                    deleteAccount(userId)
+
+                }else{
+                    Utils.showAlertDialog(this,"Alert","Please check network connection")
+                }
             })
 
 
@@ -627,7 +637,7 @@ class PersonalInformation : AppCompatActivity() {
                 } else {
                     // Handle error
                     println("Failed to getData  ${response.message()}")
-                    //showToast(requireContext(),response.body()!!.message!!)
+                    //showToast(this@PersonalInformation,response.body()!!.message!!)
                 }
             }
 
@@ -676,6 +686,7 @@ class PersonalInformation : AppCompatActivity() {
             val fullAddress =
                 """${data.address}, ${data.city}, ${data.state}, ${data.country} - ${data.pincode}"""
             tv_fullAddress.text = fullAddress
+            Utils.saveData(this,"fullAddress",fullAddress)
 
             shownProfile(data.profile_image.toString())
 
@@ -728,14 +739,14 @@ class PersonalInformation : AppCompatActivity() {
                         Utils.showToast(this@PersonalInformation, response.message().toString())
 
                     }
-                    println("add KYC Details response: ${response}")
+                    println(" updateProfileApi Details response: ${response}")
 
 
                 }
 
                 override fun onFailure(call: Call<MainResponse>, t: Throwable) {
                     Utils.closeDialog(openDialog)
-                    println("Failed to add KYC Details. ${t.message}")
+                    println("Failed to updateProfileApi Details. ${t.message}")
                     Utils.showToast(this@PersonalInformation, "${t.message} Please try again")
                 }
 
@@ -749,7 +760,7 @@ class PersonalInformation : AppCompatActivity() {
             if (openDialog.isShowing) {
                 Utils.closeDialog(openDialog)
             }
-            Log.e("addKYCApi", e.message.toString())
+            Log.e("updateProfileApi", e.message.toString())
         }
     }
     private fun updateProfileData(data: ProfileData,  isUpdateProfilePic: Boolean) {
@@ -787,5 +798,46 @@ class PersonalInformation : AppCompatActivity() {
         }
 
     }
+     private fun deleteAccount(user: String){
+         try {
+             openDialog = Utils.openDialog(this@PersonalInformation)
+             val serviceManager=ServiceManager.getDataManager()
+             val callback = object : Callback<MainResponse> {
+                 override fun onResponse(
+                     call: Call<MainResponse>,
+                     response: Response<MainResponse>
+                 ) {
+                     if (response.body()!!.status.toString()=="success") {
+                         Utils.showToast(this@PersonalInformation, "User Account Deleted Successfully")
+
+                         val intent = Intent(this@PersonalInformation, LoginActivity::class.java)
+                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                         Utils.saveData(this@PersonalInformation, "mobile", "")
+                         Utils.saveData(this@PersonalInformation, "email", "")
+                         Utils.saveData(this@PersonalInformation, "user_id", "")
+                         Utils.saveData(this@PersonalInformation, "user_name", "")
+                         Utils.saveData(this@PersonalInformation, "fullAddress", "")
+                         startActivity(intent)
+                     }else{
+                         Utils.showToast(this@PersonalInformation, response.body()!!.message.toString())
+
+                     }
+                 }
+
+                 override fun onFailure(call: Call<MainResponse>, t: Throwable) {
+                     Utils.closeDialog(openDialog)
+                     println("Failed to delete Account. ${t.message}")
+                     Utils.showToast(this@PersonalInformation, "${t.message} Please try again")
+                 }
+
+
+             }
+             
+             serviceManager.deleteAccount(callback,user)
+             
+         }catch (e:Exception){
+             Log.e("PersonalInformation: deleteAccount",e.message.toString())
+         }
+     }
 
 }

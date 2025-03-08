@@ -161,11 +161,8 @@
                         android:layout_width="match_parent"
                         android:id="@+id/cardview"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_15sdp"
-                        android:layout_marginTop="@dimen/_30sdp"
-                        android:layout_marginEnd="@dimen/_15sdp"
                         android:backgroundTint="@color/white"
-                        app:cardCornerRadius="20dp">
+                        app:cardCornerRadius="30dp">
 
                             <androidx.viewpager2.widget.ViewPager2
                                 android:id="@+id/viewPager"

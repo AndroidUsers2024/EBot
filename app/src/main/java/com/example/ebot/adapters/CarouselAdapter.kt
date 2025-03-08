@@ -34,7 +34,7 @@ class CarouselAdapter(private var images: List<Int>, private var bannerList: Arr
         }
     }
 
-    override fun getItemCount(): Int = images.size
+    override fun getItemCount(): Int = bannerList?.size!!
 
     fun updateBanners(list: ArrayList<HomeBannerList>, image: List<Int>?){
         bannerList=list

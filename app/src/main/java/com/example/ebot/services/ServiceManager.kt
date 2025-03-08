@@ -263,8 +263,8 @@ class ServiceManager {
         call.enqueue(cb)
     }
 
-    fun getTimeSlot(cb:Callback<List<TimeSlot>>, vehicle_id:String){
-        val userId=UserCommonJson(vehicle_id =vehicle_id )
+    fun getTimeSlot(cb: Callback<List<TimeSlot>>, vehicle_id: String, hublist_id: String?){
+        val userId=UserCommonJson(vehicle_id =vehicle_id, hublist_id = hublist_id )
         val apiService=retrofit.create(APIInterface::class.java)
         val call=apiService.getTimeSlot(userId)
         call.enqueue(cb)

@@ -218,7 +218,7 @@ class BikeBookingSlotScreen : AppCompatActivity() {
                 }
             }
 
-            dataManager.getTimeSlot(otpCallback, vehicleData!!.id.toString())
+            dataManager.getTimeSlot(otpCallback, vehicleData!!.id.toString(), selectedHub?.id)
         } catch (e: Exception) {
             Log.e("BikeBooking.getTimeSlot",e.message.toString())
         }

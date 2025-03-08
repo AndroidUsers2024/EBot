@@ -37,6 +37,8 @@ class BikeViewDetailsActivity : AppCompatActivity() {
     private lateinit var tv_title: TextView
     private lateinit var swipeText: TextView
     private lateinit var tv_description_text: TextView
+    private lateinit var tv_rsa_description: TextView
+    private lateinit var tv_Note: TextView
     private lateinit var dialog: ProgressDialog
     private  var vehicleData: Vehicle=Vehicle()
     private var isMove:Boolean=false
@@ -63,6 +65,8 @@ class BikeViewDetailsActivity : AppCompatActivity() {
         tv_of_Capacity= findViewById(R.id.tv_of_Capacity)
         tv_title= findViewById(R.id.tv_title)
         tv_description_text= findViewById(R.id.tv_description_text)
+        tv_rsa_description= findViewById(R.id.tv_rsa_description)
+        tv_Note= findViewById(R.id.tv_Note)
 
         vehicleData= intent.getParcelableExtra<Vehicle>("vehicle")!!
         val bikeImg=Utils.IMG_ROOT_URL+vehicleData.bike_image
@@ -158,6 +162,8 @@ class BikeViewDetailsActivity : AppCompatActivity() {
         tv_of_Capacity.text = vehicleData.load_capacity
         tv_title.text = vehicleData.bike_name
         tv_description_text.text = vehicleData.description
+        tv_rsa_description.text = vehicleData.assistance
+        tv_Note.text = "Note :"+vehicleData.note
         swipeText.text="Submit to Swipe   "+vehicleData.bike_price
     }
 

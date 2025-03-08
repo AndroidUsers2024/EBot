@@ -188,7 +188,8 @@ data class UserCommonJson(
     @SerializedName("id") var id: String?="",
     @SerializedName("bank_id") var bank_id: String?="",
     @SerializedName("vehicle_id") var vehicle_id: String?="",
-    @SerializedName("status") var status: String?=""
+    @SerializedName("status") var status: String?="",
+    @SerializedName("hublist_id") var hublist_id: String?=""
 )
 data class UserCreatedByJson(
     @SerializedName("created_by") var user_id: String?=""
@@ -418,7 +419,8 @@ data class Vehicle(
     @SerializedName("created_by") var created_by:String?="",
     @SerializedName("status") var status:String?="",
     @SerializedName("created_date") var created_date:String?="",
-    @SerializedName("created_time") var created_time:String?=""
+    @SerializedName("created_time") var created_time:String?="",
+    @SerializedName("note") var note:String?=""
 ):Parcelable
 
 

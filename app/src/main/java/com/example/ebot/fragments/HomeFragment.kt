@@ -68,7 +68,7 @@ class HomeFragment : Fragment() {
             val images = listOf(R.drawable.img_2)
              adapter = CarouselAdapter(images,bannerList,requireContext())
             viewPager.adapter = adapter
-            setupDots(images.size)
+            setupDots(bannerList.size)
             viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     updateDots(position)

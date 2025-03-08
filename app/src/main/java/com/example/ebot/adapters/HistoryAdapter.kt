@@ -50,10 +50,10 @@ class HistoryAdapter(
         val dateTime= outputFormat.format(date!!)
         holder.tv_dateTime.text =dateTime
         val status=obj.pro_status
-        if (status.equals("2")) {
+        if (status.equals("1")/*||status.equals("2")*/) {
             holder.tv_status.text = "Successfully Sent"
             holder.tv_status.setTextColor(ContextCompat.getColor(context, R.color.secondary))
-        } else if (status.equals("1")) {
+        } else if (status.equals("0")) {
             holder.tv_status.text = "InProgress"
             holder.tv_status.setTextColor(
                 ContextCompat.getColor(

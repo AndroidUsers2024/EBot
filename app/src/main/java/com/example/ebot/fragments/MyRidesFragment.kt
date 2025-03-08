@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,7 +30,7 @@ class MyRidesFragment : Fragment() {
     private lateinit var myRidesAdapter: MyRidesAdapter
     private var myRidesList: ArrayList<MyRides> = ArrayList()
     private lateinit var rc_myRidesList:RecyclerView
-    private lateinit var ll_empty_tran:RecyclerView
+    private lateinit var ll_empty_tran:LinearLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

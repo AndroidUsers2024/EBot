@@ -418,9 +418,9 @@ data class Vehicle(
     @SerializedName("description") var description:String?="",
     @SerializedName("created_by") var created_by:String?="",
     @SerializedName("status") var status:String?="",
+    @SerializedName("note") var note:String?="",
     @SerializedName("created_date") var created_date:String?="",
-    @SerializedName("created_time") var created_time:String?="",
-    @SerializedName("note") var note:String?=""
+    @SerializedName("created_time") var created_time:String?=""
 ):Parcelable
 
 

@@ -181,7 +181,22 @@ object Utils {
         val alertDialog = builder.create()
         alertDialog.show()
     }
+    fun showConfirmAlert(
+        context: Context,
+        message: String,
+        onOkClick: () -> Unit
+    ) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("Alert")
+            .setMessage(message)
+            .setPositiveButton("OK") { dialog, _ ->
+                onOkClick() // Execute the function passed as a parameter
+                dialog.dismiss()
+            }
 
+            .setCancelable(false)
+            .show()
+    }
 
     fun openDialog(context: Context): ProgressDialog {
         var dialog: ProgressDialog? = null

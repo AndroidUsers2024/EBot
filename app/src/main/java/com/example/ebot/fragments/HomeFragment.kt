@@ -68,7 +68,8 @@ class HomeFragment : Fragment() {
             val images = listOf(R.drawable.img_2)
              adapter = CarouselAdapter(images,bannerList,requireContext())
             viewPager.adapter = adapter
-            setupDots(bannerList.size)
+            viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+            setupDots(images.size)
             viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     updateDots(position)
@@ -199,15 +200,14 @@ class HomeFragment : Fragment() {
                 ) {
                     if (response.isSuccessful) {
                         val responseData = response.body()!!
-                      if (responseData.isNotEmpty()){
-                          val images = listOf(R.drawable.img_2)
-
-                          adapter.updateBanners(responseData,images)
-                      }else{
-                          val images = listOf(R.drawable.img_2)
-                          adapter.updateBanners(responseData,images)
-
-                      }
+                        if (!responseData.isNullOrEmpty()) {
+                            val images = listOf(R.drawable.img_2)  // Default image if API fails
+                            adapter.updateBanners(responseData, images)
+                            setupDots(responseData.size)
+                        } else {
+                            adapter.updateBanners(arrayListOf(), listOf(R.drawable.img_2))
+                            setupDots(1)
+                        }
 
                     } else {
 

@@ -126,27 +126,38 @@ class BookingSummaryScreen : AppCompatActivity() {
                 tv_distance.text = ""
             }
             if (vehicleData != null) {
-                val bikeImg = Utils.IMG_ROOT_URL + vehicleData!!.bike_image
-                tv_distance.text = "(" + vehicleData!!.range + ")"
-                tv_speed.text = vehicleData!!.speed
-                tv_battery_type.text = vehicleData!!.battery_type
-                tv_title.text = vehicleData!!.bike_name
-                if (bikeImg.isNotEmpty()) {
-                    bikeImg.let { url ->
-                        Glide.with(this).load(url)
-                            .into(img_bike)
+               try {
+                    val bikeImg = Utils.IMG_ROOT_URL + vehicleData!!.bike_image
+                    tv_distance.text = "(" + vehicleData!!.range + ")"
+                    tv_speed.text = vehicleData!!.speed
+                    tv_battery_type.text = vehicleData!!.battery_type
+                    tv_title.text = vehicleData!!.bike_name
+                    if (bikeImg.isNotEmpty()) {
+                        bikeImg.let { url ->
+                            Glide.with(this).load(url)
+                                .into(img_bike)
 
+                        }
                     }
-                }
-                tv_amountPerHour.text = vehicleData!!.bike_price!!.replace("/hour", "")
-            }
-            tv_date_time.text = "$date, $time"
-            val times = time!!.trim().split("-")
+                    tv_amountPerHour.text ="₹ "+ vehicleData!!.bike_price!!.filter { it.isDigit() }
 
-            val hours = getHourNumber(times[1]) - getHourNumber(times[0])
-            val perH = tv_amountPerHour.text.toString().trim().replace("₹", "")
-            val totalAmount = (hours * (perH.toIntOrNull()!!))
-            tv_totalAmount.text = "₹ " + totalAmount.toString()
+                   println("tv_amountPerHour.text"+tv_amountPerHour.text.toString())
+                }catch (e:Exception){
+                   Log.e("vehicleData",e.message.toString())
+               }
+            }
+            var totalAmount:Float=0f
+           try {
+                tv_date_time.text = "$date, $time"
+                val times = time!!.trim().split("-")
+
+                val hours = getHourNumber(times[1]) - getHourNumber(times[0]).toFloat()
+                val perH = tv_amountPerHour.text.toString().trim().replace("₹ ", "").replace(" ","").trim()
+                 totalAmount = hours * (perH.toFloat())
+                tv_totalAmount.text = "₹ " + totalAmount
+            }catch (e:Exception){
+               Log.e("vehicleData",e.message.toString())
+           }
             showStatusScreen(isBooked)
 
             ll_back.setOnClickListener(View.OnClickListener {
@@ -178,7 +189,6 @@ class BookingSummaryScreen : AppCompatActivity() {
                         swipeText.setBackgroundResource((R.drawable.roundedcorners))
                     } else {
                         swipeText.setBackgroundResource((R.drawable.button_bg))
-
                     }
                     if (progress >= YOUR_TOTAL_PROGRESS) {
                         if (!isMove) {

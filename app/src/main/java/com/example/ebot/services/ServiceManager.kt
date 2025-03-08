@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Callback
 import retrofit2.Retrofit
@@ -263,7 +264,7 @@ class ServiceManager {
         call.enqueue(cb)
     }
 
-    fun getTimeSlot(cb: Callback<List<TimeSlot>>, vehicle_id: String, hublist_id: String?){
+    fun getTimeSlot(cb: Callback<ResponseBody>, vehicle_id: String, hublist_id: String?){
         val userId=UserCommonJson(vehicle_id =vehicle_id, hublist_id = hublist_id )
         val apiService=retrofit.create(APIInterface::class.java)
         val call=apiService.getTimeSlot(userId)

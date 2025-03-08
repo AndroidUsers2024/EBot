@@ -20,25 +20,23 @@ class CarouselAdapter(private var images: List<Int>, private var bannerList: Arr
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (bannerList!=null && bannerList!!.size>0){
-            val img= bannerList!![position].image
-            if (img!!.isNotEmpty()) {
-                img.let { url ->
-                    Glide.with(context).load(url)
-                        .into( holder.imageView)
-
-                }
+        if (!bannerList.isNullOrEmpty() && position < bannerList!!.size) {
+            val img = bannerList!![position].image
+            if (!img.isNullOrEmpty()) {
+                Glide.with(context).load(img).into(holder.imageView)
             }
-        }else{
+        } else if (position < images.size) {
             holder.imageView.setImageResource(images[position])
         }
     }
 
-    override fun getItemCount(): Int = bannerList?.size!!
+    override fun getItemCount():Int {
+        return if (!bannerList.isNullOrEmpty()) bannerList!!.size else images.size
+    }
 
     fun updateBanners(list: ArrayList<HomeBannerList>, image: List<Int>?){
-        bannerList=list
-        images=image!!
+        bannerList = list
+        images = image ?: emptyList()  // Prevent null pointer exception
         notifyDataSetChanged()
 
     }

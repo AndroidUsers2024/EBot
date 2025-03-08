@@ -19,9 +19,13 @@ import com.example.ebot.adapters.TimeSlotAdapter
 import java.util.*
 import com.example.ebot.common.Utils
 import com.example.ebot.models.HubList
+import com.example.ebot.models.MainResponse
 import com.example.ebot.models.TimeSlot
 import com.example.ebot.models.Vehicle
 import com.example.ebot.services.ServiceManager
+import com.google.gson.Gson
+import com.google.gson.JsonParser
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -70,7 +74,6 @@ class BikeBookingSlotScreen : AppCompatActivity() {
             seekBar = findViewById(R.id.seekBar)
             progressbar = findViewById(R.id.progressbar)
             timeSlotList = arrayListOf()
-            timeSlot=TimeSlot("","","","","")
 
             selectedHub = intent.getParcelableExtra<HubList>("selectedHub")
             vehicleData = intent.getParcelableExtra<Vehicle>("vehicleData")!!
@@ -130,7 +133,7 @@ class BikeBookingSlotScreen : AppCompatActivity() {
 
                             isMove = true
                             seekBar!!.progress = 5
-                            if(timeSlot.timeslot!=""&&selectedDate!=""){
+                            if(timeSlot.timeslot !="" && selectedDate!=""){
                                 val intent = Intent(this@BikeBookingSlotScreen, BookingSummaryScreen::class.java)
                                 intent.putExtra("time", timeSlot.timeslot)
                                 intent.putExtra("date", selectedDate)
@@ -193,36 +196,60 @@ class BikeBookingSlotScreen : AppCompatActivity() {
     private fun getTimeSlots() {
         try {
             val dataManager = ServiceManager.getDataManager()
-            val otpCallback = object : Callback<List<TimeSlot>> {
-                override fun onResponse(
-                    call: Call<List<TimeSlot>>,
-                    response: Response<List<TimeSlot>>
-                ) {
+            val otpCallback = object : Callback<ResponseBody> {
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     if (response.isSuccessful) {
-                        val responseData = response.body()!!
-                        if (responseData.isNotEmpty()) {
-                            timeSlotAdapter.updateList(responseData)
+                        response.body()?.let { responseBody ->
+                            try {
+                                val jsonString = responseBody.string()
+                                val jsonElement = JsonParser.parseString(jsonString)
+                                val gson = Gson()
+
+                                val timeSlots: List<TimeSlot> = when {
+                                    jsonElement.isJsonArray -> {
+                                        gson.fromJson(jsonElement, Array<TimeSlot>::class.java).toList()
+                                    }
+                                    jsonElement.isJsonObject -> {
+                                        val jsonObject = jsonElement.asJsonObject
+                                        if (jsonObject.has("message")) {
+                                            println("No records found: ${jsonObject["message"].asString}")
+                                            emptyList()
+                                        } else {
+                                            listOf(gson.fromJson(jsonObject, TimeSlot::class.java))
+                                        }
+                                    }
+                                    else -> emptyList()
+                                }
+                                if(ArrayList(timeSlots).isEmpty()){
+                                    Utils.showConfirmAlert(this@BikeBookingSlotScreen,"No TimeSlots Available", onOkClick = {
+                                        onBackPressed()
+                                    })
+                                }else{
+                                    timeSlotAdapter.updateList(ArrayList(timeSlots))
+
+                                }
+
+                            } catch (e: Exception) {
+                                println("JSON Parsing Error: ${e.message}")
+                            }
                         }
-
                     } else {
-
-                        // Handle error
-                        println("Failed to TimeSlot. ${response.message()}")
+                        // Handle API error
+                        println("Failed to fetch TimeSlots: ${response.message()}")
                     }
-
                 }
 
-
-                override fun onFailure(call: Call<List<TimeSlot>>, t: Throwable) {
-                    println("Failed to TimeSlot. ${t.message}")
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    println("API Call Failed: ${t.message}")
                 }
             }
 
             dataManager.getTimeSlot(otpCallback, vehicleData!!.id.toString(), selectedHub?.id)
         } catch (e: Exception) {
-            Log.e("BikeBooking.getTimeSlot",e.message.toString())
+            Log.e("BikeBooking.getTimeSlot", e.message.toString())
         }
     }
+
 
 
 

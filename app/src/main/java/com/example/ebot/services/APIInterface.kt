@@ -7,6 +7,7 @@ import retrofit2.Call
 
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -153,7 +154,7 @@ interface APIInterface {
     fun getTransactionHistory(@Body request: UserCommonJson): Call<MainResponse>
 
     @POST(ROOT_URL_SUB + "timeslot")
-    fun getTimeSlot(@Body request: UserCommonJson): Call<List<TimeSlot>>
+    fun getTimeSlot(@Body request: UserCommonJson): Call<ResponseBody>
 
     @POST(ROOT_URL_SUB + "vehicle_booking")
     fun vehicleBooking(@Body request: BookVehicle): Call<BookingResponse>

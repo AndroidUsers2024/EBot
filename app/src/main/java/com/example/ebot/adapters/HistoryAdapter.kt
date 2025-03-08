@@ -54,11 +54,11 @@ class HistoryAdapter(
             holder.tv_status.text = "Successfully Sent"
             holder.tv_status.setTextColor(ContextCompat.getColor(context, R.color.secondary))
         } else if (status.equals("0")) {
-            holder.tv_status.text = "InProgress"
+            holder.tv_status.text = "Approved"
             holder.tv_status.setTextColor(
                 ContextCompat.getColor(
                     context,
-                    R.color.yellow
+                    R.color.secondary
                 )
             )
         } else if (status.equals("4")) {

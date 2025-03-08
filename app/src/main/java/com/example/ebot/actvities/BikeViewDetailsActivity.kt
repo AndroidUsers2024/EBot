@@ -1,6 +1,7 @@
 package com.example.ebot.actvities
 
 import CarouselAdapter
+import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
@@ -44,6 +45,7 @@ class BikeViewDetailsActivity : AppCompatActivity() {
     private var isMove:Boolean=false
 
     private val YOUR_TOTAL_PROGRESS = 55
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bike_view_details)
@@ -163,7 +165,7 @@ class BikeViewDetailsActivity : AppCompatActivity() {
         tv_title.text = vehicleData.bike_name
         tv_description_text.text = vehicleData.description
         tv_rsa_description.text = vehicleData.assistance
-        tv_Note.text = "Note :"+vehicleData.note
+        tv_Note.text ="Note: "+ vehicleData.note
         swipeText.text="Submit to Swipe   "+vehicleData.bike_price
     }
 

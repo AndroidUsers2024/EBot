@@ -147,7 +147,6 @@ class BookingSummaryScreen : AppCompatActivity() {
                }
             }
             var totalAmount:Float=0f
-           try {
                 tv_date_time.text = "$date, $time"
                 val times = time!!.trim().split("-")
 
@@ -155,9 +154,7 @@ class BookingSummaryScreen : AppCompatActivity() {
                 val perH = tv_amountPerHour.text.toString().trim().replace("₹ ", "").replace(" ","").trim()
                  totalAmount = hours * (perH.toFloat())
                 tv_totalAmount.text = "₹ " + totalAmount
-            }catch (e:Exception){
-               Log.e("vehicleData",e.message.toString())
-           }
+
             showStatusScreen(isBooked)
 
             ll_back.setOnClickListener(View.OnClickListener {

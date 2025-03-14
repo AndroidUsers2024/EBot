@@ -317,4 +317,11 @@ class ServiceManager {
         val call=apiService.deleteAccount(user)
         call.enqueue(cb)
     }
+
+    fun bookingSlotBlocking(cb: Callback<ResponseBody>, vehicle_id: String, hublist_id: String?){
+        val userId=UserCommonJson(vehicle_id =vehicle_id, hublist_id = hublist_id )
+        val apiService=retrofit.create(APIInterface::class.java)
+        val call=apiService.bookingSlotBlocking(userId)
+        call.enqueue(cb)
+    }
 }

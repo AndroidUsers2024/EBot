@@ -488,6 +488,16 @@ data class TimeSlot(
     @SerializedName("created_time") val createdTime: String
 ):Parcelable
 
+@Parcelize
+data class BlockTimeSlot(
+    @SerializedName("id") val id: String,
+    @SerializedName("vehicle_id") val vehicle_id: String,
+    @SerializedName("hublist_id") val hublist_id: String,
+    @SerializedName("date") val date: String,
+    @SerializedName("time_slot") val time_slot: String,
+    @SerializedName("status") val status: String
+):Parcelable
+
 data class TransactionResponse (
     @SerializedName("status"  ) var status  : String?    = "",
     @SerializedName("message" ) var message : String? = null,

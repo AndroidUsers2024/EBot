@@ -18,6 +18,7 @@ import com.example.ebot.adapters.CalendarAdapter
 import com.example.ebot.adapters.TimeSlotAdapter
 import java.util.*
 import com.example.ebot.common.Utils
+import com.example.ebot.models.BlockTimeSlot
 import com.example.ebot.models.HubList
 import com.example.ebot.models.MainResponse
 import com.example.ebot.models.TimeSlot
@@ -50,8 +51,8 @@ class BikeBookingSlotScreen : AppCompatActivity() {
     private var isMove: Boolean = false
     private val YOUR_TOTAL_PROGRESS = 100
     private var selectedDate: String? = ""
-
-    private var vehicleData: Vehicle? =null
+   private lateinit var slotBlockingList: ArrayList<BlockTimeSlot>
+    private var vehicleData: Vehicle? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,13 +75,14 @@ class BikeBookingSlotScreen : AppCompatActivity() {
             seekBar = findViewById(R.id.seekBar)
             progressbar = findViewById(R.id.progressbar)
             timeSlotList = arrayListOf()
+            slotBlockingList = arrayListOf()
 
             selectedHub = intent.getParcelableExtra<HubList>("selectedHub")
             vehicleData = intent.getParcelableExtra<Vehicle>("vehicleData")!!
             if (selectedHub != null) {
                 tv_Name.text = selectedHub!!.title
                 tv_address.text = selectedHub!!.description
-                tv_distance.text ="("+vehicleData!!.range+")"
+                tv_distance.text = "(" + vehicleData!!.range + ")"
             }
 
             ll_back.setOnClickListener(View.OnClickListener {
@@ -89,6 +91,12 @@ class BikeBookingSlotScreen : AppCompatActivity() {
             btn_Change.setOnClickListener(View.OnClickListener {
                 onBackPressed()
             })
+
+            rc_selectTime.layoutManager = GridLayoutManager(this@BikeBookingSlotScreen, 3)
+            timeSlotAdapter = TimeSlotAdapter(timeSlotList, slotBlockingList,"") { selected ->
+                timeSlot = selected
+            }
+            rc_selectTime.adapter = timeSlotAdapter
 
             rc_selectDate.layoutManager =
                 LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -101,22 +109,21 @@ class BikeBookingSlotScreen : AppCompatActivity() {
                         Locale.getDefault()
                     )
                 } ${data.get(Calendar.YEAR)}"
+                timeSlotAdapter.updateList(timeSlotList,slotBlockingList,selectedDate)
+
+
             }
 
             rc_selectDate.adapter = adapter
 
-            rc_selectTime.layoutManager = GridLayoutManager(this@BikeBookingSlotScreen, 3)
-            timeSlotAdapter = TimeSlotAdapter(timeSlotList) { selected ->
-                timeSlot = selected
-            }
-            rc_selectTime.adapter = timeSlotAdapter
+
             if (timeSlotList.isEmpty()) {
                 progressbar.visibility = View.GONE
             } else {
                 progressbar.visibility = View.VISIBLE
 
             }
-            seekBar.progress=5
+            seekBar.progress = 5
             seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(
                     seekBar: SeekBar?,
@@ -133,15 +140,21 @@ class BikeBookingSlotScreen : AppCompatActivity() {
 
                             isMove = true
                             seekBar!!.progress = 5
-                            if(timeSlot.timeslot !="" && selectedDate!=""){
-                                val intent = Intent(this@BikeBookingSlotScreen, BookingSummaryScreen::class.java)
+                            if (timeSlot.timeslot != "" && selectedDate != "") {
+                                val intent = Intent(
+                                    this@BikeBookingSlotScreen,
+                                    BookingSummaryScreen::class.java
+                                )
                                 intent.putExtra("time", timeSlot.timeslot)
                                 intent.putExtra("date", selectedDate)
                                 intent.putExtra("selectedHub", selectedHub)
                                 intent.putExtra("vehicleData", vehicleData)
                                 startActivity(intent)
-                            }else{
-                                Utils.showToast(this@BikeBookingSlotScreen, "Please select Date and Time Slot")
+                            } else {
+                                Utils.showToast(
+                                    this@BikeBookingSlotScreen,
+                                    "Please select Date and Time Slot"
+                                )
                                 seekBar!!.progress = 5
                             }
                         }
@@ -197,7 +210,10 @@ class BikeBookingSlotScreen : AppCompatActivity() {
         try {
             val dataManager = ServiceManager.getDataManager()
             val otpCallback = object : Callback<ResponseBody> {
-                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
                     if (response.isSuccessful) {
                         response.body()?.let { responseBody ->
                             try {
@@ -207,8 +223,10 @@ class BikeBookingSlotScreen : AppCompatActivity() {
 
                                 val timeSlots: List<TimeSlot> = when {
                                     jsonElement.isJsonArray -> {
-                                        gson.fromJson(jsonElement, Array<TimeSlot>::class.java).toList()
+                                        gson.fromJson(jsonElement, Array<TimeSlot>::class.java)
+                                            .toList()
                                     }
+
                                     jsonElement.isJsonObject -> {
                                         val jsonObject = jsonElement.asJsonObject
                                         if (jsonObject.has("message")) {
@@ -218,14 +236,19 @@ class BikeBookingSlotScreen : AppCompatActivity() {
                                             listOf(gson.fromJson(jsonObject, TimeSlot::class.java))
                                         }
                                     }
+
                                     else -> emptyList()
                                 }
-                                if(ArrayList(timeSlots).isEmpty()){
-                                    Utils.showConfirmAlert(this@BikeBookingSlotScreen,"No TimeSlots Available", onOkClick = {
-                                        onBackPressed()
-                                    })
-                                }else{
-                                    timeSlotAdapter.updateList(ArrayList(timeSlots))
+                                if (ArrayList(timeSlots).isEmpty()) {
+                                    Utils.showConfirmAlert(
+                                        this@BikeBookingSlotScreen,
+                                        "No TimeSlots Available",
+                                        onOkClick = {
+                                            onBackPressed()
+                                        })
+                                } else {
+                                    timeSlotList=ArrayList(timeSlots)
+                                    getSlotsBlock(ArrayList(timeSlots))
 
                                 }
 
@@ -250,8 +273,85 @@ class BikeBookingSlotScreen : AppCompatActivity() {
         }
     }
 
+    private fun getSlotsBlock(timeSlots: List<TimeSlot>) {
+        try {
+            val dataManager = ServiceManager.getDataManager()
+            val otpCallback = object : Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.let { responseBody ->
+                            try {
+                                val jsonString = responseBody.string()
+                                val jsonElement = JsonParser.parseString(jsonString)
+                                val gson = Gson()
 
+                                val blockingSlot: List<BlockTimeSlot> = when {
+                                    jsonElement.isJsonArray -> {
+                                        gson.fromJson(jsonElement, Array<BlockTimeSlot>::class.java)
+                                            .toList()
+                                    }
 
+                                    jsonElement.isJsonObject -> {
+                                        val jsonObject = jsonElement.asJsonObject
+                                        if (jsonObject.has("message")) {
+                                            println("No records found: ${jsonObject["message"].asString}")
+                                            emptyList()
+                                        } else {
+                                            listOf(gson.fromJson(jsonObject, BlockTimeSlot::class.java))
+                                        }
+                                    }
+
+                                    else -> emptyList()
+                                }
+                                slotBlockingList=ArrayList(blockingSlot)
+
+                                timeSlotAdapter.updateList(
+                                    ArrayList(timeSlots),
+                                    slotBlockingList,selectedDate
+                                )
+
+                            } catch (e: Exception) {
+                                println("JSON Parsing Error: ${e.message}")
+                                timeSlotAdapter.updateList(
+                                    ArrayList(timeSlots),
+                                    slotBlockingList,selectedDate
+                                )
+                            }
+                        }
+                    } else {
+                        // Handle API error
+                        timeSlotAdapter.updateList(
+                            ArrayList(timeSlots),
+                            slotBlockingList,selectedDate
+                        )
+                        println("Failed to fetch blockingSlot: ${response.message()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    println("API Call Failed: ${t.message}")
+                    timeSlotAdapter.updateList(
+                        ArrayList(timeSlots),
+                        slotBlockingList,selectedDate
+                    )
+                }
+            }
+
+            dataManager.bookingSlotBlocking(
+                otpCallback,
+                vehicleData!!.id.toString(), selectedHub?.id
+            )
+        } catch (e: Exception) {
+            timeSlotAdapter.updateList(
+                ArrayList(timeSlots),
+                slotBlockingList,selectedDate
+            )
+            Log.e("BikeBooking.getTimeSlot", e.message.toString())
+        }
+    }
 
 
 }

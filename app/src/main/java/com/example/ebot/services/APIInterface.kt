@@ -192,4 +192,7 @@ interface APIInterface {
     @POST(ROOT_URL_SUB+"update_status")
     fun deleteAccount(@Body request: UserCommonJson):Call<MainResponse>
 
+    @POST(ROOT_URL_SUB+"slotbooking_block")
+    fun bookingSlotBlocking(@Body request: UserCommonJson):Call<ResponseBody>
+
 }

@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.compose.material3.RadioButton
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.ebot.R
 import com.example.ebot.common.Utils
 import com.example.ebot.models.CancelData
@@ -32,6 +33,8 @@ import com.example.ebot.models.Vehicle
 import com.example.ebot.services.ServiceManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.imageview.ShapeableImageView
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -54,12 +57,15 @@ class MyRidesScreen : AppCompatActivity() {
     private lateinit var btn_cancelRide:Button
     private lateinit var bottomSheetDialog: BottomSheetDialog
     private lateinit var ll_cardView: LinearLayout
+    private lateinit var opendialog: ProgressDialog
 
     private  var ride_data: MyRides= MyRides()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.my_rides_screen)
+        opendialog= Utils.openDialog(this)
+
         updateXML()
 
     }
@@ -104,6 +110,12 @@ class MyRidesScreen : AppCompatActivity() {
             })
 
         }catch (e:Exception){
+            if (opendialog.isShowing){
+                lifecycleScope.launch {
+                    delay(2000)
+                }
+                Utils.closeDialog(opendialog)
+            }
             Log.e("MyRidesScreen.updateXML: ",e.message.toString())
         }
     }
@@ -111,19 +123,13 @@ class MyRidesScreen : AppCompatActivity() {
     @SuppressLint("NewApi")
     private fun pendingRide(){
         try{
-            val color_tx = ContextCompat.getColor(this, R.color.icons)
+            val color_tx = ContextCompat.getColor(this, R.color.yellow)
             val color_card = ContextCompat.getColor(this, R.color.yellow_low)
-
-            //MyRides(id=5, vehicle_id=3, hublist_id=3, date=2025-02-20, time_slot=10:00 AM - 12:00 PM,
-            // total_amount=200, location=City Center, created_at=2025-02-20 13:04:15, created_by=1,
-            // updated_at=2025-02-20 13:24:41, updated_by=, status=5, reason=test, created_date=20-Feb-2025,
-            // created_time=01:04 PM)
 
             tv_status.text="Pending at Admin"
             tv_date_time.text="Booked at "+ride_data.created_date+" ,"+ride_data.created_time
             tv_status.setTextColor(color_tx)
             card_header.setCardBackgroundColor(color_card)
-//            card_header.outlineSpotShadowColor=color_card
             ll_cardView.setBackgroundColor(color_card)
             tv_total_bill.visibility=View.GONE
             tv_reason.visibility=View.GONE
@@ -131,8 +137,20 @@ class MyRidesScreen : AppCompatActivity() {
             btn_cancelRide.setOnClickListener(View.OnClickListener {
                 showCancelReasons()
             })
+            if (opendialog.isShowing){
+                lifecycleScope.launch {
+                    delay(2000)
+                }
+                Utils.closeDialog(opendialog)
+            }
 
         }catch (e:Exception){
+            if (opendialog.isShowing){
+                lifecycleScope.launch {
+                    delay(2000)
+                }
+                Utils.closeDialog(opendialog)
+            }
             Log.e("MyRidesScreen.updateXML: ",e.message.toString())
         }
     }
@@ -146,12 +164,23 @@ class MyRidesScreen : AppCompatActivity() {
             tv_date_time.text="Booked at "+ride_data.created_date+" ,"+ride_data.created_time
             tv_status.setTextColor(color_tx)
             card_header.setCardBackgroundColor(color_card)
-//            card_header.outlineSpotShadowColor=color_card
             ll_cardView.setBackgroundColor(color_card)
             tv_total_bill.visibility=View.VISIBLE
             tv_reason.visibility=View.GONE
             btn_cancelRide.visibility=View.INVISIBLE
+            if (opendialog.isShowing){
+                lifecycleScope.launch {
+                    delay(2000)
+                }
+                Utils.closeDialog(opendialog)
+            }
         }catch (e:Exception){
+            if (opendialog.isShowing){
+                lifecycleScope.launch {
+                    delay(2000)
+                }
+                Utils.closeDialog(opendialog)
+            }
             Log.e("MyRidesScreen.completedRide : ",e.message.toString())
         }
     }
@@ -166,12 +195,23 @@ class MyRidesScreen : AppCompatActivity() {
             tv_date_time.text="Booked at "+ride_data.created_date+" ,"+ride_data.created_time
             tv_status.setTextColor(color_tx)
             card_header.setCardBackgroundColor(color_card)
-//            card_header.outlineSpotShadowColor=color_card
             ll_cardView.setBackgroundColor(color_card)
             tv_total_bill.visibility=View.GONE
             tv_reason.visibility=View.GONE
             btn_cancelRide.visibility=View.INVISIBLE
+            if (opendialog.isShowing){
+                lifecycleScope.launch {
+                    delay(2000)
+                }
+                Utils.closeDialog(opendialog)
+            }
         }catch (e:Exception){
+            if (opendialog.isShowing){
+                lifecycleScope.launch {
+                    delay(2000)
+                }
+                Utils.closeDialog(opendialog)
+            }
             Log.e("MyRidesScreen.confirmedRide: ",e.message.toString())
         }
     }
@@ -203,13 +243,23 @@ class MyRidesScreen : AppCompatActivity() {
 
 
             card_header.setCardBackgroundColor(color_card)
-//            card_header.outlineSpotShadowColor=color_card
             ll_cardView.setBackgroundColor(color_card)
             tv_total_bill.visibility=View.GONE
             tv_reason.visibility=View.VISIBLE
-//            tv_reason.text="Your ride will completed in 46 minutes"
             btn_cancelRide.visibility=View.INVISIBLE
+            if (opendialog.isShowing){
+                lifecycleScope.launch {
+                    delay(2000)
+                }
+                Utils.closeDialog(opendialog)
+            }
         }catch (e:Exception){
+            if (opendialog.isShowing){
+                lifecycleScope.launch {
+                    delay(2000)
+                }
+                Utils.closeDialog(opendialog)
+            }
             Log.e("MyRidesScreen.onGoingRide: ",e.message.toString())
         }
     }
@@ -232,7 +282,19 @@ class MyRidesScreen : AppCompatActivity() {
             tv_reason.visibility=View.VISIBLE
             tv_reason.text="Reason: Planned changed"
             btn_cancelRide.visibility=View.INVISIBLE
+            if (opendialog.isShowing){
+                lifecycleScope.launch {
+                    delay(2000)
+                }
+                Utils.closeDialog(opendialog)
+            }
         }catch (e:Exception){
+            if (opendialog.isShowing){
+                lifecycleScope.launch {
+                    delay(2000)
+                }
+                Utils.closeDialog(opendialog)
+            }
             Log.e("MyRidesScreen.canceledRide: ",e.message.toString())
         }
     }
@@ -255,7 +317,19 @@ class MyRidesScreen : AppCompatActivity() {
             tv_reason.visibility=View.VISIBLE
             tv_reason.text="Reason: Vehicle not available "
             btn_cancelRide.visibility=View.INVISIBLE
+            if (opendialog.isShowing){
+                lifecycleScope.launch {
+                    delay(2000)
+                }
+                Utils.closeDialog(opendialog)
+            }
         }catch (e:Exception){
+            if (opendialog.isShowing){
+                lifecycleScope.launch {
+                    delay(2000)
+                }
+                Utils.closeDialog(opendialog)
+            }
             Log.e("MyRidesScreen.canceledRide: ",e.message.toString())
         }
     }
@@ -312,18 +386,18 @@ class MyRidesScreen : AppCompatActivity() {
         }
     }
 
-    private lateinit var openDialog: ProgressDialog
+    private lateinit var open_Dialog: ProgressDialog
     private fun cancelRideAPI(id:String,reason:String){
         try{
-            openDialog = Utils.openDialog(this)
+            open_Dialog = Utils.openDialog(this)
             val service = ServiceManager.getDataManager()
             val callback = object : Callback<RideCancelResponse> {
                 override fun onResponse(
                     call: Call<RideCancelResponse>,
                     response: Response<RideCancelResponse>
                 ) {
-                    if (openDialog.isShowing){
-                        openDialog.dismiss()
+                    if (open_Dialog.isShowing){
+                        open_Dialog.dismiss()
                     }
                     if (response.isSuccessful) {
 //                        if (response.body()?.status!!.equals("success")) {
@@ -349,8 +423,8 @@ class MyRidesScreen : AppCompatActivity() {
 
                 override fun onFailure(call: Call<RideCancelResponse>, t: Throwable) {
                     println("Failed to send OTP. ${t.message}")
-                    if (openDialog.isShowing){
-                        openDialog.dismiss()
+                    if (open_Dialog.isShowing){
+                        open_Dialog.dismiss()
 
                     }
                     Utils.showToast(this@MyRidesScreen, "Please try again")
@@ -359,8 +433,8 @@ class MyRidesScreen : AppCompatActivity() {
             }
             service.calcelRide(callback,id,reason)
         }catch (e:Exception){
-            if (openDialog.isShowing){
-                openDialog.dismiss()
+            if (open_Dialog.isShowing){
+                open_Dialog.dismiss()
 
             }
             Log.e("ContactDetails.RegisterAPI ",e.message.toString())

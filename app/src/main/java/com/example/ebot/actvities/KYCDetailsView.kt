@@ -57,6 +57,7 @@ class KYCDetailsView : AppCompatActivity() {
     private lateinit var tv_imgeinfo: TextView
     private lateinit var tv_kyc_status: TextView
     private lateinit var tv_kyc_Number: TextView
+    private lateinit var tv_PAN_Number: TextView
     private lateinit var et_AadharNumber: EditText
     private lateinit var et_PANNumber: EditText
     private lateinit var ll_AadharCard: LinearLayout
@@ -112,6 +113,7 @@ class KYCDetailsView : AppCompatActivity() {
             wv_back = findViewById(R.id.wv_back)
             vw_shownAadhar = findViewById(R.id.vw_shownAadhar)
             vw_showPAN = findViewById(R.id.vw_showPAN)
+            tv_PAN_Number = findViewById(R.id.tv_PAN_Number)
             tv_imgeinfo = findViewById(R.id.tv_imgeinfo)
             tv_kyc_status = findViewById(R.id.tv_kyc_status)
             tv_kyc_Number = findViewById(R.id.tv_kyc_Number)
@@ -788,6 +790,7 @@ class KYCDetailsView : AppCompatActivity() {
             tv_kyc_Number.text = aadhar_number
             et_AadharNumber.setText(aadhar_number)
             et_PANNumber.setText(pan_number)
+            tv_PAN_Number.text = pan_number
 
 
             if (aadhar_front!!.isNotEmpty()) {
